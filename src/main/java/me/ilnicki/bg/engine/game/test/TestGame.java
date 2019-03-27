@@ -17,9 +17,9 @@ import me.ilnicki.bg.engine.system.processors.GameManager;
 import me.ilnicki.bg.engine.system.container.Inject;
 
 public class TestGame implements Game {
-    private PixelMatrixLoader matrixLoader;
+    private final PixelMatrixLoader matrixLoader;
 
-    private KeyMap<CtrlKey> keyMap;
+    private final KeyMap<CtrlKey> keyMap;
 
     @Inject
     private GameManager gameManager;

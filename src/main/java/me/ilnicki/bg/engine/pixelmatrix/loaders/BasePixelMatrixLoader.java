@@ -12,7 +12,7 @@ import me.ilnicki.bg.engine.pixelmatrix.Pixel;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 
 public abstract class BasePixelMatrixLoader implements PixelMatrixLoader {
-    protected HashMap<String, PixelMatrix> cache;
+    protected final HashMap<String, PixelMatrix> cache;
 
     public BasePixelMatrixLoader() {
         cache = new HashMap<>();
@@ -62,8 +62,7 @@ public abstract class BasePixelMatrixLoader implements PixelMatrixLoader {
 
                 return pixelMatrix;
             }
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
 
         return null;

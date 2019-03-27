@@ -10,9 +10,9 @@ import me.ilnicki.bg.engine.system.SystemManager;
 import me.ilnicki.bg.engine.system.container.Inject;
 
 public class SysKeysProcessor implements MachineProcessor {
-    private KeyMap<SysKey> keyMap;
-    private IntParameter volume;
-    private BoolParameter pause;
+    private final KeyMap<SysKey> keyMap;
+    private final IntParameter volume;
+    private final BoolParameter pause;
 
     @Inject
     private SystemManager systemManager;

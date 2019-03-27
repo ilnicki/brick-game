@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class ComponentContainer implements Container {
-    private Map<Class, ComponentResolver> components = new ConcurrentHashMap<>();
+    private final Map<Class, ComponentResolver> components = new ConcurrentHashMap<>();
 
     @Override
     public <T> void bind(Class<? super T> abstractClass, ComponentResolver<T> resolver) {

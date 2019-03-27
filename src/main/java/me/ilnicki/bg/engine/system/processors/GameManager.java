@@ -29,16 +29,16 @@ public class GameManager implements MachineProcessor {
 
     private Module launcher;
 
-    private Machine machine;
+    private final Machine machine;
 
-    private Field launcherField;
+    private final Field launcherField;
 
-    private SystemManager systemManager;
+    private final SystemManager systemManager;
     private Module currentGame;
 
-    private List<GameInfo> gameInfoList;
+    private final List<GameInfo> gameInfoList;
 
-    private String workingPath;
+    private final String workingPath;
 
     private State state;
 

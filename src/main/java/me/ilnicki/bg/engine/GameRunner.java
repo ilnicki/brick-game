@@ -7,7 +7,6 @@ import me.ilnicki.bg.engine.io.KeyReader;
 import me.ilnicki.bg.engine.io.SoundPlayer;
 import me.ilnicki.bg.engine.io.dummy.Dummy;
 import me.ilnicki.bg.engine.machine.Machine;
-import me.ilnicki.bg.engine.pixelmatrix.loaders.DummyPixelMatrixLoader;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoaderFactory;
 import me.ilnicki.bg.engine.system.*;

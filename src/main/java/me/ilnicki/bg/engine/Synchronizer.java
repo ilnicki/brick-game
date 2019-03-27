@@ -54,7 +54,7 @@ class Synchronizer {
     /**
      * The desired frame rate, in frames per second.
      */
-    private int fps;
+    private final int fps;
 
     /**
      * For calculating the averages the previous sleep/yield times are stored.

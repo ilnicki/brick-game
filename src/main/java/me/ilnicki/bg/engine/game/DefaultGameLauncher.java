@@ -24,7 +24,7 @@ public class DefaultGameLauncher implements Game {
 
     private GameManager gameManager;
 
-    private Machine machine;
+    private final Machine machine;
 
     @Inject
     @Args("characters")
@@ -32,14 +32,14 @@ public class DefaultGameLauncher implements Game {
 
     @Inject
     private MachineConfig config;
-    private Keyboard keyboard;
-    private Field field;
+    private final Keyboard keyboard;
+    private final Field field;
 
-    private Layer logoLayer;
-    private Layer prevLayer;
-    private Layer argLayer;
+    private final Layer logoLayer;
+    private final Layer prevLayer;
+    private final Layer argLayer;
 
-    private IntParameter argument = new IntParameter(1, 99);
+    private final IntParameter argument = new IntParameter(1, 99);
     private IntParameter selectedGame;
 
     private List<GameInfo> gameInfoList;
@@ -82,8 +82,6 @@ public class DefaultGameLauncher implements Game {
         drawLogo();
         drawPreview();
         drawArgument();
-
-        System.out.println("Success");
     }
 
     @Override
@@ -119,6 +117,8 @@ public class DefaultGameLauncher implements Game {
         if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
             gameManager.launchGame(gameInfoList.get(selectedGame.get()), argument.get());
         }
+
+        System.out.println("Success");
     }
 
     @Override

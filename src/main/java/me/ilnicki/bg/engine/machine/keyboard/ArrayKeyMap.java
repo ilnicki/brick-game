@@ -3,7 +3,7 @@ package me.ilnicki.bg.engine.machine.keyboard;
 import java.util.Arrays;
 
 public class ArrayKeyMap<E extends Enum<E>> implements UpdatableKeyMap<E> {
-    private int[] states;
+    private final int[] states;
 
     ArrayKeyMap(Class<E> enumClass) {
         states = new int[enumClass.getEnumConstants().length];
