@@ -5,10 +5,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class ComponentContainer implements Container {
     private Map<Class, ComponentResolver> components = new ConcurrentHashMap<>();
@@ -61,17 +61,14 @@ public class ComponentContainer implements Container {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Set<T> getCompatible(Class<? extends T> baseClass) {
-        Set<T> compatible = new HashSet<>();
-        components.forEach((abstractClass, resolver) -> {
-            if (baseClass.isAssignableFrom(abstractClass)) {
-                try {
-                    compatible.add((T) resolver.resolve(baseClass));
-                } catch (ResolvingException ignored) {
-                }
-            }
-        });
-        return compatible;
+    public <T> Set<T> getCompatible(Class<? extends T> baseClass) throws ResolvingException {
+        return components.entrySet().stream()
+                .filter(e -> baseClass.isAssignableFrom(e.getKey()))
+                .map(Map.Entry::getValue)
+                .distinct()
+                .map(r -> r.resolve(baseClass))
+                .map(baseClass::cast)
+                .collect(Collectors.toSet());
     }
 
 
@@ -111,14 +108,15 @@ public class ComponentContainer implements Container {
                 Object[] parameters = new Object[paramTypes.length];
 
                 for (int i = 0; i < paramTypes.length; i++) {
-                    Class paramType = paramTypes[i];
-                    Args paramArgsAnnotation = (Args) Arrays.stream(paramAnnotations[i])
-                            .filter(Args.class::isInstance)
-                            .findFirst()
-                            .orElse(null);
-                    String[] paramArgs = paramArgsAnnotation != null ? paramArgsAnnotation.value() : NO_ARGS;
-
-                    parameters[i] = get(paramType, paramArgs);
+                    parameters[i] = get(
+                            paramTypes[i],
+                            Arrays.stream(paramAnnotations[i])
+                                    .filter(Args.class::isInstance)
+                                    .map(Args.class::cast)
+                                    .map(Args::value)
+                                    .findFirst()
+                                    .orElse(NO_ARGS)
+                    );
                 }
 
                 T instance = desiredConstructor.newInstance(parameters);
@@ -170,7 +168,7 @@ public class ComponentContainer implements Container {
         }
 
         @Override
-        public T resolve(Class<? extends T> desiredClass, String[] args) {
+        public T resolve(Class<? extends T> desiredClass, String[] args) throws ResolvingException {
             return ComponentContainer.this.get(toClass);
         }
     }

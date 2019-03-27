@@ -11,24 +11,90 @@ public interface Container {
      * @param resolver
      */
     <T> void bind(Class<? super T> abstractClass, ComponentResolver<T> resolver);
+
+    /**
+     *
+     * @param abstractClass
+     * @param concreteClass
+     * @param <T>
+     */
     <T> void bind(Class<? super T> abstractClass, Class<T> concreteClass);
 
+    /**
+     *
+     * @param abstractClass
+     * @param resolver
+     * @param <T>
+     */
     <T> void singleton(Class<? super T> abstractClass, ComponentResolver<T> resolver);
+
+    /**
+     *
+     * @param abstractClass
+     * @param concreteClass
+     * @param <T>
+     */
     <T> void singleton(Class<? super T> abstractClass, Class<T> concreteClass);
+
+    /**
+     *
+     * @param abstractClass
+     * @param <T>
+     */
     default <T> void singleton(Class<T> abstractClass) {
         singleton(abstractClass, abstractClass);
     }
+
+    /**
+     *
+     * @param abstractClass
+     * @param concreteObject
+     * @param <T>
+     */
     <T> void singleton(Class<? super T> abstractClass, T concreteObject);
 
+    /**
+     *
+     * @param sharedObject
+     * @param <T>
+     */
     <T> void share(T sharedObject);
 
+    /**
+     *
+     * @param fromClass
+     * @param toClass
+     * @param <T>
+     */
     <T> void link(Class<? super T> fromClass, Class<T> toClass);
 
-    <T> T get(Class<? extends T> abstractClass, String[] args);
+    /**
+     *
+     * @param abstractClass
+     * @param args
+     * @param <T>
+     * @return
+     * @throws ResolvingException
+     */
+    <T> T get(Class<? extends T> abstractClass, String[] args) throws ResolvingException;
 
-    default <T> T get(Class<? extends T> abstractClass) {
+    /**
+     *
+     * @param abstractClass
+     * @param <T>
+     * @return
+     * @throws ResolvingException
+     */
+    default <T> T get(Class<? extends T> abstractClass) throws ResolvingException {
         return get(abstractClass, NO_ARGS);
     }
 
-    <T> Set<T> getCompatible(Class<? extends T> baseClass);
+    /**
+     *
+     * @param baseClass
+     * @param <T>
+     * @return
+     * @throws ResolvingException
+     */
+    <T> Set<T> getCompatible(Class<? extends T> baseClass) throws ResolvingException;
 }
