@@ -1,6 +1,9 @@
 package me.ilnicki.bg.engine.machine;
 
-import me.ilnicki.bg.engine.pixelmatrix.*;
+import me.ilnicki.bg.engine.pixelmatrix.Pixel;
+import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.engine.pixelmatrix.Point;
+import me.ilnicki.bg.engine.pixelmatrix.Positionable;
 
 public final class Screen implements PixelMatrix, Positionable {
 

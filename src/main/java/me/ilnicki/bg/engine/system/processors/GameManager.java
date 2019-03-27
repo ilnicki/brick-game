@@ -1,12 +1,5 @@
 package me.ilnicki.bg.engine.system.processors;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
-
 import me.ilnicki.bg.engine.game.Game;
 import me.ilnicki.bg.engine.game.GameInfo;
 import me.ilnicki.bg.engine.game.GamesConfig;
@@ -17,6 +10,13 @@ import me.ilnicki.bg.engine.system.Module;
 import me.ilnicki.bg.engine.system.SystemConfig;
 import me.ilnicki.bg.engine.system.SystemManager;
 import me.ilnicki.bg.engine.system.container.Inject;
+
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameManager implements MachineProcessor {
 

@@ -1,12 +1,12 @@
 package me.ilnicki.bg.engine.machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import me.ilnicki.bg.engine.pixelmatrix.Pixel;
 import me.ilnicki.bg.engine.pixelmatrix.ArrayPixelMatrix;
+import me.ilnicki.bg.engine.pixelmatrix.Pixel;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Field implements PixelMatrix {
     private final PixelMatrix baseLayer;

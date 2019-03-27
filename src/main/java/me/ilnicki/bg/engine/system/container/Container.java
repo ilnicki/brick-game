@@ -7,13 +7,13 @@ public interface Container {
 
     /**
      * Binds abstract class with the instance resolver method.
+     *
      * @param abstractClass
      * @param resolver
      */
     <T> void bind(Class<? super T> abstractClass, ComponentResolver<T> resolver);
 
     /**
-     *
      * @param abstractClass
      * @param concreteClass
      * @param <T>
@@ -21,7 +21,6 @@ public interface Container {
     <T> void bind(Class<? super T> abstractClass, Class<T> concreteClass);
 
     /**
-     *
      * @param abstractClass
      * @param resolver
      * @param <T>
@@ -29,7 +28,6 @@ public interface Container {
     <T> void singleton(Class<? super T> abstractClass, ComponentResolver<T> resolver);
 
     /**
-     *
      * @param abstractClass
      * @param concreteClass
      * @param <T>
@@ -37,7 +35,6 @@ public interface Container {
     <T> void singleton(Class<? super T> abstractClass, Class<T> concreteClass);
 
     /**
-     *
      * @param abstractClass
      * @param <T>
      */
@@ -46,7 +43,6 @@ public interface Container {
     }
 
     /**
-     *
      * @param abstractClass
      * @param concreteObject
      * @param <T>
@@ -54,14 +50,12 @@ public interface Container {
     <T> void singleton(Class<? super T> abstractClass, T concreteObject);
 
     /**
-     *
      * @param sharedObject
      * @param <T>
      */
     <T> void share(T sharedObject);
 
     /**
-     *
      * @param fromClass
      * @param toClass
      * @param <T>
@@ -69,7 +63,6 @@ public interface Container {
     <T> void link(Class<? super T> fromClass, Class<T> toClass);
 
     /**
-     *
      * @param abstractClass
      * @param args
      * @param <T>
@@ -79,7 +72,6 @@ public interface Container {
     <T> T get(Class<? extends T> abstractClass, String[] args) throws ResolvingException;
 
     /**
-     *
      * @param abstractClass
      * @param <T>
      * @return
@@ -90,7 +82,6 @@ public interface Container {
     }
 
     /**
-     *
      * @param baseClass
      * @param <T>
      * @return

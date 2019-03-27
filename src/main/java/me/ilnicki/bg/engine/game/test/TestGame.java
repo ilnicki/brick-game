@@ -1,20 +1,20 @@
 package me.ilnicki.bg.engine.game.test;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import me.ilnicki.bg.engine.game.Game;
 import me.ilnicki.bg.engine.machine.Field;
+import me.ilnicki.bg.engine.machine.Machine.Parameters;
 import me.ilnicki.bg.engine.machine.keyboard.KeyMap;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.engine.machine.Machine.Parameters;
 import me.ilnicki.bg.engine.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.BasePixelMatrixLoader;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.engine.system.processors.GameManager;
 import me.ilnicki.bg.engine.system.container.Inject;
+import me.ilnicki.bg.engine.system.processors.GameManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class TestGame implements Game {
     private final PixelMatrixLoader matrixLoader;
@@ -32,7 +32,7 @@ public class TestGame implements Game {
 
     @Inject
     public TestGame(KeyMap<CtrlKey> keyMap,
-                     Parameters parameters) {
+                    Parameters parameters) {
         this.keyMap = keyMap;
         this.params = parameters;
         this.matrixLoader = BasePixelMatrixLoader.create("characters", null);

@@ -2,15 +2,14 @@ package me.ilnicki.bg.engine.data.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.ilnicki.bg.engine.data.DataBean;
+import me.ilnicki.bg.engine.data.DataProvider;
+import me.ilnicki.bg.engine.data.DataWriteException;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import me.ilnicki.bg.engine.data.DataBean;
-import me.ilnicki.bg.engine.data.DataProvider;
-import me.ilnicki.bg.engine.data.DataWriteException;
 
 public final class JsonDataProvider implements DataProvider {
     private Path dataPath;

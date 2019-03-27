@@ -1,14 +1,12 @@
 package me.ilnicki.bg.engine.game;
 
-import java.util.List;
-
 import me.ilnicki.bg.engine.machine.Field;
-import me.ilnicki.bg.engine.machine.parameters.IntParameter;
+import me.ilnicki.bg.engine.machine.Layer;
+import me.ilnicki.bg.engine.machine.Machine;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.SysKey;
-import me.ilnicki.bg.engine.machine.Layer;
-import me.ilnicki.bg.engine.machine.Machine;
+import me.ilnicki.bg.engine.machine.parameters.IntParameter;
 import me.ilnicki.bg.engine.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
@@ -17,6 +15,8 @@ import me.ilnicki.bg.engine.system.SystemManager;
 import me.ilnicki.bg.engine.system.container.Args;
 import me.ilnicki.bg.engine.system.container.Inject;
 import me.ilnicki.bg.engine.system.processors.GameManager;
+
+import java.util.List;
 
 public class DefaultGameLauncher implements Game {
     @Inject

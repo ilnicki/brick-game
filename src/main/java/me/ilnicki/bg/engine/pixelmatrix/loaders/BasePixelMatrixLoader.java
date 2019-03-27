@@ -1,15 +1,15 @@
 package me.ilnicki.bg.engine.pixelmatrix.loaders;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-
 import me.ilnicki.bg.engine.data.DataProvider;
 import me.ilnicki.bg.engine.game.Game;
 import me.ilnicki.bg.engine.game.GameInfo;
 import me.ilnicki.bg.engine.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.Pixel;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
+
+import java.io.DataInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
 
 public abstract class BasePixelMatrixLoader implements PixelMatrixLoader {
     protected final HashMap<String, PixelMatrix> cache;
