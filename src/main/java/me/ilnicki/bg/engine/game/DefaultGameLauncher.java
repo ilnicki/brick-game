@@ -11,7 +11,6 @@ import me.ilnicki.bg.engine.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.engine.system.MachineConfig;
-import me.ilnicki.bg.engine.system.SystemManager;
 import me.ilnicki.bg.engine.system.container.Args;
 import me.ilnicki.bg.engine.system.container.Inject;
 import me.ilnicki.bg.engine.system.processors.GameManager;
@@ -20,8 +19,6 @@ import java.util.List;
 
 public class DefaultGameLauncher implements Game {
     @Inject
-    private SystemManager systemManager;
-
     private GameManager gameManager;
 
     private final Machine machine;
@@ -66,7 +63,6 @@ public class DefaultGameLauncher implements Game {
 
     @Override
     public void load() {
-        gameManager = systemManager.get(GameManager.class);
         gameInfoList = gameManager.getGameInfoList();
 
         selectedGame = new IntParameter(0, gameInfoList.size() - 1);

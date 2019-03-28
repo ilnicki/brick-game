@@ -5,10 +5,8 @@ import me.ilnicki.bg.engine.game.GameInfo;
 import me.ilnicki.bg.engine.game.GamesConfig;
 import me.ilnicki.bg.engine.machine.Field;
 import me.ilnicki.bg.engine.machine.Machine;
-import me.ilnicki.bg.engine.system.MachineProcessor;
-import me.ilnicki.bg.engine.system.Module;
-import me.ilnicki.bg.engine.system.SystemConfig;
-import me.ilnicki.bg.engine.system.SystemManager;
+import me.ilnicki.bg.engine.system.*;
+import me.ilnicki.bg.engine.system.container.Container;
 import me.ilnicki.bg.engine.system.container.Inject;
 
 import java.io.File;
@@ -29,28 +27,31 @@ public class GameManager implements MachineProcessor {
 
     private Module launcher;
 
-    private final Machine machine;
+    @Inject
+    private Machine machine;
 
-    private final Field launcherField;
+    private Field launcherField;
 
-    private final SystemManager systemManager;
+    @Inject
+    private Kernel kernel;
+
+    @Inject
+    private Container container;
+
     private Module currentGame;
 
-    private final List<GameInfo> gameInfoList;
-
-    private final String workingPath;
+    private List<GameInfo> gameInfoList;
 
     private State state;
 
     @Inject
-    public GameManager(SystemManager systemManager,
-                       Machine machine,
-                       SystemConfig systemConfig,
-                       GamesConfig gamesConfig) {
-        this.systemManager = systemManager;
-        this.machine = machine;
-        workingPath = systemConfig.getWorkingPath();
+    private SystemConfig systemConfig;
 
+    @Inject
+    private GamesConfig gamesConfig;
+
+    @Override
+    public void load() {
         gameInfoList = new ArrayList<>();
 
         for (String gameName : gamesConfig.getGames()) {
@@ -62,16 +63,13 @@ public class GameManager implements MachineProcessor {
         }
 
         try {
-            launcher = (Module) systemManager.get(Class.forName(gamesConfig.getLauncher()));
+            launcher = (Module) container.get(Class.forName(gamesConfig.getLauncher()));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         launcherField = machine.getField();
-    }
 
-    @Override
-    public void load() {
         launcher.load();
         currentGame = launcher;
         state = State.GAME_PROCESSING;
@@ -117,7 +115,7 @@ public class GameManager implements MachineProcessor {
             currentGame = game;
             currentGame.load();
         } catch (InstantiationException | IllegalAccessException ex) {
-            systemManager.stop();
+            kernel.stop();
         }
     }
 
@@ -142,8 +140,8 @@ public class GameManager implements MachineProcessor {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             try {
                 URL[] jarFile = new URL[]{
-                        new File(this.workingPath + "/games/" + gameName + "/").getAbsoluteFile().toURI().toURL(),
-                        new File(this.workingPath + "/games/" + gameName + ".jar").getAbsoluteFile().toURI().toURL()
+                        new File(this.systemConfig.getWorkingPath() + "/games/" + gameName + "/").getAbsoluteFile().toURI().toURL(),
+                        new File(this.systemConfig.getWorkingPath() + "/games/" + gameName + ".jar").getAbsoluteFile().toURI().toURL()
                 };
 
                 ClassLoader urlCl = new URLClassLoader(jarFile);

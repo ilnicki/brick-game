@@ -5,8 +5,8 @@ import me.ilnicki.bg.engine.machine.keyboard.KeyMap;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.engine.machine.parameters.BoolParameter;
 import me.ilnicki.bg.engine.machine.parameters.IntParameter;
+import me.ilnicki.bg.engine.system.Kernel;
 import me.ilnicki.bg.engine.system.MachineProcessor;
-import me.ilnicki.bg.engine.system.SystemManager;
 import me.ilnicki.bg.engine.system.container.Inject;
 
 public class SysKeysProcessor implements MachineProcessor {
@@ -15,7 +15,7 @@ public class SysKeysProcessor implements MachineProcessor {
     private final BoolParameter pause;
 
     @Inject
-    private SystemManager systemManager;
+    private Kernel kernel;
 
     @Inject
     public SysKeysProcessor(Machine machine) {
@@ -35,11 +35,11 @@ public class SysKeysProcessor implements MachineProcessor {
         }
 
         if (keyMap.isPressed(SysKey.RESET)) {
-            systemManager.reset();
+            kernel.reset();
         }
 
         if (keyMap.isPressed(SysKey.ONOFF)) {
-            systemManager.stop();
+            kernel.stop();
         }
     }
 }

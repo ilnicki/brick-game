@@ -6,10 +6,12 @@ import me.ilnicki.bg.engine.io.Drawer;
 import me.ilnicki.bg.engine.io.KeyReader;
 import me.ilnicki.bg.engine.io.SoundPlayer;
 import me.ilnicki.bg.engine.io.dummy.Dummy;
+import me.ilnicki.bg.engine.io.lwjgl3.Lwjgl3;
 import me.ilnicki.bg.engine.machine.Machine;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoaderFactoryProvider;
 import me.ilnicki.bg.engine.system.*;
+import me.ilnicki.bg.engine.system.container.Container;
 import me.ilnicki.bg.engine.system.processors.GameManager;
 import me.ilnicki.bg.engine.system.processors.SysKeysProcessor;
 
@@ -22,24 +24,24 @@ public class GameRunner implements Runner {
     public void run() {
         modules.clear();
 
-        SystemManager systemManager = new SystemManager(this);
+        Container container = new SystemManager(this);
 
-        systemManager.singleton(DataProvider.class, JsonDataProvider.class);
+        container.singleton(DataProvider.class, JsonDataProvider.class);
 
-        systemManager.singleton(Machine.class);
+        container.singleton(Machine.class);
 
-        systemManager.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactoryProvider());
+        container.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactoryProvider());
 
-        systemManager.singleton(SysKeysProcessor.class);
-        systemManager.singleton(GameManager.class);
+        container.singleton(SysKeysProcessor.class);
+        container.singleton(GameManager.class);
 
-        systemManager.singleton(Dummy.class);
-        systemManager.link(Drawer.class, Dummy.class);
-        systemManager.link(KeyReader.class, Dummy.class);
-        systemManager.link(SoundPlayer.class, Dummy.class);
+        container.singleton(Dummy.class);
+        container.link(Drawer.class, Dummy.class);
+        container.link(KeyReader.class, Dummy.class);
+        container.link(SoundPlayer.class, Dummy.class);
 
-        modules.addAll(systemManager.getCompatible(CoreModule.class));
-        modules.addAll(systemManager.getCompatible(MachineProcessor.class));
+        modules.addAll(container.getCompatible(CoreModule.class));
+        modules.addAll(container.getCompatible(MachineProcessor.class));
 
         modules.load();
 
