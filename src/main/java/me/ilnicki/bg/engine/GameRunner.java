@@ -8,7 +8,7 @@ import me.ilnicki.bg.engine.io.SoundPlayer;
 import me.ilnicki.bg.engine.io.dummy.Dummy;
 import me.ilnicki.bg.engine.machine.Machine;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoaderFactory;
+import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoaderFactoryProvider;
 import me.ilnicki.bg.engine.system.*;
 import me.ilnicki.bg.engine.system.processors.GameManager;
 import me.ilnicki.bg.engine.system.processors.SysKeysProcessor;
@@ -28,7 +28,7 @@ public class GameRunner implements Runner {
 
         systemManager.singleton(Machine.class);
 
-        systemManager.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactory());
+        systemManager.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactoryProvider());
 
         systemManager.singleton(SysKeysProcessor.class);
         systemManager.singleton(GameManager.class);

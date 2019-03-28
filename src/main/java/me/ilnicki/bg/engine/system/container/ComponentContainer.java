@@ -1,9 +1,12 @@
 package me.ilnicki.bg.engine.system.container;
 
+import me.ilnicki.bg.engine.system.container.provider.LinkProvider;
+import me.ilnicki.bg.engine.system.container.provider.ObjectProvider;
+import me.ilnicki.bg.engine.system.container.provider.Provider;
+import me.ilnicki.bg.engine.system.container.provider.SingletonProvider;
+
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -11,165 +14,175 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class ComponentContainer implements Container {
-    private final Map<Class, ComponentResolver> components = new ConcurrentHashMap<>();
+    private final Map<Class, Provider> components = new ConcurrentHashMap<>();
 
     @Override
-    public <T> void bind(Class<? super T> abstractClass, ComponentResolver<T> resolver) {
-        components.put(abstractClass, resolver);
+    public <T> void bind(Class<? super T> abstractClass, Provider<T> provider) {
+        components.put(abstractClass, provider);
     }
 
     @Override
     public <T> void bind(Class<? super T> abstractClass, Class<T> concreteClass) {
-        components.put(abstractClass, new ClassResolver<>(concreteClass));
+        components.put(abstractClass, new ComponentProvider<>(concreteClass));
+        components.put(concreteClass, components.get(abstractClass));
     }
 
     @Override
-    public <T> void singleton(Class<? super T> abstractClass, ComponentResolver<T> resolver) {
-        components.put(abstractClass, new SingletonResolver<>(resolver));
+    public <T> void singleton(Class<? super T> abstractClass, Provider<T> provider) {
+        components.put(abstractClass, new SingletonProvider<>(provider));
     }
 
     @Override
     public <T> void singleton(Class<? super T> abstractClass, Class<T> concreteClass) {
-        components.put(abstractClass, new SingletonResolver<>(new ClassResolver<>(concreteClass)));
+        components.put(abstractClass, new SingletonProvider<T>(new ComponentProvider<>(concreteClass)));
+        components.put(concreteClass, components.get(abstractClass));
     }
 
     @Override
     public <T> void singleton(Class<? super T> abstractClass, T concreteObject) {
-        components.put(abstractClass, new SingletonResolver<>((ignored, args) -> concreteObject));
+        components.put(abstractClass, new SingletonProvider<>(new ObjectProvider<>(concreteObject)));
     }
 
     @Override
     public <T> void share(T sharedObject) {
-        components.put(sharedObject.getClass(), (ignored, args) -> sharedObject);
+        components.put(sharedObject.getClass(), new ObjectProvider<>(sharedObject));
     }
 
     @Override
     public <T> void link(Class<? super T> fromClass, Class<T> toClass) {
-        components.put(fromClass, new LinkResolver<>(toClass));
+        components.put(fromClass, new LinkProvider<>(this, toClass));
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(Class<? extends T> abstractClass, String[] args) {
-        try {
-            ComponentResolver<T> resolver = components.computeIfAbsent(abstractClass, ClassResolver::new);
-            return resolver.resolve(abstractClass, args);
-        } catch (ResolvingException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public <T> T get(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
+        Provider<T> provider = components.getOrDefault(desiredClass, new ComponentProvider<>(desiredClass));
+        return provider.provide(desiredClass, args);
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Set<T> getCompatible(Class<? extends T> baseClass) throws ResolvingException {
+    public <T> Set<T> getCompatible(Class<? extends T> baseClass) throws ProvisionException {
         return components.entrySet().stream()
                 .filter(e -> baseClass.isAssignableFrom(e.getKey()))
                 .map(Map.Entry::getValue)
                 .distinct()
-                .map(r -> r.resolve(baseClass))
+                .map(r -> r.provide(baseClass))
                 .map(baseClass::cast)
                 .collect(Collectors.toSet());
     }
 
+    private Object[] prepareExecutableArguments(Executable exec) {
+        if (exec.isAnnotationPresent(Inject.class)) {
+            Class[] paramTypes = exec.getParameterTypes();
+            Annotation[][] paramAnnotations = exec.getParameterAnnotations();
 
-    private class ClassResolver<T> implements ComponentResolver<T> {
+            Object[] arguments = new Object[paramTypes.length];
+
+            for (int i = 0; i < paramTypes.length; i++) {
+                arguments[i] = get(
+                        paramTypes[i],
+                        Arrays.stream(paramAnnotations[i])
+                                .filter(Args.class::isInstance)
+                                .map(Args.class::cast)
+                                .map(Args::value)
+                                .findFirst()
+                                .orElse(NO_ARGS)
+                );
+            }
+
+            return arguments;
+        }
+
+        return null;
+    }
+
+    private <T> T instantiate(Class<? extends T> instanceClass) throws ProvisionException {
+        @SuppressWarnings("unchecked")
+        Constructor<T>[] constructors = (Constructor<T>[]) instanceClass.getConstructors();
+        Constructor<T> desiredConstructor = null;
+
+        // Double jump usage in a single loop. Seems legit. Well done.
+        for (Constructor<T> constructor : constructors) {
+            if(constructor.getParameterCount() == 0) {
+                desiredConstructor = constructor;
+                continue;
+            }
+
+            if (constructor.isAnnotationPresent(Inject.class)) {
+                desiredConstructor = constructor;
+                break;
+            }
+        }
+
+        if (desiredConstructor == null) {
+            throw new ProvisionException(
+                    String.format("No suitable constructor found for %s", instanceClass.getCanonicalName())
+            );
+        }
+
+        Object[] arguments = prepareExecutableArguments(desiredConstructor);
+
+        try {
+            return desiredConstructor.newInstance(arguments);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new ProvisionException(e);
+        }
+    }
+
+    private <T> T injectIntoFields(T instance) throws ProvisionException {
+        for (Field field : instance.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(Inject.class)) {
+                String[] fieldArgs = NO_ARGS;
+
+                if (field.isAnnotationPresent(Args.class)) {
+                    fieldArgs = field.getAnnotation(Args.class).value();
+                }
+
+                try {
+                    field.setAccessible(true);
+                    field.set(instance, get(field.getType(), fieldArgs));
+                } catch (IllegalAccessException | ProvisionException e) {
+                    if (!field.getAnnotation(Inject.class).optional()) {
+                        throw new ProvisionException(e);
+                    }
+                }
+
+            }
+        }
+
+        return instance;
+    }
+
+    private <T> T injectIntoMethods(T instance) throws ProvisionException {
+        for (Method method : instance.getClass().getDeclaredMethods()) {
+            try {
+                Object[] arguments = prepareExecutableArguments(method);
+
+                if (arguments != null) {
+
+                    method.setAccessible(true);
+                    method.invoke(instance, arguments);
+                }
+            } catch (InvocationTargetException | IllegalAccessException | ProvisionException e) {
+                if (!method.getAnnotation(Inject.class).optional()) {
+                    throw new ProvisionException(e);
+                }
+            }
+        }
+
+        return instance;
+    }
+
+    private class ComponentProvider<T> implements Provider<T> {
         private final Class<? extends T> concreteClass;
 
-        private ClassResolver(Class<? extends T> concreteClass) {
+        private ComponentProvider(Class<? extends T> concreteClass) {
             this.concreteClass = concreteClass;
         }
 
         @Override
-        public T resolve(Class<? extends T> desiredClass, String[] args) throws ResolvingException {
-            System.out.printf("Getting %s.\n", concreteClass.getName());
-            try {
-                @SuppressWarnings("unchecked")
-                Constructor<T>[] constructors = (Constructor<T>[]) concreteClass.getConstructors();
-                Constructor<T> desiredConstructor = null;
-
-                if (constructors.length == 1) {
-                    desiredConstructor = constructors[0];
-                } else {
-                    for (Constructor<T> constructor : constructors) {
-                        if (constructor.isAnnotationPresent(Inject.class)) {
-                            desiredConstructor = constructor;
-                            break;
-                        }
-                    }
-
-                    if (desiredConstructor == null) {
-                        desiredConstructor = constructors[0];
-                    }
-                }
-
-                Class[] paramTypes = desiredConstructor.getParameterTypes();
-                Annotation[][] paramAnnotations = desiredConstructor.getParameterAnnotations();
-
-                Object[] parameters = new Object[paramTypes.length];
-
-                for (int i = 0; i < paramTypes.length; i++) {
-                    parameters[i] = get(
-                            paramTypes[i],
-                            Arrays.stream(paramAnnotations[i])
-                                    .filter(Args.class::isInstance)
-                                    .map(Args.class::cast)
-                                    .map(Args::value)
-                                    .findFirst()
-                                    .orElse(NO_ARGS)
-                    );
-                }
-
-                T instance = desiredConstructor.newInstance(parameters);
-
-                for (Field field : concreteClass.getDeclaredFields()) {
-                    if (field.isAnnotationPresent(Inject.class)) {
-                        String[] fieldArgs = NO_ARGS;
-
-                        if (field.isAnnotationPresent(Args.class)) {
-                            fieldArgs = field.getAnnotation(Args.class).value();
-                        }
-
-                        field.setAccessible(true);
-                        field.set(instance, get(field.getType(), fieldArgs));
-                    }
-                }
-
-                return instance;
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                throw new ResolvingException(e);
-            }
-        }
-    }
-
-    private class SingletonResolver<T> implements ComponentResolver<T> {
-        private ComponentResolver<T> resolver;
-        private T instance;
-
-        private SingletonResolver(ComponentResolver<T> resolver) {
-            this.resolver = resolver;
-        }
-
-        @Override
-        public T resolve(Class<? extends T> desiredClass, String[] args) throws ResolvingException {
-            if (instance == null) {
-                instance = resolver.resolve(desiredClass, args);
-                resolver = null;
-            }
-
-            return instance;
-        }
-    }
-
-    private class LinkResolver<T> implements ComponentResolver<T> {
-        private final Class<? extends T> toClass;
-
-        LinkResolver(Class<? extends T> toClass) {
-            this.toClass = toClass;
-        }
-
-        @Override
-        public T resolve(Class<? extends T> desiredClass, String[] args) throws ResolvingException {
-            return ComponentContainer.this.get(toClass);
+        public T provide(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
+            return injectIntoMethods(injectIntoFields(instantiate(concreteClass)));
         }
     }
 }
