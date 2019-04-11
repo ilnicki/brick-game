@@ -50,6 +50,12 @@ public class GameManager implements MachineProcessor {
     @Inject
     private GamesConfig gamesConfig;
 
+    @Inject
+    private void shareMachine() {
+        container.share(machine.getScreen());
+        container.share(machine.getField());
+    }
+
     @Override
     public void load() {
         gameInfoList = new ArrayList<>();
