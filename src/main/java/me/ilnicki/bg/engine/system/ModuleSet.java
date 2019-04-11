@@ -35,7 +35,11 @@ public class ModuleSet implements Set<Module>, Module {
 
     @Override
     public <T> T[] toArray(T[] ts) {
-        return modules.toArray(ts);
+        if(ts.getClass().getComponentType().isAssignableFrom(Module.class)) {
+            return modules.toArray(ts);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
