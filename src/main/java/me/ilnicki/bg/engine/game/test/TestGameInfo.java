@@ -2,6 +2,7 @@ package me.ilnicki.bg.engine.game.test;
 
 import me.ilnicki.bg.engine.game.Game;
 import me.ilnicki.bg.engine.game.GameInfo;
+import me.ilnicki.bg.engine.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 
 public class TestGameInfo implements GameInfo {
@@ -32,12 +33,12 @@ public class TestGameInfo implements GameInfo {
 
     @Override
     public PixelMatrix getLogo() {
-        return null;
+        return new ArrayPixelMatrix(1, 1);
     }
 
     @Override
     public PixelMatrix getPreview() {
-        return null;
+        return new ArrayPixelMatrix(1, 1);
     }
 
     @Override

@@ -113,8 +113,6 @@ public class DefaultGameLauncher implements Game {
         if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
             gameManager.launchGame(gameInfoList.get(selectedGame.get()), argument.get());
         }
-
-        System.out.println("Success");
     }
 
     @Override
