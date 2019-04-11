@@ -1,6 +1,5 @@
 package me.ilnicki.bg.engine.machine;
 
-import me.ilnicki.bg.engine.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.Pixel;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.Point;
@@ -9,46 +8,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Field implements PixelMatrix {
-    private final PixelMatrix baseLayer;
+    private final int width;
+    private final int height;
     private final List<Layer> layers;
 
     public Field(int width, int height) {
-        baseLayer = new ArrayPixelMatrix(width, height);
+        this.width = width;
+        this.height = height;
+
         layers = new ArrayList<>();
     }
 
     @Override
     public int getWidth() {
-        return baseLayer.getWidth();
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return baseLayer.getHeight();
+        return height;
     }
 
     @Override
     public Pixel getPixel(int x, int y) {
         if (x >= this.getWidth() || x < 0 || y >= this.getHeight() || y < 0) {
-            throw new IndexOutOfBoundsException(String.format("Wrong matrix element indexes [%d, %d].", x, y));
+            return Pixel.WHITE;
         } else {
-            try {
-                Pixel result = this.baseLayer.getPixel(x, y);
+            Pixel result = Pixel.WHITE;
 
-                for (Layer layer : layers) {
-                    result = Pixel.merge(layer.getPixel(x, y), result);
-                }
-
-                return result;
-            } catch (Exception e) {
-                return null;
+            for (Layer layer : layers) {
+                result = Pixel.merge(layer.getPixel(x, y), result);
             }
+
+            return result;
         }
     }
 
     @Override
     public void setPixel(int x, int y, Pixel value) {
-
     }
 
     @Override
@@ -58,13 +55,7 @@ public final class Field implements PixelMatrix {
 
     @Override
     public void setPixel(Point point, Pixel value) {
-
     }
-
-    public PixelMatrix getBaseLayer() {
-        return baseLayer;
-    }
-
 
     public List<Layer> getLayers() {
         return layers;

@@ -32,11 +32,14 @@ public final class Layer implements Positionable, PixelMatrix {
 
     @Override
     public Pixel getPixel(int x, int y) {
-        try {
-            return pixelMatrix.getPixel(x - position.getX(), y - position.getY());
-        } catch (Exception e) {
-            return null;
+        final int realX = x - position.getX();
+        final int realY = y - position.getY();
+
+        if(realX > 0 && realX < getWidth() && realY > 0 && realY < getHeight()) {
+            return pixelMatrix.getPixel(realX, realY);
         }
+
+        return Pixel.WHITE;
     }
 
     @Override

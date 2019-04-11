@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class ArrayPixelMatrix implements Serializable, PixelMatrix {
     private final Pixel[][] pixelMatrix;
+    private final int width;
+    private final int height;
 
     public ArrayPixelMatrix(PixelMatrix pm) {
         this(pm.getWidth(), pm.getHeight());
@@ -17,6 +19,8 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
     public ArrayPixelMatrix(int width, int height) {
         if (width > 0 && height > 0) {
+            this.width = width;
+            this.height = height;
             pixelMatrix = new Pixel[height][width];
         } else {
             throw new IllegalArgumentException("Invalid boundary.");
@@ -25,22 +29,28 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
     @Override
     public int getWidth() {
-        return pixelMatrix[0].length;
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return pixelMatrix.length;
+        return height;
     }
 
     @Override
     public Pixel getPixel(int x, int y) {
-        return pixelMatrix[y][x];
+        if(x > 0 && x < width && y > 0 && y < height) {
+            return pixelMatrix[y][x];
+        }
+
+        return Pixel.WHITE;
     }
 
     @Override
     public void setPixel(int x, int y, Pixel value) {
-        pixelMatrix[y][x] = value;
+        if(x > 0 && x < width && y > 0 && y < height) {
+            pixelMatrix[y][x] = value;
+        }
     }
 
     @Override
@@ -50,7 +60,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
     @Override
     public void setPixel(Point point, Pixel value) {
-        pixelMatrix[point.getY()][point.getX()] = value;
+        setPixel(point.getY(), point.getX(), value);
     }
 
     @Override

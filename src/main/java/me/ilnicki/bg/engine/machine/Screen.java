@@ -29,27 +29,19 @@ public final class Screen implements PixelMatrix, Positionable {
 
     @Override
     public void setPixel(int y, int x, Pixel value) {
-        throw new UnsupportedOperationException("Can't change state of Screen.");
     }
 
     @Override
     public void setPixel(Point point, Pixel value) {
-        throw new UnsupportedOperationException("Can't change state of Screen.");
     }
 
     @Override
     public Pixel getPixel(Point point) {
         if (point.getX() >= getWidth() || point.getX() < 0
                 || point.getY() >= getHeight() || point.getY() < 0) {
-            throw new IndexOutOfBoundsException(
-                    String.format("Wrong matrix element indices [%d, %d].", point.getX(), point.getY())
-            );
+            return Pixel.WHITE;
         } else {
-            try {
-                return Pixel.merge(field.getPixel(Point.add(point, position)), Pixel.WHITE);
-            } catch (Exception e) {
-                return Pixel.WHITE;
-            }
+            return Pixel.merge(field.getPixel(Point.add(point, position)), Pixel.WHITE);
         }
     }
 
