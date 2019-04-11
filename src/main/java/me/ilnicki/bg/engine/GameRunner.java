@@ -22,26 +22,28 @@ public class GameRunner implements Runner {
     private final TickProvider tp = new TickProvider(60);
 
     public void run() {
-        modules.clear();
-
         Container container = new SystemManager(this);
 
         container.singleton(DataProvider.class, JsonDataProvider.class);
 
-        container.singleton(Machine.class);
-
         container.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactoryProvider());
 
-        container.singleton(SysKeysProcessor.class);
+        container.singleton(Machine.class);
+
         container.singleton(GameManager.class);
+        container.singleton(SysKeysProcessor.class);
 
         container.singleton(Dummy.class);
-        container.link(Drawer.class, Dummy.class);
+        container.link(Drawer.class, Lwjgl3.class);
         container.link(KeyReader.class, Dummy.class);
         container.link(SoundPlayer.class, Dummy.class);
 
-        modules.addAll(container.getCompatible(CoreModule.class));
+        modules.clear();
+
         modules.addAll(container.getCompatible(MachineProcessor.class));
+        modules.addAll(container.getCompatible(CoreModule.class));
+
+        System.out.println(container);
 
         modules.load();
 
