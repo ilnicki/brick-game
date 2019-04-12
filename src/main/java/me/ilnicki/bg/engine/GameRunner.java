@@ -34,8 +34,9 @@ public class GameRunner implements Runner {
         container.singleton(SysKeysProcessor.class);
 
         container.singleton(Dummy.class);
+        container.singleton(Lwjgl3.class);
         container.link(Drawer.class, Lwjgl3.class);
-        container.link(KeyReader.class, Dummy.class);
+        container.link(KeyReader.class, Lwjgl3.class);
         container.link(SoundPlayer.class, Dummy.class);
 
         modules.clear();

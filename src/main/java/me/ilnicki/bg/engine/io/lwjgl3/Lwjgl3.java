@@ -4,6 +4,10 @@ import me.ilnicki.bg.engine.io.Drawer;
 import me.ilnicki.bg.engine.io.KeyReader;
 import me.ilnicki.bg.engine.machine.Machine;
 import me.ilnicki.bg.engine.machine.Screen;
+import me.ilnicki.bg.engine.machine.keyboard.Keyboard;
+import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.engine.machine.keyboard.Keyboard.SysKey;
+import me.ilnicki.bg.engine.machine.keyboard.UpdatableKeyMap;
 import me.ilnicki.bg.engine.pixelmatrix.Pixel;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.system.Kernel;
@@ -146,6 +150,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
             kernel.stop();
         }
 
+        updateKeys();
         draw();
 
         glfwSwapBuffers(window); // swap the color buffers
@@ -159,7 +164,22 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         // Terminate GLFW and free the error callback
         glfwTerminate();
-        glfwSetErrorCallback(null).free();
+        glfwSetErrorCallback(null);
+    }
+
+    private void updateKeys() {
+        UpdatableKeyMap<CtrlKey> ctrlKeys = this.machine.getKeyboard().getCtrlKeyMap();
+        ctrlKeys.update(CtrlKey.UP, glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS);
+        ctrlKeys.update(CtrlKey.DOWN, glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS);
+        ctrlKeys.update(CtrlKey.LEFT, glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS);
+        ctrlKeys.update(CtrlKey.RIGHT, glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS);
+        ctrlKeys.update(CtrlKey.ROTATE, glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS);
+
+        UpdatableKeyMap<SysKey> sysKeys = this.machine.getKeyboard().getSysKeyMap();
+        sysKeys.update(SysKey.ONOFF, glfwGetKey(window, GLFW_KEY_DELETE) == GLFW_PRESS);
+        sysKeys.update(SysKey.RESET, glfwGetKey(window, GLFW_KEY_END) == GLFW_PRESS);
+        sysKeys.update(SysKey.START, glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS);
+        sysKeys.update(SysKey.SOUND, glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS);
     }
 
     private void draw() {
@@ -456,9 +476,6 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     private void setColor(Pixel pixel) {
-        if (pixel == null)
-            pixel = WHITE;
-
         setColor(pixel == BLACK);
     }
 

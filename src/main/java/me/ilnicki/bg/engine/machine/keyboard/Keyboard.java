@@ -16,19 +16,31 @@ public class Keyboard {
         ONOFF
     }
 
-    private final UpdatableKeyMap<CtrlKey> ctrlKeyMap;
-    private final UpdatableKeyMap<SysKey> sysKeyMap;
-
-    public Keyboard() {
-        ctrlKeyMap = new ArrayKeyMap<>(CtrlKey.class);
-        sysKeyMap = new ArrayKeyMap<>(SysKey.class);
+    public class CtrlKeyMap extends ArrayKeyMap<CtrlKey> {
+        CtrlKeyMap() {
+            super(CtrlKey.class);
+        }
     }
 
-    public UpdatableKeyMap<CtrlKey> getCtrlKeyMap() {
+    public class SysKeyMap extends ArrayKeyMap<SysKey> {
+        SysKeyMap() {
+            super(SysKey.class);
+        }
+    }
+
+    private final CtrlKeyMap ctrlKeyMap;
+    private final SysKeyMap sysKeyMap;
+
+    public Keyboard() {
+        ctrlKeyMap = new CtrlKeyMap();
+        sysKeyMap = new SysKeyMap();
+    }
+
+    public CtrlKeyMap getCtrlKeyMap() {
         return ctrlKeyMap;
     }
 
-    public UpdatableKeyMap<SysKey> getSysKeyMap() {
+    public SysKeyMap getSysKeyMap() {
         return sysKeyMap;
     }
 }

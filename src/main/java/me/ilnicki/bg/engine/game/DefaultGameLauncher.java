@@ -24,7 +24,7 @@ public class DefaultGameLauncher implements Game {
     private final Machine machine;
 
     @Inject
-    @Args("characters")
+    @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;
 
     @Inject
@@ -85,7 +85,6 @@ public class DefaultGameLauncher implements Game {
         int downKeyTime = keyboard.getCtrlKeyMap().getState(CtrlKey.DOWN);
         if (downKeyTime == 0 || (downKeyTime % 8 == 0 && downKeyTime > 24)) {
             argument.inc();
-
             drawArgument();
         }
 
@@ -146,9 +145,9 @@ public class DefaultGameLauncher implements Game {
         for (String number : numbers) {
             PixelMatrix numMatrix = matrixLoader.load(number, true);
 
-            for (int i = 0; i < numMatrix.getHeight(); i++) {
-                for (int j = 0; j < numMatrix.getWidth(); j++) {
-                    argLayer.setPixel(cursorX + j, cursorY + i, numMatrix.getPixel(j, i));
+            for (int y = 0; y < numMatrix.getHeight(); y++) {
+                for (int x = 0; x < numMatrix.getWidth(); x++) {
+                    argLayer.setPixel(cursorX + x, cursorY + y, numMatrix.getPixel(x, y));
                 }
             }
 

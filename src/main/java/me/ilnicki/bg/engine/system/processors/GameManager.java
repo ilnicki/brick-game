@@ -5,7 +5,10 @@ import me.ilnicki.bg.engine.game.GameInfo;
 import me.ilnicki.bg.engine.game.GamesConfig;
 import me.ilnicki.bg.engine.machine.Field;
 import me.ilnicki.bg.engine.machine.Machine;
-import me.ilnicki.bg.engine.system.*;
+import me.ilnicki.bg.engine.system.Kernel;
+import me.ilnicki.bg.engine.system.MachineProcessor;
+import me.ilnicki.bg.engine.system.Module;
+import me.ilnicki.bg.engine.system.SystemConfig;
 import me.ilnicki.bg.engine.system.container.Container;
 import me.ilnicki.bg.engine.system.container.Inject;
 
@@ -113,16 +116,12 @@ public class GameManager implements MachineProcessor {
     }
 
     public void launchGame(GameInfo gameInfo, int argument) {
-        try {
-            Game game = gameInfo.getGameClass().newInstance();
+        Game game = container.get(gameInfo.getGameClass());
 
-            machine.recreateField(gameInfo.getBufferWidth(), gameInfo.getBufferHeight());
+        machine.recreateField(gameInfo.getBufferWidth(), gameInfo.getBufferHeight());
 
-            currentGame = game;
-            currentGame.load();
-        } catch (InstantiationException | IllegalAccessException ex) {
-            kernel.stop();
-        }
+        currentGame = game;
+        currentGame.load();
     }
 
     public void exitGame() {

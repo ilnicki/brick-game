@@ -6,6 +6,7 @@ import me.ilnicki.bg.engine.machine.Machine.Parameters;
 import me.ilnicki.bg.engine.machine.keyboard.KeyMap;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.engine.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
@@ -18,10 +19,11 @@ import java.util.Calendar;
 
 public class TestGame implements Game {
     @Inject
-    @Args("characters")
+    @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;
 
-    private final KeyMap<CtrlKey> keyMap;
+    @Inject
+    private CtrlKeyMap keyMap;
 
     @Inject
     private GameManager gameManager;
@@ -31,11 +33,6 @@ public class TestGame implements Game {
 
     @Inject
     private Parameters params;
-
-    @Inject
-    public TestGame(KeyMap<CtrlKey> keyMap) {
-        this.keyMap = keyMap;
-    }
 
     @Override
     public void update(long tick) {
