@@ -27,15 +27,20 @@ public final class Layer implements Positionable, PixelMatrix {
 
     @Override
     public void setPixel(int x, int y, Pixel value) {
-        pixelMatrix.setPixel(x - position.getX(), y - position.getY(), value);
+        final int realX = x + position.getX();
+        final int realY = y + position.getY();
+
+        if(realX >= 0 && realX < getWidth() && realY >= 0 && realY < getHeight()) {
+            pixelMatrix.setPixel(realX, realY, value);
+        }
     }
 
     @Override
     public Pixel getPixel(int x, int y) {
-        final int realX = x - position.getX();
-        final int realY = y - position.getY();
+        final int realX = x + position.getX();
+        final int realY = y + position.getY();
 
-        if(realX > 0 && realX < getWidth() && realY > 0 && realY < getHeight()) {
+        if(realX >= 0 && realX < getWidth() && realY >= 0 && realY < getHeight()) {
             return pixelMatrix.getPixel(realX, realY);
         }
 
@@ -79,8 +84,7 @@ public final class Layer implements Positionable, PixelMatrix {
 
     @Override
     public void setPosition(int positionX, int positionY) {
-        this.setX(positionX);
-        this.setY(positionY);
+        position = new Point(positionX, positionY);
     }
 
     @Override

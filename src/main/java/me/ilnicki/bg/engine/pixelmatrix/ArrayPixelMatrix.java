@@ -39,7 +39,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
     @Override
     public Pixel getPixel(int x, int y) {
-        if(x > 0 && x < width && y > 0 && y < height) {
+        if(x >= 0 && x < width && y >= 0 && y < height) {
             return pixelMatrix[y][x];
         }
 
@@ -48,7 +48,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
     @Override
     public void setPixel(int x, int y, Pixel value) {
-        if(x > 0 && x < width && y > 0 && y < height) {
+        if(x >= 0 && x < width && y >= 0 && y < height) {
             pixelMatrix[y][x] = value;
         }
     }
