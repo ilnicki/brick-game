@@ -14,14 +14,20 @@ public class Machine {
         public final IntParameter level = new IntParameter(1, 10);
     }
 
+    public static class Helper extends ArrayPixelMatrix {
+        Helper() {
+            super(4, 4);
+        }
+    }
+
     private final Parameters parameters = new Parameters();
     public final IntParameter volume = new IntParameter(0, 3);
     public final BoolParameter pause = new BoolParameter(false);
 
     private final Keyboard keyboard = new Keyboard();
     private Field field = new Field(10, 20);
-    private final Screen screen = new Screen(10, 20, field);
-    private final PixelMatrix helper = new ArrayPixelMatrix(4, 4);
+    private final Screen screen = new Screen(field);
+    private final Helper helper = new Helper();
 
     public Parameters getParameters() {
         return parameters;
@@ -39,7 +45,7 @@ public class Machine {
         return screen;
     }
 
-    public PixelMatrix getHelper() {
+    public Helper getHelper() {
         return this.helper;
     }
 
