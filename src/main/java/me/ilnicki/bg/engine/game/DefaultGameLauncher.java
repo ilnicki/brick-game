@@ -29,6 +29,7 @@ public class DefaultGameLauncher implements Game {
 
     @Inject
     private MachineConfig config;
+
     private final Keyboard keyboard;
     private final Field field;
 
@@ -111,6 +112,7 @@ public class DefaultGameLauncher implements Game {
 
         if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
             gameManager.launchGame(gameInfoList.get(selectedGame.get()), argument.get());
+            machine.pause.set(false);
         }
     }
 

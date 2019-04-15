@@ -25,7 +25,7 @@ public class GameManager implements MachineProcessor {
         MANAGER_LAUNCHING,
         GAME_LAUNCHING,
         GAME_STOPPING,
-        GAME_PROCESSING
+        GAME_PROCESSING,
     }
 
     private Module launcher;
@@ -54,9 +54,11 @@ public class GameManager implements MachineProcessor {
     private GamesConfig gamesConfig;
 
     @Inject
+    private MachineContainer machineContainer;
+
+    @Inject
     private void shareMachine() {
         container.share(machine.getScreen());
-        container.share(machine.getField());
     }
 
     @Override
@@ -116,11 +118,8 @@ public class GameManager implements MachineProcessor {
     }
 
     public void launchGame(GameInfo gameInfo, int argument) {
-        Game game = container.get(gameInfo.getGameClass());
-
         machine.recreateField(gameInfo.getBufferWidth(), gameInfo.getBufferHeight());
-
-        currentGame = game;
+        currentGame = machineContainer.get(gameInfo.getGameClass());
         currentGame.load();
     }
 

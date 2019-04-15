@@ -2,11 +2,13 @@ package me.ilnicki.bg.engine.game.test;
 
 import me.ilnicki.bg.engine.game.Game;
 import me.ilnicki.bg.engine.machine.Field;
+import me.ilnicki.bg.engine.machine.Layer;
 import me.ilnicki.bg.engine.machine.Machine.Parameters;
 import me.ilnicki.bg.engine.machine.keyboard.KeyMap;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.engine.machine.keyboard.Keyboard.CtrlKeyMap;
+import me.ilnicki.bg.engine.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.engine.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.engine.pixelmatrix.loaders.PixelMatrixLoader;
@@ -29,10 +31,14 @@ public class TestGame implements Game {
     private GameManager gameManager;
 
     @Inject
-    private Field field;
+    private Parameters params;
+
+    private PixelMatrix main;
 
     @Inject
-    private Parameters params;
+    public TestGame(Field field) {
+        field.getLayers().add(new Layer(main = new ArrayPixelMatrix(10, 20)));
+    }
 
     @Override
     public void update(long tick) {
@@ -66,7 +72,7 @@ public class TestGame implements Game {
     }
 
     private void printTime() {
-        MatrixUtils.clear(field);
+        MatrixUtils.clear(main);
 
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
@@ -81,13 +87,13 @@ public class TestGame implements Game {
 
             for (int i = 0; i < numMatrix.getHeight(); i++)
                 for (int j = 0; j < numMatrix.getWidth(); j++)
-                    field.setPixel(cursorX + j,
+                    main.setPixel(cursorX + j,
                             cursorY + i,
                             numMatrix.getPixel(j, i));
 
             cursorX = cursorX + numMatrix.getWidth() + 1;
 
-            if (cursorX + numMatrix.getWidth() + 1 > field.getWidth()) {
+            if (cursorX + numMatrix.getWidth() + 1 > main.getWidth()) {
                 cursorX = 1;
                 cursorY = cursorY - 7;
             }

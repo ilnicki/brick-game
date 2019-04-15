@@ -17,6 +17,11 @@ public final class Screen implements PixelMatrix, Positionable {
         this.height = height;
     }
 
+    public Screen(Field field) {
+        this(field.getWidth(), field.getHeight());
+        setField(field);
+    }
+
     public Screen(int width, int height, Field field) {
         this(width, height);
         setField(field);
