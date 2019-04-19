@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.0.0'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+group 'me.ilnicki.bg'
+version '1.0-SNAPSHOT'
+description "Brick Game PC App"
+
+mainClassName = 'me.ilnicki.bg.pcapp.GameRunner'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile project(':core')
+    compile project(':lwjgl3opengl')
+}
