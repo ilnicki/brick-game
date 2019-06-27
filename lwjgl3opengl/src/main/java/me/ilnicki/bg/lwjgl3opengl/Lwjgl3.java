@@ -26,6 +26,8 @@ public class Lwjgl3 implements Drawer, KeyReader {
     // The window handle
     private long window;
 
+    private final SegmentSchematics segments = new SegmentSchematics();
+
     private final float pixelSize = 24.0f;
     private final float pixelDecorSize = pixelSize - pixelSize / 6;
     private final float pixelInnerSize = pixelDecorSize - pixelSize / 6;
@@ -36,8 +38,8 @@ public class Lwjgl3 implements Drawer, KeyReader {
     private final float segmentSize = pixelSize;
     private final float segmentHeight = segmentSize / 2;
     private final float segmentWidth = segmentSize / 4;
-    private final float segmentThick = segmentSize / 15;
-    private final float segmentIndent = segmentThick / 2;
+    private final float segmentThickness = segmentSize / 15;
+    private final float segmentIndent = segmentThickness / 2;
 
     private final float volumeIconSize = pixelSize / 2;
 
@@ -83,7 +85,6 @@ public class Lwjgl3 implements Drawer, KeyReader {
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 1);
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 5);
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden after creation
-        // glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
         window = GLFW.glfwCreateWindow(width, height, "Brick Game", MemoryUtil.NULL, MemoryUtil.NULL);
@@ -178,8 +179,6 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     private void draw() {
-        //glViewport(0, 0, width, height);
-        //glMatrixMode(GL_PROJECTION);
         GL11.glLoadIdentity();
 
         GL11.glOrtho(0, width, -1, height, -1, 1);
@@ -386,23 +385,23 @@ public class Lwjgl3 implements Drawer, KeyReader {
         for (int i = digitCount - 1; i >= 0; i--) {
             Integer digit = num % (int) Math.pow(10, i + 1) / (int) Math.pow(10, i);
 
-            if (digit == 0 && num < Math.pow(10, i) - 1) {
+            if (digit == 0 && num < Math.pow(10, i)) {
                 //Disabling segments on left zeros
                 digit = null;
             }
 
-            drawSegmentChar(x - (segmentWidth * 1.5f) * i, y, SegmentSchematics.getSchematic(digit));
+            drawSegmentChar(x - (segmentWidth * 1.5f) * i, y, segments.get(digit));
         }
     }
 
     private void drawString(float x, float y, String string) {
         for (int i = 0; i < string.length(); i++) {
-            drawSegmentChar(x + (segmentWidth * 1.5f) * i, y, SegmentSchematics.getSchematic(string.charAt(i)));
+            drawSegmentChar(x + (segmentWidth * 1.5f) * i, y, segments.get(string.charAt(i)));
         }
     }
 
     private void drawSegmentChar(float x, float y, boolean[] data) {
-        GL11.glLineWidth(segmentThick);
+        GL11.glLineWidth(segmentThickness);
 
         //"a" segment
         setColor(data[0]);
@@ -457,15 +456,15 @@ public class Lwjgl3 implements Drawer, KeyReader {
             //"h" segment
             setColor(data[7]);
             GL11.glBegin(GL11.GL_LINES);
-            GL11.glVertex2f(x + segmentThick, y + segmentHeight * 2 - segmentIndent);
-            GL11.glVertex2f(x + segmentWidth - segmentThick, y + segmentHeight + segmentIndent);
+            GL11.glVertex2f(x + segmentThickness, y + segmentHeight * 2 - segmentIndent);
+            GL11.glVertex2f(x + segmentWidth - segmentThickness, y + segmentHeight + segmentIndent);
             GL11.glEnd();
 
             //"i" segment
             setColor(data[8]);
             GL11.glBegin(GL11.GL_LINES);
-            GL11.glVertex2f(x + segmentThick, y + segmentHeight - segmentIndent);
-            GL11.glVertex2f(x + segmentWidth - segmentThick, y + segmentIndent);
+            GL11.glVertex2f(x + segmentThickness, y + segmentHeight - segmentIndent);
+            GL11.glVertex2f(x + segmentWidth - segmentThickness, y + segmentIndent);
             GL11.glEnd();
         }
     }

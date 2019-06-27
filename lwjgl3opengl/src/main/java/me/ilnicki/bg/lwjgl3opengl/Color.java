@@ -39,7 +39,8 @@ public class Color {
 
     @Override
     public String toString() {
-        return String.format("#%02x%02x%02x", this.red,
+        return String.format("#%02x%02x%02x",
+                this.red,
                 this.red,
                 this.blue).toUpperCase();
     }
