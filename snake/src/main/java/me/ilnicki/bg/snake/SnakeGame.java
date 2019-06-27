@@ -43,7 +43,7 @@ public class SnakeGame implements Game {
     private GameManager gameManager;
 
     @Inject
-    @Args({"snake", "assets.sprites.levels"})
+    @Args({"internal", "assets.sprites.levels"})
     private PixelMatrixLoader levelLoader;
 
     private GameMode gameMode;
@@ -65,7 +65,7 @@ public class SnakeGame implements Game {
         GameMode[] gameModes = GameMode.values();
         int arg = argument.get();
 
-        if (arg < gameModes.length) {
+        if (arg <= gameModes.length) {
             gameMode = gameModes[arg - 1];
         } else {
             gameMode = gameModes[0];
@@ -296,20 +296,24 @@ public class SnakeGame implements Game {
     }
 
     private void loadWalls() {
-        PixelMatrix walls = levelLoader.load(gameMode.getLevelPrefix() + params.level, false);
+        try {
+            PixelMatrix walls = levelLoader.load(gameMode.getLevelPrefix() + params.level, false);
 
-        if (walls != null) {
-            for (int i = 0; i < walls.getWidth(); i++) {
-                for (int j = 0; j < walls.getHeight(); j++) {
-                    try {
-                        if (walls.getPixel(i, j) == Pixel.BLACK) {
-                            entities.add(new Wall(i, j));
+            if (walls != null) {
+                for (int i = 0; i < walls.getWidth(); i++) {
+                    for (int j = 0; j < walls.getHeight(); j++) {
+                        try {
+                            if (walls.getPixel(i, j) == Pixel.BLACK) {
+                                entities.add(new Wall(i, j));
+                            }
+                        } catch (Exception e) {
                         }
-                    } catch (Exception e) {
                     }
                 }
             }
+        } catch (Exception ignored) {
         }
+
     }
 
     private int getSnakeSpeed() {
