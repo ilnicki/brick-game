@@ -3,4 +3,5 @@ rootProject.name = 'me.ilnicki.bg'
 include 'core'
 include 'pcapp'
 include 'lwjgl3opengl'
+include 'snake'
 

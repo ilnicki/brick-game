@@ -3,16 +3,19 @@ package me.ilnicki.bg.core.game.test;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Layer;
+import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.Machine.Parameters;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
+import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +36,13 @@ public class TestGame implements Game {
     @Inject
     private Parameters params;
 
+    @Inject
+    private GameArgument argument;
+
     private PixelMatrix main;
+
+    @Inject
+    private Machine.Helper helper;
 
     @Inject
     public TestGame(Field field) {
@@ -71,6 +80,23 @@ public class TestGame implements Game {
         }
 
         printTime();
+        drawArg();
+    }
+
+    private void drawArg() {
+        int arg = argument.get();
+        int area = helper.getWidth() * helper.getHeight();
+        int value = arg / argument.getMax() * area;
+
+        for (int y = 0; y < helper.getHeight(); y++) {
+            for (int x = 0; x < helper.getWidth(); x++) {
+                if (value-- > 0) {
+                    helper.setPixel(x, y, Pixel.BLACK);
+                } else {
+                    return;
+                }
+            }
+        }
     }
 
     private void printTime() {

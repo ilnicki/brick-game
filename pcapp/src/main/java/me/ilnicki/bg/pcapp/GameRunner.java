@@ -41,6 +41,8 @@ public class GameRunner implements Runner {
         container.link(KeyReader.class, Lwjgl3.class);
         container.link(SoundPlayer.class, Dummy.class);
 
+        container.bind(me.ilnicki.bg.core.game.GamesConfig.class, me.ilnicki.bg.pcapp.GamesConfig.class);
+
         modules.clear();
 
         modules.addAll(container.getCompatible(MachineProcessor.class));
