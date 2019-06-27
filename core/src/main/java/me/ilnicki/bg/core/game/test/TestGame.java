@@ -17,6 +17,7 @@ import me.ilnicki.bg.core.system.processors.GameManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class TestGame implements Game {
     @Inject
@@ -41,15 +42,17 @@ public class TestGame implements Game {
 
     @Override
     public void update(long tick) {
-        System.out.print("Tick: " + tick + "; Keys: ");
+        StringBuilder sb = new StringBuilder();
 
         for (CtrlKey key : CtrlKey.values()) {
             if (keyMap.isPressed(key)) {
-                System.out.print(key + " ");
+                sb.append(key).append(' ');
             }
         }
 
-        System.out.println();
+        if (sb.length() > 0) {
+            System.out.println("Tick: " + tick + "; Keys: " + sb.toString());
+        }
 
         if (keyMap.isPressed(CtrlKey.UP)
                 && keyMap.isPressed(CtrlKey.LEFT)
@@ -72,30 +75,31 @@ public class TestGame implements Game {
 
     private void printTime() {
         MatrixUtils.clear(main);
+        Date date = Calendar.getInstance().getTime();
 
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
-        String date = sdf.format(cal.getTime());
-        String[] nums = date.split("");
-
-        int cursorX = 1;
         int cursorY = 15;
 
-        for (String num : nums) {
-            PixelMatrix numMatrix = matrixLoader.load(num, true);
+        printNumber(cursorY, new SimpleDateFormat("HH").format(date));
+        printNumber(cursorY - 7, new SimpleDateFormat("mm").format(date));
+        printNumber(cursorY - 7 * 2, new SimpleDateFormat("ss").format(date));
+    }
 
-            for (int i = 0; i < numMatrix.getHeight(); i++)
-                for (int j = 0; j < numMatrix.getWidth(); j++)
-                    main.setPixel(cursorX + j,
-                            cursorY + i,
-                            numMatrix.getPixel(j, i));
+    private void printNumber(int cursorY, String number) {
+        int cursorX = 1;
+        for (String digit : number.split("")) {
+            PixelMatrix numMatrix = matrixLoader.load(digit, true);
+
+            for (int y = 0; y < numMatrix.getHeight(); y++) {
+                for (int x = 0; x < numMatrix.getWidth(); x++) {
+                    main.setPixel(
+                            cursorX + x,
+                            cursorY + y,
+                            numMatrix.getPixel(x, y)
+                    );
+                }
+            }
 
             cursorX = cursorX + numMatrix.getWidth() + 1;
-
-            if (cursorX + numMatrix.getWidth() + 1 > main.getWidth()) {
-                cursorX = 1;
-                cursorY = cursorY - 7;
-            }
         }
     }
 }

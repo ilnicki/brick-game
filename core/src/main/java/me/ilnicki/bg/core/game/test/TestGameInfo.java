@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.game.test;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.GameInfo;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
 public class TestGameInfo implements GameInfo {
@@ -33,22 +33,72 @@ public class TestGameInfo implements GameInfo {
 
     @Override
     public PixelMatrix getLogo() {
-        return new ArrayPixelMatrix(1, 1);
+        return MatrixUtils.fromString(
+                "  ######  ",
+                "  ######  ",
+                "    ##    ",
+                "    ##    ",
+                "    ##    "
+        );
     }
+
+    private int tick = 0;
+    private PixelMatrix[] prevFrames = new PixelMatrix[]{
+            MatrixUtils.fromString(
+                    "##########",
+                    "#        #",
+                    "#        #",
+                    "#  ####  #",
+                    "#  ####  #",
+                    "#        #",
+                    "#        #",
+                    "##########"
+            ),
+            MatrixUtils.fromString(
+                    "##########",
+                    "#        #",
+                    "#    #   #",
+                    "#   ###  #",
+                    "#  ###   #",
+                    "#   #    #",
+                    "#        #",
+                    "##########"
+            ),
+            MatrixUtils.fromString(
+                    "##########",
+                    "#        #",
+                    "#   ##   #",
+                    "#   ##   #",
+                    "#   ##   #",
+                    "#   ##   #",
+                    "#        #",
+                    "##########"
+            ),
+            MatrixUtils.fromString(
+                    "##########",
+                    "#        #",
+                    "#   #    #",
+                    "#  ###   #",
+                    "#   ###  #",
+                    "#    #   #",
+                    "#        #",
+                    "##########"
+            ),
+    };
 
     @Override
     public PixelMatrix getPreview() {
-        return new ArrayPixelMatrix(1, 1);
+        return prevFrames[tick++ / 10 % prevFrames.length];
     }
 
     @Override
     public int getBufferWidth() {
-        return 0;
+        return 10;
     }
 
     @Override
     public int getBufferHeight() {
-        return 0;
+        return 20;
     }
 
     @Override

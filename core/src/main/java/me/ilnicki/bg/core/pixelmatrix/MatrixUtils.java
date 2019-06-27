@@ -9,7 +9,7 @@ public class MatrixUtils {
         ON_MINOR_DIAGONAL
     }
 
-    public static PixelMatrix makeFromArray(Pixel[][] pixelArray) {
+    public static PixelMatrix fromArray(Pixel[][] pixelArray) {
         int width = 0;
         for (Pixel[] row : pixelArray)
             if (row.length > width)
@@ -20,6 +20,26 @@ public class MatrixUtils {
         for (int i = 0; i < pixelArray.length; i++) {
             for (int j = 0; j < pixelArray[i].length; j++) {
                 pm.setPixel(j, pm.getHeight() - 1 - i, pixelArray[i][j]);
+            }
+        }
+
+        return pm;
+    }
+
+    public static PixelMatrix fromString(String ...data) {
+        int width = 0;
+
+        for (String row : data) {
+            if (row.length() > width) {
+                width = row.length();
+            }
+        }
+
+        PixelMatrix pm = new ArrayPixelMatrix(width, data.length);
+
+        for (int i = 0; i < data.length; i++) {
+            for (int j = 0; j < data[i].length(); j++) {
+                pm.setPixel(j, pm.getHeight() - 1 - i, data[i].charAt(j) == ' ' ? Pixel.WHITE : Pixel.BLACK);
             }
         }
 

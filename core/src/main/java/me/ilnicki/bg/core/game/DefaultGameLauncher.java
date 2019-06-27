@@ -105,15 +105,15 @@ public class DefaultGameLauncher implements Game {
 
         if (keyboard.getCtrlKeyMap().getState(CtrlKey.ROTATE) == 3) {
             selectedGame.inc();
-
-            drawLogo();
-            drawPreview();
         }
 
         if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
             gameManager.launchGame(gameInfoList.get(selectedGame.get()), argument.get());
             machine.pause.set(false);
         }
+
+        drawLogo();
+        drawPreview();
     }
 
     @Override
