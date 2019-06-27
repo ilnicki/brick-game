@@ -13,6 +13,7 @@ import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class DefaultGameLauncher implements Game {
     private final Layer prevLayer;
     private final Layer argLayer;
 
-    private final IntParameter argument = new IntParameter(1, 99);
+    private final GameArgument argument = new GameArgument();
     private IntParameter selectedGame;
 
     private List<GameInfo> gameInfoList;
@@ -69,12 +70,14 @@ public class DefaultGameLauncher implements Game {
         selectedGame = new IntParameter(0, gameInfoList.size() - 1);
         Machine.Parameters params = machine.getParameters();
 
-        argument.set(config.getArgument());
         selectedGame.set(config.getSelectedGame());
         params.hiscore.set(config.getHiscore());
         params.level.set(config.getLevel());
         params.speed.set(config.getSpeed());
         machine.volume.set(config.getVolume());
+        argument.set(config.getArgument());
+
+        gameManager.shareArgument(argument);
 
         drawLogo();
         drawPreview();
@@ -108,7 +111,7 @@ public class DefaultGameLauncher implements Game {
         }
 
         if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
-            gameManager.launchGame(gameInfoList.get(selectedGame.get()), argument.get());
+            gameManager.launchGame(gameInfoList.get(selectedGame.get()));
             machine.pause.set(false);
         }
 

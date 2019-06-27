@@ -4,10 +4,10 @@ import me.ilnicki.bg.core.game.GameInfo;
 import me.ilnicki.bg.core.game.GamesConfig;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Machine;
-import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.system.MachineProcessor;
 import me.ilnicki.bg.core.system.Module;
+import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.bg.core.system.container.Container;
 import me.ilnicki.bg.core.system.container.Inject;
 
@@ -116,7 +116,11 @@ public class GameManager implements MachineProcessor {
         return gameInfoList;
     }
 
-    public void launchGame(GameInfo gameInfo, int argument) {
+    public void shareArgument(GameArgument arg) {
+        machineContainer.share(arg);
+    }
+
+    public void launchGame(GameInfo gameInfo) {
         machine.recreateField(gameInfo.getBufferWidth(), gameInfo.getBufferHeight());
         currentGame = machineContainer.get(gameInfo.getGameClass());
         currentGame.load();
@@ -136,11 +140,9 @@ public class GameManager implements MachineProcessor {
     }
 
     private GameInfo loadGameInfo(String gameName) {
-        GameInfo gi;
-
         try {
-            gi = (GameInfo) Class.forName(gameName + "Info").newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
+            return container.get(Class.forName(gameName + "Info").asSubclass(GameInfo.class));
+        } catch (ClassNotFoundException ex) {
             try {
                 URL[] jarFile = new URL[]{
                         new File(this.systemConfig.getWorkingPath() + "/games/" + gameName + "/").getAbsoluteFile().toURI().toURL(),
@@ -149,12 +151,11 @@ public class GameManager implements MachineProcessor {
 
                 ClassLoader urlCl = new URLClassLoader(jarFile);
 
-                gi = (GameInfo) urlCl.loadClass(gameName + "Info").newInstance();
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | MalformedURLException ex1) {
-                gi = null;
+                return container.get(urlCl.loadClass(gameName + "Info").asSubclass(GameInfo.class));
+            } catch (ClassNotFoundException | MalformedURLException ex1) {
+                return null;
             }
         }
 
-        return gi;
     }
 }

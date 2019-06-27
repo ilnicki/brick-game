@@ -4,24 +4,24 @@ import me.ilnicki.bg.core.system.Holder;
 
 public class IntParameter implements Holder<Integer> {
     private int value;
-    private final int minValue;
-    private final int maxValue;
+    private final int min;
+    private final int max;
 
     public IntParameter() {
         this(Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
-    public IntParameter(int maxValue) {
-        this(Integer.MIN_VALUE, maxValue);
+    public IntParameter(int max) {
+        this(Integer.MIN_VALUE, max);
     }
 
-    public IntParameter(int minValue, int maxValue) {
-        this(minValue, maxValue, minValue);
+    public IntParameter(int min, int max) {
+        this(min, max, min);
     }
 
-    public IntParameter(int minValue, int maxValue, int value) {
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+    public IntParameter(int min, int max, int value) {
+        this.min = min;
+        this.max = max;
         this.value = value;
     }
 
@@ -29,24 +29,32 @@ public class IntParameter implements Holder<Integer> {
         return value;
     }
 
+    public Integer getMin() {
+        return min;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
     public void set(Integer value) {
-        if (value > maxValue) {
-            this.value = maxValue;
-        } else if (value < minValue) {
-            this.value = minValue;
+        if (value > max) {
+            this.value = max;
+        } else if (value < min) {
+            this.value = min;
         } else {
             this.value = value;
         }
     }
 
     public void inc() {
-        if (++value > maxValue)
-            value = minValue;
+        if (++value > max)
+            value = min;
     }
 
     public void dec() {
-        if (--value < minValue)
-            value = maxValue;
+        if (--value < min)
+            value = max;
     }
 
     @Override
