@@ -30,7 +30,7 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
     @Override
     public PixelMatrix load(String spriteName, boolean shouldBeCached) {
         if (!index.containsKey(spriteName)) {
-            throw new IllegalArgumentException(String.format("Sprite %s not found in registry.", spriteName));
+            throw new IllegalArgumentException(String.format("Sprite \"%s\" not found in registry.", spriteName));
         }
 
         if (!sprites.containsKey(spriteName)) {

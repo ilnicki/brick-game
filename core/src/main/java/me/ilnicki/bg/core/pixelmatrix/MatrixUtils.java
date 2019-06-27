@@ -26,6 +26,14 @@ public class MatrixUtils {
         return pm;
     }
 
+    private static Pixel charToPixel(char value) {
+        switch (value) {
+            case ' ': return Pixel.WHITE;
+            case '#': return Pixel.BLACK;
+            default: return null;
+        }
+    }
+
     public static PixelMatrix fromString(String ...data) {
         int width = 0;
 
@@ -39,7 +47,7 @@ public class MatrixUtils {
 
         for (int i = 0; i < data.length; i++) {
             for (int j = 0; j < data[i].length(); j++) {
-                pm.setPixel(j, pm.getHeight() - 1 - i, data[i].charAt(j) == ' ' ? Pixel.WHITE : Pixel.BLACK);
+                pm.setPixel(j, pm.getHeight() - 1 - i, MatrixUtils.charToPixel(data[i].charAt(j)));
             }
         }
 

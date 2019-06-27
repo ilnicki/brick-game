@@ -23,10 +23,11 @@ public class ResourceIndex extends HashMap<String, String> {
         Gson gson = new Gson();
 
         InputStream in = getClass().getResourceAsStream(this.path + "index.json");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-        Map<String, String> raw = gson.fromJson(reader.lines().collect(Collectors.joining()), type);
-
-        raw.forEach((key, value) -> this.put(key, this.path + value));
+        if(in != null) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+            Map<String, String> raw = gson.fromJson(reader.lines().collect(Collectors.joining()), type);
+            raw.forEach((key, value) -> this.put(key, this.path + value));
+        }
     }
 }
