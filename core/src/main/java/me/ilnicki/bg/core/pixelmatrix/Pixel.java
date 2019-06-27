@@ -4,11 +4,11 @@ public enum Pixel {
     BLACK,
     WHITE;
 
-    public static Pixel merge(Pixel upperPixel, Pixel lowerPixel) {
-        if (upperPixel == null) {
-            return lowerPixel;
-        } else {
-            return upperPixel;
+    public static Pixel merge(Pixel upper, Pixel lower) {
+        if (upper == null) {
+            return lower;
         }
+
+        return upper;
     }
 }
