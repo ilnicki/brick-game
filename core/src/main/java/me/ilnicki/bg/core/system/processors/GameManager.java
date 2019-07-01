@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.system.processors;
 
-import me.ilnicki.bg.core.game.GameInfo;
+import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.game.GamesConfig;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Machine;
@@ -42,7 +42,7 @@ public class GameManager implements MachineProcessor {
 
     private Module currentGame;
 
-    private List<GameInfo> gameInfoList;
+    private List<Manifest> manifestList;
 
     private State state;
 
@@ -62,13 +62,13 @@ public class GameManager implements MachineProcessor {
 
     @Override
     public void load() {
-        gameInfoList = new ArrayList<>();
+        manifestList = new ArrayList<>();
 
-        for (String gameName : gamesConfig.getGames()) {
-            GameInfo gameInfo = loadGameInfo(gameName);
+        for (String gameName : gamesConfig.getGameManifests()) {
+            Manifest manifest = loadGameManifests(gameName);
 
-            if (gameInfo != null) {
-                gameInfoList.add(gameInfo);
+            if (manifest != null) {
+                manifestList.add(manifest);
             }
         }
 
@@ -112,17 +112,17 @@ public class GameManager implements MachineProcessor {
         }
     }
 
-    public List<GameInfo> getGameInfoList() {
-        return gameInfoList;
+    public List<Manifest> getManifestList() {
+        return manifestList;
     }
 
     public void shareArgument(GameArgument arg) {
         machineContainer.share(arg);
     }
 
-    public void launchGame(GameInfo gameInfo) {
-        machine.recreateField(gameInfo.getBufferWidth(), gameInfo.getBufferHeight());
-        currentGame = machineContainer.get(gameInfo.getGameClass());
+    public void launchGame(Manifest manifest) {
+        machine.recreateField(manifest.getBufferWidth(), manifest.getBufferHeight());
+        currentGame = machineContainer.get(manifest.getGameClass());
         currentGame.load();
     }
 
@@ -139,19 +139,19 @@ public class GameManager implements MachineProcessor {
         state = State.GAME_PROCESSING;
     }
 
-    private GameInfo loadGameInfo(String gameName) {
+    private Manifest loadGameManifests(String manifestName) {
         try {
-            return container.get(Class.forName(gameName + "Info").asSubclass(GameInfo.class));
+            return container.get(Class.forName(manifestName).asSubclass(Manifest.class));
         } catch (ClassNotFoundException ex) {
             try {
                 URL[] jarFile = new URL[]{
-                        new File(this.systemConfig.getWorkingPath() + "/games/" + gameName + "/").getAbsoluteFile().toURI().toURL(),
-                        new File(this.systemConfig.getWorkingPath() + "/games/" + gameName + ".jar").getAbsoluteFile().toURI().toURL()
+                        new File(this.systemConfig.getWorkingPath() + "/games/" + manifestName + "/").getAbsoluteFile().toURI().toURL(),
+                        new File(this.systemConfig.getWorkingPath() + "/games/" + manifestName + ".jar").getAbsoluteFile().toURI().toURL()
                 };
 
                 ClassLoader urlCl = new URLClassLoader(jarFile);
 
-                return container.get(urlCl.loadClass(gameName + "Info").asSubclass(GameInfo.class));
+                return container.get(urlCl.loadClass(manifestName).asSubclass(Manifest.class));
             } catch (ClassNotFoundException | MalformedURLException ex1) {
                 return null;
             }

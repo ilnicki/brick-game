@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.game;
 
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
-public interface GameInfo {
+public interface Manifest {
     String getName();
 
     String getVersion();

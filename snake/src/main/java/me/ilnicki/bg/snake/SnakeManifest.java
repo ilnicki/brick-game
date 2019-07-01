@@ -1,13 +1,13 @@
 package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.game.GameInfo;
+import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
 
-public class SnakeGameInfo implements GameInfo {
+public class SnakeManifest implements Manifest {
     @Inject
     @Args({"internal", "assets.sprites.snake"})
     private PixelMatrixLoader matrixLoader;

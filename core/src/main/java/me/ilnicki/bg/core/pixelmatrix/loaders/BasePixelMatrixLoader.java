@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.pixelmatrix.loaders;
 
 import me.ilnicki.bg.core.data.DataProvider;
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.game.GameInfo;
+import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
@@ -75,7 +75,7 @@ public abstract class BasePixelMatrixLoader implements PixelMatrixLoader {
     public static PixelMatrixLoader create(String packageName, Object pathSource) {
         if (pathSource instanceof DataProvider) {
             return new ExternalBasePixelMatrixLoader(packageName, ((DataProvider) pathSource).getLocation());
-        } else if (pathSource instanceof GameInfo) {
+        } else if (pathSource instanceof Manifest) {
             return new InternalBasePixelMatrixLoader(packageName, pathSource.getClass());
         } else if (pathSource instanceof Game) {
             return new InternalBasePixelMatrixLoader(packageName, pathSource.getClass());

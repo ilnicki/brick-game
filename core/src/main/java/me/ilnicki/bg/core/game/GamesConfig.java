@@ -3,16 +3,16 @@ package me.ilnicki.bg.core.game;
 import me.ilnicki.bg.core.data.DataBean;
 
 public class GamesConfig implements DataBean {
-    private String[] games = new String[]{};
+    private String[] gameManifests = new String[]{};
 
     private String launcher = DefaultGameLauncher.class.getName();
 
-    public String[] getGames() {
-        return games;
+    public String[] getGameManifests() {
+        return gameManifests;
     }
 
-    public void setGames(String[] games) {
-        this.games = games;
+    public void setGameManifests(String[] gameManifests) {
+        this.gameManifests = gameManifests;
     }
 
     public String getLauncher() {

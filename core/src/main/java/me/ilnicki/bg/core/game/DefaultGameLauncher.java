@@ -41,7 +41,7 @@ public class DefaultGameLauncher implements Game {
     private final GameArgument argument = new GameArgument();
     private IntParameter selectedGame;
 
-    private List<GameInfo> gameInfoList;
+    private List<Manifest> manifestList;
 
     @Inject
     public DefaultGameLauncher(Machine machine) {
@@ -65,9 +65,9 @@ public class DefaultGameLauncher implements Game {
 
     @Override
     public void load() {
-        gameInfoList = gameManager.getGameInfoList();
+        manifestList = gameManager.getManifestList();
 
-        selectedGame = new IntParameter(0, gameInfoList.size() - 1);
+        selectedGame = new IntParameter(0, manifestList.size() - 1);
         Machine.Parameters params = machine.getParameters();
 
         selectedGame.set(config.getSelectedGame());
@@ -111,7 +111,7 @@ public class DefaultGameLauncher implements Game {
         }
 
         if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
-            gameManager.launchGame(gameInfoList.get(selectedGame.get()));
+            gameManager.launchGame(manifestList.get(selectedGame.get()));
             machine.pause.set(false);
         }
 
@@ -132,11 +132,11 @@ public class DefaultGameLauncher implements Game {
     }
 
     private void drawLogo() {
-        logoLayer.setPixelMatrix(gameInfoList.get(selectedGame.get()).getLogo());
+        logoLayer.setPixelMatrix(manifestList.get(selectedGame.get()).getLogo());
     }
 
     private void drawPreview() {
-        prevLayer.setPixelMatrix(gameInfoList.get(selectedGame.get()).getPreview());
+        prevLayer.setPixelMatrix(manifestList.get(selectedGame.get()).getPreview());
     }
 
     private void drawArgument() {

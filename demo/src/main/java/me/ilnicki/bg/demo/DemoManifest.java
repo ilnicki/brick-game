@@ -1,11 +1,11 @@
 package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.game.GameInfo;
+import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
-public class DemoGameInfo implements GameInfo {
+public class DemoManifest implements Manifest {
     @Override
     public String getName() {
         return "Demo Game";
