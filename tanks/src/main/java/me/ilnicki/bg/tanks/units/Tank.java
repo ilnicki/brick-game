@@ -9,9 +9,10 @@ import me.ilnicki.bg.tanks.Entity;
 import java.util.HashMap;
 
 public class Tank extends Entity {
-    private Direction direction;
     HashMap<Direction, PixelMatrix> sprites;
     HashMap<Direction, Point> shotPoints;
+
+    private Direction direction;
 
     Tank(Point point, Direction direction) {
         super(point);
@@ -27,9 +28,9 @@ public class Tank extends Entity {
     }
 
     @Override
-    public boolean isCollide(int x, int y) {
+    public boolean isCollide(Point point) {
         try {
-            return this.getSprite().getPixel(x - this.getPosX(), y - this.getPosY()) != null;
+            return getSprite().getPixel(point.sub(getPos())) != null;
         } catch (Exception e) {
             return false;
         }
@@ -41,9 +42,7 @@ public class Tank extends Entity {
     }
 
     public Bullet shoot() {
-        Point shootPoint = new Point(shotPoints.get(this.getDirection()));
-        shootPoint.add(this.getPos());
-
-        return new Bullet(shootPoint, this.getDirection(), this);
+        Point shootPoint = shotPoints.get(this.getDirection()).add(this.getPos());
+        return new Bullet(shootPoint, this.getDirection(), this, 2);
     }
 }

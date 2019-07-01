@@ -56,6 +56,8 @@ public class TanksGame implements Game {
     private final List<Bullet> bulletList = new ArrayList<>();
 
     private final int moveSpeed = 4;
+    private final Random random = new Random();
+
 
     @Inject
     public TanksGame(Field field) {
@@ -72,15 +74,15 @@ public class TanksGame implements Game {
 
     @Override
     public void update(long tick) {
-        if (!this.tankList.contains(this.player)) {
-            this.gameManager.exitGame();
+        if (!tankList.contains(player)) {
+            gameManager.exitGame();
         }
 
         spawnEnemies();
         handleControlls();
         processBullets(tick);
 
-        MatrixUtils.clear(this.field);
+        MatrixUtils.clear(field);
         drawTanks();
         drawBullets();
         drawWalls();
@@ -92,8 +94,9 @@ public class TanksGame implements Game {
             if (player.getDirection() == UP) {
                 int newPosY = player.getPosY() + 1;
 
-                if (newPosY + player.getSprite().getHeight() - 1 < this.field.getHeight())
+                if (newPosY + player.getSprite().getHeight() - 1 < field.getHeight()) {
                     player.setPosY(newPosY);
+                }
             } else {
                 player.setDirection(UP);
             }
@@ -101,8 +104,9 @@ public class TanksGame implements Game {
             if (player.getDirection() == DOWN) {
                 int newPosY = player.getPosY() - 1;
 
-                if (newPosY >= 0)
+                if (newPosY >= 0) {
                     player.setPosY(newPosY);
+                }
             } else {
                 player.setDirection(DOWN);
             }
@@ -110,8 +114,9 @@ public class TanksGame implements Game {
             if (player.getDirection() == LEFT) {
                 int newPosX = player.getPosX() - 1;
 
-                if (newPosX >= 0)
+                if (newPosX >= 0) {
                     player.setPosX(newPosX);
+                }
             } else {
                 player.setDirection(LEFT);
             }
@@ -119,8 +124,9 @@ public class TanksGame implements Game {
             if (player.getDirection() == RIGHT) {
                 int newPosX = player.getPosX() + 1;
 
-                if (newPosX + player.getSprite().getWidth() - 1 < this.field.getWidth())
+                if (newPosX + player.getSprite().getWidth() - 1 < field.getWidth()) {
                     player.setPosX(newPosX);
+                }
             } else {
                 player.setDirection(RIGHT);
             }
@@ -137,14 +143,13 @@ public class TanksGame implements Game {
         {
             PixelMatrix sprite = tank.getSprite();
 
-            for (int i = 0; i < sprite.getHeight(); i++) {
-
-                for (int j = 0; j < sprite.getWidth(); j++) {
+            for (int y = 0; y < sprite.getHeight(); y++) {
+                for (int x = 0; x < sprite.getWidth(); x++) {
                     try {
-                        if (sprite.getPixel(j, i) != null)
-                            this.field.setPixel(tank.getPosX() + j, tank.getPosY() + i, sprite.getPixel(j, i));
+                        if (sprite.getPixel(x, y) != null) {
+                            field.setPixel(tank.getPosX() + x, tank.getPosY() + y, sprite.getPixel(x, y));
+                        }
                     } catch (Exception e) {
-
                     }
                 }
             }
@@ -153,56 +158,48 @@ public class TanksGame implements Game {
 
     private void drawBullets() {
         bulletList.forEach((bullet) ->
-                this.field.setPixel(bullet.getPosX(), bullet.getPosY(), Pixel.BLACK));
+                field.setPixel(bullet.getPosX(), bullet.getPosY(), Pixel.BLACK));
     }
 
     private void drawWalls() {
-        if (!(blink % blinkOn == 0)) {
+        if (blink % blinkOn != 0) {
             wallList.forEach((mine) ->
-                    this.field.setPixel(mine.getPosX(), mine.getPosY(), Pixel.BLACK));
+                    field.setPixel(mine.getPosX(), mine.getPosY(), Pixel.BLACK));
         }
 
         blink++;
     }
 
     private void spawnEnemies() {
-        Random rnd = new Random();
-        if (this.tankList.size() < 3
-                && rnd.nextInt(4) == 0) {
-            int pos = rnd.nextInt(6);
-            Tank tank = null;
+        if (tankList.size() < 3 && random.nextInt(4) == 0) {
+            int pos = random.nextInt(6);
 
             switch (pos) {
                 case 0:
-                    tank = tankFactory.make(new Point(0, 17), RIGHT);
+                    tankList.add(tankFactory.make(new Point(0, 17), RIGHT));
                     break;
                 case 1:
-                    tank = tankFactory.make(new Point(7, 17), DOWN);
+                    tankList.add(tankFactory.make(new Point(7, 17), DOWN));
                     break;
                 case 2:
-                    tank = tankFactory.make(new Point(7, 10), LEFT);
+                    tankList.add(tankFactory.make(new Point(7, 10), LEFT));
                     break;
                 case 3:
-                    tank = tankFactory.make(new Point(7, 0), LEFT);
+                    tankList.add(tankFactory.make(new Point(7, 0), LEFT));
                     break;
                 case 4:
-                    tank = tankFactory.make(new Point(0, 0), UP);
+                    tankList.add(tankFactory.make(new Point(0, 0), UP));
                     break;
                 case 5:
-                    tank = tankFactory.make(new Point(0, 10), RIGHT);
+                    tankList.add(tankFactory.make(new Point(0, 10), RIGHT));
                     break;
             }
-
-            if (tank != null)
-                this.tankList.add(tank);
         }
     }
 
     private void shoot() {
         if (weaponCooldown > 0) {
-            final Bullet bullet = player.shoot();
-            bulletList.add(bullet);
-
+            bulletList.add(player.shoot());
             weaponCooldown = -minWeaponCooldown;
         }
     }
@@ -228,20 +225,19 @@ public class TanksGame implements Game {
                 }
             }
 
-            if (this.wallList.removeIf(wall -> (wall.getPosY() == bullet.getPosY()
-                    && wall.getPosX() == bullet.getPosX()))) {
+            if (wallList.removeIf(wall -> wall.getPos().equals(bullet.getPos()))) {
                 i.remove();
             }
 
-            if (this.tankList.removeIf(tank -> tank.isCollide(bullet.getPosX(), bullet.getPosY())
-                    && tank != bullet.getOwner())) {
-                this.parameters.score.inc();
+            if (tankList.removeIf(tank -> tank.isCollide(bullet.getPos()) && tank != bullet.getOwner())) {
+                parameters.score.inc();
                 i.remove();
             }
 
-            if (bullet.getPosY() < 0 || bullet.getPosX() < 0
-                    || bullet.getPosY() >= this.field.getHeight()
-                    || bullet.getPosX() >= this.field.getWidth()) {
+            if (bullet.getPosY() < 0
+                    || bullet.getPosX() < 0
+                    || bullet.getPosY() >= field.getHeight()
+                    || bullet.getPosX() >= field.getWidth()) {
                 i.remove();
             }
         }

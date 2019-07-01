@@ -46,7 +46,7 @@ public final class Screen implements PixelMatrix, Positionable {
                 || point.getY() >= getHeight() || point.getY() < 0) {
             return Pixel.WHITE;
         } else {
-            return Pixel.merge(field.getPixel(Point.add(point, position)), Pixel.WHITE);
+            return Pixel.merge(field.getPixel(point.add(position)), Pixel.WHITE);
         }
     }
 

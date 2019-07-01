@@ -8,26 +8,11 @@ public class Bullet extends Entity {
     private final int speed;
     private Tank owner;
 
-    public Bullet(int posY, int posX, Direction direction, int speed, Tank owner) {
-        super(posX, posY);
-        this.direction = direction;
-        this.speed = speed;
-        this.owner = owner;
-    }
-
-    public Bullet(Point point, Direction direction, int speed, Tank owner) {
+    public Bullet(Point point, Direction direction, Tank owner, int speed) {
         super(point);
         this.direction = direction;
         this.speed = speed;
         this.owner = owner;
-    }
-
-    public Bullet(int posY, int posX, Direction direction, Tank owner) {
-        this(posY, posX, direction, 2, owner);
-    }
-
-    public Bullet(Point point, Direction direction, Tank owner) {
-        this(point, direction, 2, owner);
     }
 
     public Direction getDirection() {

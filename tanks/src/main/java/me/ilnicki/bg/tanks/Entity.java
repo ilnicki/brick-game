@@ -6,11 +6,7 @@ import me.ilnicki.bg.core.pixelmatrix.Point;
 
 public class Entity {
     private final Point pos;
-    private final PixelMatrix sprite = MatrixUtils.fromString("*");
-
-    public Entity(int posX, int posY) {
-        this(new Point(posX, posY));
-    }
+    private final PixelMatrix sprite = MatrixUtils.fromString("#");
 
     public Entity(Point pos) {
         this.pos = pos;
@@ -50,7 +46,7 @@ public class Entity {
         return sprite;
     }
 
-    public boolean isCollide(int y, int x) {
-        return pos.getY() == y && pos.getX() == x;
+    public boolean isCollide(Point point) {
+        return pos.equals(point);
     }
 }

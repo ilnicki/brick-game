@@ -34,16 +34,12 @@ public class Point implements Cloneable {
         setY(y);
     }
 
-    public void add(Point point) {
-        setX(getX() + point.getX());
-        setY(getY() + point.getY());
+    public Point add(Point point) {
+        return new Point(getX() + point.getX(), getY() + point.getY());
     }
 
-    public static Point add(Point point1, Point point2) {
-        Point result = (Point) point1.clone();
-        result.add(point2);
-
-        return result;
+    public Point sub(Point point) {
+        return new Point(getX() - point.getX(), getY() - point.getY());
     }
 
     @Override
@@ -54,5 +50,15 @@ public class Point implements Cloneable {
     @Override
     protected Object clone() {
         return new Point(x, y);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other instanceof Point) {
+            Point otherPoint = (Point) other;
+            return getX() == otherPoint.getX() && getY() == otherPoint.getY();
+        }
+
+        return false;
     }
 }
