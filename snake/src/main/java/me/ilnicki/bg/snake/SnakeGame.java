@@ -43,7 +43,7 @@ public class SnakeGame implements Game {
     private GameManager gameManager;
 
     @Inject
-    @Args({"internal", "assets.sprites.levels"})
+    @Args({"internal", "assets.sprites.snake.levels"})
     private PixelMatrixLoader levelLoader;
 
     private GameMode gameMode;
