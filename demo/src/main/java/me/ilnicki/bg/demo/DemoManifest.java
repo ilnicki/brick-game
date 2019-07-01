@@ -18,7 +18,7 @@ public class DemoManifest implements Manifest {
 
     @Override
     public String getAuthor() {
-        return "ilnicki";
+        return "Dmytro Ilnicki";
     }
 
     @Override
