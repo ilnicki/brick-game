@@ -1,12 +1,9 @@
 package me.ilnicki.bg.core.game;
 
-import me.ilnicki.bg.core.game.test.TestGame;
 import me.ilnicki.bg.core.data.DataBean;
 
 public class GamesConfig implements DataBean {
-    private String[] games = new String[]{
-            TestGame.class.getName(),
-    };
+    private String[] games = new String[]{};
 
     private String launcher = DefaultGameLauncher.class.getName();
 

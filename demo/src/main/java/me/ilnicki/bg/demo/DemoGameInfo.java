@@ -1,14 +1,14 @@
-package me.ilnicki.bg.core.game.test;
+package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.GameInfo;
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
-public class TestGameInfo implements GameInfo {
+public class DemoGameInfo implements GameInfo {
     @Override
     public String getName() {
-        return "Test Game";
+        return "Demo Game";
     }
 
     @Override
@@ -23,7 +23,7 @@ public class TestGameInfo implements GameInfo {
 
     @Override
     public String getDescription() {
-        return "Test Game";
+        return "Demo Game";
     }
 
     @Override
@@ -34,11 +34,11 @@ public class TestGameInfo implements GameInfo {
     @Override
     public PixelMatrix getLogo() {
         return MatrixUtils.fromString(
-                "  ######  ",
-                "  ######  ",
-                "    ##    ",
-                "    ##    ",
-                "    ##    "
+                "# #####  #",
+                "  ##  ##  ",
+                "  ##   ## ",
+                "  ##  ##  ",
+                "# #####  #"
         );
     }
 
@@ -103,6 +103,6 @@ public class TestGameInfo implements GameInfo {
 
     @Override
     public Class<? extends Game> getGameClass() {
-        return TestGame.class;
+        return DemoGame.class;
     }
 }

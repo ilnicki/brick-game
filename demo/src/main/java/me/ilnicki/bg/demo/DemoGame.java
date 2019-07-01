@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.game.test;
+package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TestGame implements Game {
+public class DemoGame implements Game {
     @Inject
     @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;
@@ -45,7 +45,7 @@ public class TestGame implements Game {
     private Machine.Helper helper;
 
     @Inject
-    public TestGame(Field field) {
+    public DemoGame(Field field) {
         field.getLayers().add(new Layer(main = new ArrayPixelMatrix(10, 20)));
     }
 
