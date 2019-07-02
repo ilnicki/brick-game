@@ -6,4 +6,5 @@ include 'lwjgl3opengl'
 include 'snake'
 include 'demo'
 include 'tanks'
+include 'tetris'
 

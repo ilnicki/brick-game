@@ -34,5 +34,6 @@ dependencies {
     compile project(':lwjgl3opengl')
     compile project(':snake')
     compile project(':tanks')
+    compile project(':tetris')
     compile project(':demo')
 }
