@@ -3,6 +3,7 @@ package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Point;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 
 import javax.imageio.ImageIO;
@@ -40,6 +41,17 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
         return sprites.computeIfAbsent(spriteName, this::read);
     }
 
+    private Pixel rgbToPixel(int color) {
+        switch (color) {
+            case 0xFF000000:
+                return Pixel.BLACK;
+            case 0xFFFFFFFF:
+                return Pixel.WHITE;
+            default:
+                return null;
+        }
+    }
+
     private PixelMatrix read(String spriteName) {
         String path = index.get(spriteName);
 
@@ -51,9 +63,8 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
             for (int y = 0; y < image.getHeight(); y++) {
                 for (int x = 0; x < image.getWidth(); x++) {
                     sprite.setPixel(
-                            x,
-                            sprite.getHeight() - y - 1,
-                            image.getRGB(x, y) == 0xFF000000 ? Pixel.BLACK : Pixel.WHITE
+                            new Point(x, sprite.getHeight() - y - 1),
+                            this.rgbToPixel(image.getRGB(x, y))
                     );
                 }
             }

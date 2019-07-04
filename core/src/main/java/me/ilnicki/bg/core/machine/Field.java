@@ -31,21 +31,12 @@ public final class Field implements PixelMatrix {
 
     @Override
     public Pixel getPixel(int x, int y) {
-        if (x >= this.getWidth() || x < 0 || y >= this.getHeight() || y < 0) {
-            return Pixel.WHITE;
-        } else {
-            Pixel result = Pixel.WHITE;
-
-            for (Layer layer : layers) {
-                result = Pixel.merge(layer.getPixel(x, y), result);
-            }
-
-            return result;
+        if (x >= getWidth() || x < 0 || y >= getHeight() || y < 0) {
+            return null;
         }
-    }
 
-    @Override
-    public void setPixel(int x, int y, Pixel value) {
+        Point point = new Point(x, y);
+        return layers.stream().map(layer -> layer.getPixel(point)).reduce(null, Pixel::merge);
     }
 
     @Override

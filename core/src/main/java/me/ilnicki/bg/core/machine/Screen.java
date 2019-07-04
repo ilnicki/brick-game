@@ -33,10 +33,6 @@ public final class Screen implements PixelMatrix, Positionable {
     }
 
     @Override
-    public void setPixel(int y, int x, Pixel value) {
-    }
-
-    @Override
     public void setPixel(Point point, Pixel value) {
     }
 
@@ -66,52 +62,12 @@ public final class Screen implements PixelMatrix, Positionable {
     }
 
     @Override
-    public int getX() {
-        return position.getX();
-    }
-
-    @Override
-    public void setX(int positionX) {
-        if (positionX <= -getWidth() || positionX >= field.getWidth()) {
-            throw new IllegalArgumentException(
-                    String.format("Wrong X position: %d. Position must be in range from -%d to %d.",
-                            positionX, getWidth(), field.getWidth())
-            );
-        } else {
-            position.setX(positionX);
-        }
-    }
-
-    @Override
-    public int getY() {
-        return position.getY();
-    }
-
-    @Override
-    public void setY(int positionY) {
-        if (positionY <= -getHeight() || positionY >= field.getHeight()) {
-            throw new IllegalArgumentException(String.format(
-                    "Wrong Y position: %d. Position must be in range from -%d to %d.",
-                    positionY, getHeight(), field.getHeight())
-            );
-        } else {
-            position.setY(positionY);
-        }
-    }
-
-    @Override
-    public void setPosition(int positionY, int positionX) {
-        setY(positionY);
-        setX(positionX);
-    }
-
-    @Override
-    public void setPosition(Point point) {
+    public void setPos(Point point) {
         position = point;
     }
 
     @Override
-    public Point getPosition() {
+    public Point getPos() {
         return position;
     }
 }

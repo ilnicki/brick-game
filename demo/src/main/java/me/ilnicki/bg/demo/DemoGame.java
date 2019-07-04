@@ -8,10 +8,7 @@ import me.ilnicki.bg.core.machine.Machine.Parameters;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKeyMap;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
-import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
@@ -91,7 +88,7 @@ public class DemoGame implements Game {
         for (int y = 0; y < helper.getHeight(); y++) {
             for (int x = 0; x < helper.getWidth(); x++) {
                 if (value-- > 0) {
-                    helper.setPixel(x, y, Pixel.BLACK);
+                    helper.setPixel(new Point(x, y), Pixel.BLACK);
                 } else {
                     return;
                 }
@@ -117,9 +114,10 @@ public class DemoGame implements Game {
 
             for (int y = 0; y < numMatrix.getHeight(); y++) {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {
-                    main.setPixel(
-                            cursorX + x,
-                            cursorY + y,
+                    main.setPixel(new Point(
+                                    cursorX + x,
+                                    cursorY + y
+                            ),
                             numMatrix.getPixel(x, y)
                     );
                 }

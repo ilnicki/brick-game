@@ -46,9 +46,9 @@ public class PieceFactory {
 
         PixelMatrix sprite = loader.load(pieceClass.getSimpleName(), true);
         sprites.put(Piece.Angle.DEG0, sprite);
-        sprites.put(Piece.Angle.DEG90, MatrixUtils.getRotated(sprite, 90));
-        sprites.put(Piece.Angle.DEG180, MatrixUtils.getRotated(sprite, 180));
-        sprites.put(Piece.Angle.DEG270, MatrixUtils.getRotated(sprite, 270));
+        sprites.put(Piece.Angle.DEG90, MatrixUtils.rotate(sprite, 90));
+        sprites.put(Piece.Angle.DEG180, MatrixUtils.rotate(sprite, 180));
+        sprites.put(Piece.Angle.DEG270, MatrixUtils.rotate(sprite, 270));
 
         spriteMap.put(pieceClass, Collections.unmodifiableMap(sprites));
     }

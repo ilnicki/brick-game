@@ -2,6 +2,7 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Point;
 
 public class Food extends Entity {
     private static final PixelMatrix sprite = MatrixUtils.fromString("#");
@@ -12,8 +13,8 @@ public class Food extends Entity {
 
     private int callCounter = 0;
 
-    public Food(int posX, int posY) {
-        super(posX, posY);
+    public Food(Point pos) {
+        super(pos);
     }
 
     @Override

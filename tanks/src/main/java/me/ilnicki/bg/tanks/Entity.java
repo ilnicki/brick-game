@@ -5,7 +5,7 @@ import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Point;
 
 public class Entity {
-    private final Point pos;
+    private Point pos;
     private final PixelMatrix sprite = MatrixUtils.fromString("#");
 
     public Entity(Point pos) {
@@ -20,26 +20,12 @@ public class Entity {
         return pos.getX();
     }
 
-    public void setPosY(int posY) {
-        pos.setY(posY);
-    }
-
-    public void setPosX(int posX) {
-        pos.setX(posX);
+    public void setPos(Point pos) {
+        this.pos = pos;
     }
 
     public Point getPos() {
         return pos;
-    }
-
-    public void setPos(Point pos) {
-        pos.setY(pos.getY());
-        pos.setX(pos.getX());
-    }
-
-    public void setPos(int posY, int posX) {
-        this.setPosY(posY);
-        this.setPosX(posX);
     }
 
     public PixelMatrix getSprite() {

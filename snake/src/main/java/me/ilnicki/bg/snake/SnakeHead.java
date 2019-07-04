@@ -2,6 +2,8 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector2D;
 
 public class SnakeHead extends SnakePart {
     private static final PixelMatrix spriteBlink = MatrixUtils.fromString(" ");
@@ -11,8 +13,8 @@ public class SnakeHead extends SnakePart {
     private Direction direction;
     private int callCounter = 0;
 
-    public SnakeHead(int posX, int posY, Direction direction) {
-        super(posX, posY);
+    public SnakeHead(Point pos, Direction direction) {
+        super(pos);
         this.direction = direction;
     }
 
@@ -34,6 +36,19 @@ public class SnakeHead extends SnakePart {
     }
 
     public enum Direction {
-        DIR_UP, DIR_RIGHT, DIR_DOWN, DIR_LEFT
+        DIR_UP(new Point(0, 1)),
+        DIR_RIGHT(new Point(-1, 0)),
+        DIR_DOWN(new Point(0, 1)),
+        DIR_LEFT(new Point(1, 0));
+
+        private final Vector2D vector;
+
+        Direction(Vector2D vector) {
+            this.vector = vector;
+        }
+
+        public Vector2D getVector() {
+            return vector;
+        }
     }
 }

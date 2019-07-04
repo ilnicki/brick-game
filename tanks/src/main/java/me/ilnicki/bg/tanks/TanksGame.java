@@ -79,7 +79,7 @@ public class TanksGame implements Game {
         }
 
         spawnEnemies();
-        handleControlls();
+        handleControls();
         processBullets(tick);
 
         MatrixUtils.clear(field);
@@ -89,13 +89,13 @@ public class TanksGame implements Game {
     }
 
 
-    private void handleControlls() {
+    private void handleControls() {
         if (keyMap.getState(CtrlKey.UP) % moveSpeed == 0) {
             if (player.getDirection() == UP) {
                 int newPosY = player.getPosY() + 1;
 
                 if (newPosY + player.getSprite().getHeight() - 1 < field.getHeight()) {
-                    player.setPosY(newPosY);
+                    player.setPos(player.getPos().withY(newPosY));
                 }
             } else {
                 player.setDirection(UP);
@@ -105,7 +105,7 @@ public class TanksGame implements Game {
                 int newPosY = player.getPosY() - 1;
 
                 if (newPosY >= 0) {
-                    player.setPosY(newPosY);
+                    player.setPos(player.getPos().withY(newPosY));
                 }
             } else {
                 player.setDirection(DOWN);
@@ -115,7 +115,7 @@ public class TanksGame implements Game {
                 int newPosX = player.getPosX() - 1;
 
                 if (newPosX >= 0) {
-                    player.setPosX(newPosX);
+                    player.setPos(player.getPos().withX(newPosX));
                 }
             } else {
                 player.setDirection(LEFT);
@@ -125,7 +125,7 @@ public class TanksGame implements Game {
                 int newPosX = player.getPosX() + 1;
 
                 if (newPosX + player.getSprite().getWidth() - 1 < field.getWidth()) {
-                    player.setPosX(newPosX);
+                    player.setPos(player.getPos().withX(newPosX));
                 }
             } else {
                 player.setDirection(RIGHT);
@@ -147,9 +147,9 @@ public class TanksGame implements Game {
                 for (int x = 0; x < sprite.getWidth(); x++) {
                     try {
                         if (sprite.getPixel(x, y) != null) {
-                            field.setPixel(tank.getPosX() + x, tank.getPosY() + y, sprite.getPixel(x, y));
+                            field.setPixel(tank.getPos().add(new Point(x, y)), sprite.getPixel(x, y));
                         }
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }
             }
@@ -157,14 +157,12 @@ public class TanksGame implements Game {
     }
 
     private void drawBullets() {
-        bulletList.forEach((bullet) ->
-                field.setPixel(bullet.getPosX(), bullet.getPosY(), Pixel.BLACK));
+        bulletList.forEach((bullet) -> field.setPixel(bullet.getPos(), Pixel.BLACK));
     }
 
     private void drawWalls() {
         if (blink % blinkOn != 0) {
-            wallList.forEach((mine) ->
-                    field.setPixel(mine.getPosX(), mine.getPosY(), Pixel.BLACK));
+            wallList.forEach((mine) -> field.setPixel(mine.getPos(), Pixel.BLACK));
         }
 
         blink++;
@@ -209,20 +207,7 @@ public class TanksGame implements Game {
             Bullet bullet = i.next();
 
             if (tick % bullet.getSpeed() == 0) {
-                switch (bullet.getDirection()) {
-                    case UP:
-                        bullet.setPosY(bullet.getPosY() + 1);
-                        break;
-                    case DOWN:
-                        bullet.setPosY(bullet.getPosY() - 1);
-                        break;
-                    case RIGHT:
-                        bullet.setPosX(bullet.getPosX() + 1);
-                        break;
-                    case LEFT:
-                        bullet.setPosX(bullet.getPosX() - 1);
-                        break;
-                }
+                bullet.setPos(bullet.getPos().add((Point) bullet.getDirection().getVector()));
             }
 
             if (wallList.removeIf(wall -> wall.getPos().equals(bullet.getPos()))) {

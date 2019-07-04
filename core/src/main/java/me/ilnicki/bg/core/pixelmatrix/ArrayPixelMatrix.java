@@ -12,7 +12,8 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
         for (int y = 0; y < pm.getHeight(); y++) {
             for (int x = 0; x < pm.getWidth(); x++) {
-                setPixel(x, y, pm.getPixel(x, y));
+                Point point = new Point(x, y);
+                setPixel(point, pm.getPixel(point));
             }
         }
     }
@@ -43,14 +44,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
             return pixelMatrix[y][x];
         }
 
-        return Pixel.WHITE;
-    }
-
-    @Override
-    public void setPixel(int x, int y, Pixel value) {
-        if(x >= 0 && x < width && y >= 0 && y < height) {
-            pixelMatrix[y][x] = value;
-        }
+        return null;
     }
 
     @Override
@@ -60,7 +54,9 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
     @Override
     public void setPixel(Point point, Pixel value) {
-        setPixel(point.getY(), point.getX(), value);
+        if(point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
+            pixelMatrix[point.getY()][point.getX()] = value;
+        }
     }
 
     @Override
@@ -75,9 +71,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
         for (int i = getHeight() - 1; i >= 0; i--) {
             for (int j = 0; j < getWidth(); j++) {
                 if (getPixel(j, i) != null) {
-                    sb.append('[')
-                            .append(getPixel(j, i) == Pixel.BLACK ? 'X' : ' ')
-                            .append(']');
+                    sb.append(getPixel(j, i));
                 } else {
                     sb.append("   ");
                 }

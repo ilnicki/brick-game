@@ -2,52 +2,57 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Point;
 
 public class SnakePart extends Entity {
-
     private static final PixelMatrix sprite = MatrixUtils.fromString("#");
 
-    private SnakePart childPart = null;
+    private SnakePart child = null;
 
-    protected SnakePart(int posX, int posY) {
-        super(posX, posY);
+    SnakePart(Point pos) {
+        super(pos);
     }
 
-    public SnakePart(int posX, int posY, SnakePart parentPart) {
-        super(posX, posY);
-        parentPart.setChildPart(this);
+    SnakePart getChild() {
+        return child;
     }
 
-    public SnakePart getChildPart() {
-        return childPart;
+    void append(SnakePart childPart) {
+        this.child = childPart;
     }
 
-    public void setChildPart(SnakePart childPart) {
-        this.childPart = childPart;
+    SnakePart tail() {
+        SnakePart tail = this;
+
+        while(tail.getChild() != null) {
+            tail = tail.getChild();
+        }
+
+        return tail;
+    }
+
+    int size() {
+        int size = 1;
+        SnakePart tail = this;
+
+        while(tail.getChild() != null) {
+            tail = tail.getChild();
+            size++;
+        }
+
+        return size;
     }
 
     @Override
-    public void setPos(int posX, int posY) {
-        if (posX != this.getPosX() || posY != this.getPosY()) {
-            int oldX = this.getPosX();
-            int oldY = this.getPosY();
+    void setPos(Point pos) {
+        Point prevPos = this.getPos();
+        if (!prevPos.equals(pos)) {
+            super.setPos(pos);
 
-            super.setPos(posX, posY);
-
-            if (this.childPart != null) {
-                this.childPart.setPos(oldX, oldY);
+            if (this.child != null) {
+                this.child.setPos(prevPos);
             }
         }
-    }
-
-    @Override
-    public void setPosY(int posY) {
-        this.setPos(this.getPosX(), posY);
-    }
-
-    @Override
-    public void setPosX(int posX) {
-        this.setPos(posX, this.getPosY());
     }
 
     @Override

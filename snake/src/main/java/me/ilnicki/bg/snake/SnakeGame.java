@@ -6,19 +6,17 @@ import me.ilnicki.bg.core.machine.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
-import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Random;
+import java.util.Set;
 
 import static me.ilnicki.bg.snake.SnakeHead.Direction.*;
 
@@ -48,9 +46,8 @@ public class SnakeGame implements Game {
 
     private GameMode gameMode;
 
-    private ArrayList<Entity> entities;
+    private Set<Entity> entities;
     private SnakeHead snake;
-    private int snakeLength;
     private byte livesCount = 4;
 
     private boolean isGameStarted;
@@ -72,6 +69,8 @@ public class SnakeGame implements Game {
         }
 
         initGame();
+        entities.add(new Wall(new Point(0, 0)));
+        entities.add(new Wall(new Point(0, 1)));
     }
 
     @Override
@@ -105,50 +104,37 @@ public class SnakeGame implements Game {
     }
 
     private void moveSnake(SnakeHead.Direction direction) {
-        int x = snake.getPosX();
-        int y = snake.getPosY();
-
-        switch (direction) {
-            case DIR_UP:
-                y++;
-                break;
-            case DIR_RIGHT:
-                x++;
-                break;
-            case DIR_DOWN:
-                y--;
-                break;
-            case DIR_LEFT:
-                x--;
-                break;
-        }
-
-        processHeadPosition(x, y, direction);
+        Point pos = snake.getPos();
+        processHeadPosition(pos.add((Point) direction.getVector()), direction);
     }
 
-    private void processHeadPosition(int x, int y, SnakeHead.Direction direction) {
+    private void processHeadPosition(Point pos, SnakeHead.Direction direction) {
         switch (gameMode) {
             case CLASSIC:
-                if (x < 0 || x >= field.getWidth()
-                        || y < 0 || y >= field.getHeight()) {
+                if (
+                        pos.getX() < 0
+                        || pos.getX() >= field.getWidth()
+                        || pos.getY() < 0
+                        || pos.getY() >= field.getHeight()
+                ) {
                     die();
                 } else {
-                    snake.setPos(x, y);
+                    snake.setPos(pos);
                     snake.setDirection(direction);
                 }
                 break;
             case PORTAL_WALLS:
-                if (x < 0) {
-                    x = field.getWidth() - 1;
-                } else if (x >= field.getWidth()) {
-                    x = 0;
-                } else if (y < 0) {
-                    y = field.getHeight() - 1;
-                } else if (y >= field.getHeight()) {
-                    y = 0;
+                if (pos.getX() < 0) {
+                    pos = new Point(field.getWidth() - 1, pos.getY());
+                } else if (pos.getX() >= field.getWidth()) {
+                    pos = new Point(0, pos.getY());
+                } else if (pos.getY() < 0) {
+                    pos = new Point(pos.getX(), field.getHeight() - 1);
+                } else if (pos.getY() >= field.getHeight()) {
+                    pos = new Point(pos.getX(), 0);
                 }
 
-                snake.setPos(x, y);
+                snake.setPos(pos);
                 snake.setDirection(direction);
                 break;
         }
@@ -159,7 +145,7 @@ public class SnakeGame implements Game {
             if (entity instanceof Food) {
                 consumeFood((Food) entity);
 
-                params.score.set(params.score.get() + snakeLength - 3);
+                params.score.set(params.score.get() + snake.size() - 3);
 
                 if (params.score.get() > params.level.get() * params.speed.get() * 100) {
                     params.level.inc();
@@ -187,14 +173,11 @@ public class SnakeGame implements Game {
         {
             PixelMatrix sprite = entity.getSprite();
 
-            for (int i = 0; i < sprite.getWidth(); i++) {
-                for (int j = 0; j < sprite.getHeight(); j++) {
+            for (int y = 0; y < sprite.getHeight(); y++) {
+                for (int x = 0; x < sprite.getWidth(); x++) {
+                    Point pos = entity.getPos().sub(new Point(x, y));
                     try {
-                        field.setPixel(
-                                entity.getPosX() + i,
-                                entity.getPosY() + j,
-                                sprite.getPixel(i, j)
-                        );
+                        field.setPixel(pos, sprite.getPixel(x, y));
                     } catch (Exception ignored) {
                     }
                 }
@@ -204,16 +187,17 @@ public class SnakeGame implements Game {
 
     private void drawLivesCount() {
         MatrixUtils.clear(helper);
-        int j = helper.getHeight() - 1;
+        int y = helper.getHeight() - 1;
 
-        for (int i = 0; i < livesCount; i++) {
+        for (int x = 0; x < livesCount; x++) {
+            Point point = new Point(x, y);
             try {
-                helper.setPixel(i, j, Pixel.BLACK);
+                helper.setPixel(point, Pixel.BLACK);
             } catch (ArrayIndexOutOfBoundsException e) {
-                j--;
+                y--;
 
                 try {
-                    helper.setPixel(i, j, Pixel.BLACK);
+                    helper.setPixel(point, Pixel.BLACK);
                 } catch (Exception ignored) {
                 }
             }
@@ -221,49 +205,39 @@ public class SnakeGame implements Game {
     }
 
     private void generateFood() {
-        boolean isEmptyPlace;
+        boolean isEmptyPlace = true;
+        Random rnd = new Random();
 
         do {
-            isEmptyPlace = true;
-
-            Random rnd = new Random();
-            int foodX = rnd.nextInt(field.getWidth());
-            int foodY = rnd.nextInt(field.getHeight());
+            Point foodPos = new Point(rnd.nextInt(field.getWidth()), rnd.nextInt(field.getHeight()));
 
             for (Entity entity : entities) {
-                if (foodX == entity.getPosX() || foodY == entity.getPosY()) {
+                if (foodPos.equals(entity.getPos())) {
                     isEmptyPlace = false;
                 }
             }
 
             if (isEmptyPlace) {
-                Food food = new Food(foodX, foodY);
-                entities.add(food);
-
+                entities.add(new Food(foodPos));
             }
         } while (!isEmptyPlace);
     }
 
-    public void consumeFood(Food food) {
+    private void consumeFood(Food food) {
         entities.remove(food);
-        SnakePart tail = snake.getChildPart();
+        SnakePart tail = snake.tail();
 
-        SnakePart newPart = new SnakePart(food.getPosX(),
-                food.getPosY(), snake);
+        SnakePart newPart = new SnakePart(food.getPos());
+        tail.append(newPart);
+
         entities.add(newPart);
 
         moveSnake(snake.getDirection());
-
-        newPart.setChildPart(tail);
-
-        snakeLength++;
     }
 
     private Entity getHeadCollision() {
         for (Entity entity : entities) {
-            if (entity.getPosX() == snake.getPosX()
-                    && entity.getPosY() == snake.getPosY()
-                    && entity != snake) {
+            if (entity.getPos().equals(snake.getPos()) && entity != snake) {
                 return entity;
             }
         }
@@ -277,19 +251,19 @@ public class SnakeGame implements Game {
     }
 
     private void initGame() {
-        entities = new ArrayList<>();
+        entities = new LinkedHashSet<>();
         isGameStarted = false;
 
-        snake = new SnakeHead(3, 0, SnakeHead.Direction.DIR_UP);
+        snake = new SnakeHead(new Point(3, 0), SnakeHead.Direction.DIR_UP);
         entities.add(snake);
 
-        SnakePart part1 = new SnakePart(4, 0, snake);
+        SnakePart part1 = new SnakePart(new Point(4, 0));
+        snake.append(part1);
         entities.add(part1);
 
-        SnakePart part2 = new SnakePart(5, 0, part1);
+        SnakePart part2 = new SnakePart(new Point(5, 0));
+        part1.append(part2);
         entities.add(part2);
-
-        snakeLength = 3;
 
         loadWalls();
         generateFood();
@@ -300,11 +274,12 @@ public class SnakeGame implements Game {
             PixelMatrix walls = levelLoader.load(gameMode.getLevelPrefix() + params.level, false);
 
             if (walls != null) {
-                for (int i = 0; i < walls.getWidth(); i++) {
-                    for (int j = 0; j < walls.getHeight(); j++) {
+                for (int y = 0; y < walls.getHeight(); y++) {
+                    for (int x = 0; x < walls.getWidth(); x++) {
+                        Point pos = new Point(x, y);
                         try {
-                            if (walls.getPixel(i, j) == Pixel.BLACK) {
-                                entities.add(new Wall(i, j));
+                            if (walls.getPixel(pos) == Pixel.BLACK) {
+                                entities.add(new Wall(pos));
                             }
                         } catch (Exception e) {
                         }

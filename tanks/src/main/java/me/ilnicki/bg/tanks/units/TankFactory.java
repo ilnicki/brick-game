@@ -18,9 +18,9 @@ public class TankFactory {
         sprites = new HashMap<>(4);
 
         sprites.put(Direction.UP, tank);
-        sprites.put(Direction.RIGHT, MatrixUtils.getRotated(tank, 90));
-        sprites.put(Direction.DOWN, MatrixUtils.getRotated(tank, 180));
-        sprites.put(Direction.LEFT, MatrixUtils.getRotated(tank, 270));
+        sprites.put(Direction.RIGHT, MatrixUtils.rotate(tank, 90));
+        sprites.put(Direction.DOWN, MatrixUtils.rotate(tank, 180));
+        sprites.put(Direction.LEFT, MatrixUtils.rotate(tank, 270));
 
         shotPoints = new HashMap<>(4);
 

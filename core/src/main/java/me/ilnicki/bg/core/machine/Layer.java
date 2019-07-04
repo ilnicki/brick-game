@@ -3,11 +3,11 @@ package me.ilnicki.bg.core.machine;
 import me.ilnicki.bg.core.pixelmatrix.*;
 
 public final class Layer implements Positionable, PixelMatrix {
-    private Point position;
+    private Point pos;
     private PixelMatrix pixelMatrix;
 
     public Layer(PixelMatrix pm) {
-        this.position = new Point(0, 0);
+        this.pos = new Point(0, 0);
         this.pixelMatrix = pm;
     }
 
@@ -26,21 +26,23 @@ public final class Layer implements Positionable, PixelMatrix {
     }
 
     @Override
-    public void setPixel(int x, int y, Pixel value) {
-        final int realX = x - position.getX();
-        final int realY = y - position.getY();
+    public void setPixel(Point point, Pixel value) {
+        final Point realPoint = point.sub(pos);
 
-        if(realX >= 0 && realX < getWidth() && realY >= 0 && realY < getHeight()) {
-            pixelMatrix.setPixel(realX, realY, value);
+        if (realPoint.getX() >= 0
+                && realPoint.getX() < getWidth()
+                && realPoint.getY() >= 0
+                && realPoint.getY() < getHeight()) {
+            pixelMatrix.setPixel(realPoint, value);
         }
     }
 
     @Override
     public Pixel getPixel(int x, int y) {
-        final int realX = x - position.getX();
-        final int realY = y - position.getY();
+        final int realX = x - pos.getX();
+        final int realY = y - pos.getY();
 
-        if(realX >= 0 && realX < getWidth() && realY >= 0 && realY < getHeight()) {
+        if (realX >= 0 && realX < getWidth() && realY >= 0 && realY < getHeight()) {
             return pixelMatrix.getPixel(realX, realY);
         }
 
@@ -53,48 +55,18 @@ public final class Layer implements Positionable, PixelMatrix {
     }
 
     @Override
-    public void setPixel(Point point, Pixel value) {
-        this.setPixel(point.getX(), point.getY(), value);
-    }
-
-    @Override
     public String toString() {
         return pixelMatrix.toString();
     }
 
     @Override
-    public int getX() {
-        return position.getX();
+    public void setPos(Point pos) {
+        this.pos = pos;
     }
 
     @Override
-    public void setX(int positionX) {
-        position.setX(positionX);
-    }
-
-    @Override
-    public int getY() {
-        return this.position.getY();
-    }
-
-    @Override
-    public void setY(int positionY) {
-        position.setY(positionY);
-    }
-
-    @Override
-    public void setPosition(int positionX, int positionY) {
-        position = new Point(positionX, positionY);
-    }
-
-    @Override
-    public void setPosition(Point point) {
-        position = point;
-    }
-
-    @Override
-    public Point getPosition() {
-        return position;
+    public Point getPos() {
+        return pos;
     }
 
     public PixelMatrix getPixelMatrix() {

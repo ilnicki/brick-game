@@ -17,9 +17,9 @@ public class MatrixUtils {
 
         PixelMatrix pm = new ArrayPixelMatrix(width, pixelArray.length);
 
-        for (int i = 0; i < pixelArray.length; i++) {
-            for (int j = 0; j < pixelArray[i].length; j++) {
-                pm.setPixel(j, pm.getHeight() - 1 - i, pixelArray[i][j]);
+        for (int y = 0; y < pixelArray.length; y++) {
+            for (int x = 0; x < pixelArray[y].length; x++) {
+                pm.setPixel(new Point(x, pm.getHeight() - 1 - y), pixelArray[y][x]);
             }
         }
 
@@ -28,13 +28,16 @@ public class MatrixUtils {
 
     private static Pixel charToPixel(char value) {
         switch (value) {
-            case ' ': return Pixel.WHITE;
-            case '#': return Pixel.BLACK;
-            default: return null;
+            case ' ':
+                return Pixel.WHITE;
+            case '#':
+                return Pixel.BLACK;
+            default:
+                return null;
         }
     }
 
-    public static PixelMatrix fromString(String ...data) {
+    public static PixelMatrix fromString(String... data) {
         int width = 0;
 
         for (String row : data) {
@@ -45,9 +48,9 @@ public class MatrixUtils {
 
         PixelMatrix pm = new ArrayPixelMatrix(width, data.length);
 
-        for (int i = 0; i < data.length; i++) {
-            for (int j = 0; j < data[i].length(); j++) {
-                pm.setPixel(j, pm.getHeight() - 1 - i, MatrixUtils.charToPixel(data[i].charAt(j)));
+        for (int y = 0; y < data.length; y++) {
+            for (int x = 0; x < data[y].length(); x++) {
+                pm.setPixel(new Point(x, pm.getHeight() - 1 - y), MatrixUtils.charToPixel(data[y].charAt(x)));
             }
         }
 
@@ -59,9 +62,9 @@ public class MatrixUtils {
     }
 
     public static void fill(PixelMatrix pm, Pixel fillWith) {
-        for (int i = 0; i < pm.getWidth(); i++) {
-            for (int j = 0; j < pm.getHeight(); j++) {
-                pm.setPixel(i, j, fillWith);
+        for (int y = 0; y < pm.getHeight(); y++) {
+            for (int x = 0; x < pm.getWidth(); x++) {
+                pm.setPixel(new Point(x, y), fillWith);
             }
         }
     }
@@ -71,16 +74,17 @@ public class MatrixUtils {
     }
 
     public static PixelMatrix copy(PixelMatrix from, PixelMatrix to) {
-        for (int i = 0; i < from.getWidth(); i++) {
-            for (int j = 0; j < from.getHeight(); j++) {
-                to.setPixel(i, j, from.getPixel(i, j));
+        for (int y = 0; y < from.getHeight(); y++) {
+            for (int x = 0; x < from.getWidth(); x++) {
+                Point point = new Point(x, y);
+                to.setPixel(point, from.getPixel(point));
             }
         }
 
         return to;
     }
 
-    public static PixelMatrix getReflected(PixelMatrix pm, ReflectType type) {
+    public static PixelMatrix reflect(PixelMatrix pm, ReflectType type) {
         PixelMatrix newPm;
 
         if ((type == ReflectType.ON_MAJOR_DIAGONAL || type == ReflectType.ON_MINOR_DIAGONAL)
@@ -90,17 +94,16 @@ public class MatrixUtils {
             newPm = new ArrayPixelMatrix(pm.getWidth(), pm.getHeight());
         }
 
-        for (int i = 0; i < pm.getWidth(); i++) {
-            for (int j = 0; j < pm.getHeight(); j++) {
+        for (int y = 0; y < pm.getHeight(); y++) {
+            for (int x = 0; x < pm.getWidth(); x++) {
                 switch (type) {
                     case HORIZONTALLY:
-                        newPm.setPixel(i, j, pm.getPixel(i, pm.getHeight() - 1 - j));
+                        newPm.setPixel(new Point(x, y), pm.getPixel(new Point(x, pm.getHeight() - 1 - y)));
                         break;
                     case VERTICALLY:
-                        newPm.setPixel(i, j, pm.getPixel(pm.getWidth() - 1 - i, j));
+                        newPm.setPixel(new Point(x, y), pm.getPixel(new Point(pm.getWidth() - 1 - x, y)));
                         break;
                     case ON_MAJOR_DIAGONAL:
-                        throw new UnsupportedOperationException("Not supported yet.");
                     case ON_MINOR_DIAGONAL:
                         throw new UnsupportedOperationException("Not supported yet.");
                 }
@@ -110,7 +113,7 @@ public class MatrixUtils {
         return newPm;
     }
 
-    public static PixelMatrix getRotated(PixelMatrix pm, int angle) {
+    public static PixelMatrix rotate(PixelMatrix pm, int angle) {
         PixelMatrix newMatrix = null;
 
         angle = normalizeAngle(angle);
@@ -123,18 +126,21 @@ public class MatrixUtils {
 
             for (int i = 0; i < newMatrix.getWidth(); i++) {
                 for (int j = 0; j < newMatrix.getHeight(); j++) {
-                    newMatrix.setPixel(i, j,
-                            pm.getPixel(newMatrix.getHeight() - j - 1, i));
+                    newMatrix.setPixel(new Point(i, j),
+                            pm.getPixel(new Point(newMatrix.getHeight() - j - 1, i)));
                 }
             }
         } else if (angle > 135 && angle <= 195) {
             newMatrix = new ArrayPixelMatrix(pm.getWidth(), pm.getHeight());
 
-            for (int i = 0; i < newMatrix.getWidth(); i++) {
-                for (int j = 0; j < newMatrix.getHeight(); j++) {
-                    newMatrix.setPixel(i, j,
-                            pm.getPixel(newMatrix.getWidth() - i - 1,
-                                    newMatrix.getHeight() - j - 1));
+            for (int y = 0; y < newMatrix.getHeight(); y++) {
+                for (int x = 0; x < newMatrix.getWidth(); x++) {
+                    newMatrix.setPixel(new Point(x, y),
+                            pm.getPixel(new Point(
+                                    newMatrix.getWidth() - x - 1,
+                                    newMatrix.getHeight() - y - 1
+                            ))
+                    );
                 }
             }
         } else if (angle > 195 && angle <= 315) {
@@ -142,8 +148,7 @@ public class MatrixUtils {
 
             for (int i = 0; i < newMatrix.getWidth(); i++) {
                 for (int j = 0; j < newMatrix.getHeight(); j++) {
-                    newMatrix.setPixel(i, j,
-                            pm.getPixel(j, newMatrix.getWidth() - i - 1));
+                    newMatrix.setPixel(new Point(i, j), pm.getPixel(new Point(j, newMatrix.getWidth() - i - 1)));
                 }
             }
         }
