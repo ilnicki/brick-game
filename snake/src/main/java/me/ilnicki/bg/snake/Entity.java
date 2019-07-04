@@ -1,20 +1,20 @@
 package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public abstract class Entity {
-    private Point pos;
+    private Vector pos;
 
-    Entity(Point pos) {
+    Entity(Vector pos) {
         this.pos = pos;
     }
 
-    void setPos(Point pos) {
+    void setPos(Vector pos) {
         this.pos = pos;
     }
 
-    Point getPos() {
+    Vector getPos() {
         return pos;
     }
 

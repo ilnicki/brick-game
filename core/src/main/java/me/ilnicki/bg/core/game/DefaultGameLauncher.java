@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.game;
 
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.system.MachineConfig;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Layer;
@@ -52,15 +52,15 @@ public class DefaultGameLauncher implements Game {
         field = machine.getField();
 
         logoLayer = new Layer(10, 5);
-        logoLayer.setPos(new Point(0, 15));
+        logoLayer.setPos(new Vector(0, 15));
         field.getLayers().add(logoLayer);
 
         prevLayer = new Layer(10, 7);
-        prevLayer.setPos(new Point(0, 6));
+        prevLayer.setPos(new Vector(0, 6));
         field.getLayers().add(prevLayer);
 
         argLayer = new Layer(10, 5);
-        argLayer.setPos(new Point(0, 0));
+        argLayer.setPos(new Vector(0, 0));
         field.getLayers().add(argLayer);
     }
 
@@ -145,20 +145,20 @@ public class DefaultGameLauncher implements Game {
 
         String[] numbers = String.format("%02d", argument.get()).split("");
 
-        Point cursor = new Point(1, 0);
+        Vector cursor = new Vector(1, 0);
 
         for (String number : numbers) {
             PixelMatrix numMatrix = matrixLoader.load(number, true);
 
             for (int y = 0; y < numMatrix.getHeight(); y++) {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {
-                    Point point = new Point(x, y);
+                    Vector point = new Vector(x, y);
 
                     argLayer.setPixel(cursor.add(point), numMatrix.getPixel(point));
                 }
             }
 
-            cursor = cursor.add(new Point(numMatrix.getWidth() + 1, 0));
+            cursor = cursor.add(new Vector(numMatrix.getWidth() + 1, 0));
         }
     }
 }

@@ -3,11 +3,11 @@ package me.ilnicki.bg.core.machine;
 import me.ilnicki.bg.core.pixelmatrix.*;
 
 public final class Layer implements Positionable, PixelMatrix {
-    private Point pos;
+    private Vector pos;
     private PixelMatrix pixelMatrix;
 
     public Layer(PixelMatrix pm) {
-        this.pos = new Point(0, 0);
+        this.pos = new Vector(0, 0);
         this.pixelMatrix = pm;
     }
 
@@ -26,8 +26,8 @@ public final class Layer implements Positionable, PixelMatrix {
     }
 
     @Override
-    public void setPixel(Point point, Pixel value) {
-        final Point realPoint = point.sub(pos);
+    public void setPixel(Vector point, Pixel value) {
+        final Vector realPoint = point.sub(pos);
 
         if (realPoint.getX() >= 0
                 && realPoint.getX() < getWidth()
@@ -50,7 +50,7 @@ public final class Layer implements Positionable, PixelMatrix {
     }
 
     @Override
-    public Pixel getPixel(Point point) {
+    public Pixel getPixel(Vector point) {
         return this.getPixel(point.getX(), point.getY());
     }
 
@@ -60,12 +60,12 @@ public final class Layer implements Positionable, PixelMatrix {
     }
 
     @Override
-    public void setPos(Point pos) {
+    public void setPos(Vector pos) {
         this.pos = pos;
     }
 
     @Override
-    public Point getPos() {
+    public Vector getPos() {
         return pos;
     }
 

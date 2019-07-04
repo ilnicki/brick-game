@@ -1,9 +1,9 @@
 package me.ilnicki.bg.tanks;
 
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 class Wall extends Entity {
-    public Wall(Point pos) {
+    public Wall(Vector pos) {
         super(pos);
     }
 }

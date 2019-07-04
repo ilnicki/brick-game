@@ -7,7 +7,7 @@ public interface PixelMatrix {
 
     Pixel getPixel(int x, int y);
 
-    Pixel getPixel(Point point);
+    Pixel getPixel(Vector point);
 
-    void setPixel(Point point, Pixel value);
+    void setPixel(Vector point, Pixel value);
 }

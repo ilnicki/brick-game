@@ -68,7 +68,7 @@ public class TanksGame implements Game {
     public void load() {
         tankFactory = new TankFactory(unitsLoader);
 
-        player = tankFactory.make(new Point(0, 0), UP);
+        player = tankFactory.make(new Vector(0, 0), UP);
         tankList.add(player);
     }
 
@@ -147,7 +147,7 @@ public class TanksGame implements Game {
                 for (int x = 0; x < sprite.getWidth(); x++) {
                     try {
                         if (sprite.getPixel(x, y) != null) {
-                            field.setPixel(tank.getPos().add(new Point(x, y)), sprite.getPixel(x, y));
+                            field.setPixel(tank.getPos().add(new Vector(x, y)), sprite.getPixel(x, y));
                         }
                     } catch (Exception ignored) {
                     }
@@ -174,22 +174,22 @@ public class TanksGame implements Game {
 
             switch (pos) {
                 case 0:
-                    tankList.add(tankFactory.make(new Point(0, 17), RIGHT));
+                    tankList.add(tankFactory.make(new Vector(0, 17), RIGHT));
                     break;
                 case 1:
-                    tankList.add(tankFactory.make(new Point(7, 17), DOWN));
+                    tankList.add(tankFactory.make(new Vector(7, 17), DOWN));
                     break;
                 case 2:
-                    tankList.add(tankFactory.make(new Point(7, 10), LEFT));
+                    tankList.add(tankFactory.make(new Vector(7, 10), LEFT));
                     break;
                 case 3:
-                    tankList.add(tankFactory.make(new Point(7, 0), LEFT));
+                    tankList.add(tankFactory.make(new Vector(7, 0), LEFT));
                     break;
                 case 4:
-                    tankList.add(tankFactory.make(new Point(0, 0), UP));
+                    tankList.add(tankFactory.make(new Vector(0, 0), UP));
                     break;
                 case 5:
-                    tankList.add(tankFactory.make(new Point(0, 10), RIGHT));
+                    tankList.add(tankFactory.make(new Vector(0, 10), RIGHT));
                     break;
             }
         }
@@ -207,7 +207,7 @@ public class TanksGame implements Game {
             Bullet bullet = i.next();
 
             if (tick % bullet.getSpeed() == 0) {
-                bullet.setPos(bullet.getPos().add((Point) bullet.getDirection().getVector()));
+                bullet.setPos(bullet.getPos().add((Vector) bullet.getDirection().getVector()));
             }
 
             if (wallList.removeIf(wall -> wall.getPos().equals(bullet.getPos()))) {

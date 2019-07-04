@@ -2,7 +2,7 @@ package me.ilnicki.bg.tanks.units;
 
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.tanks.Direction;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class TankFactory {
     private final HashMap<Direction, PixelMatrix> sprites;
-    private final HashMap<Direction, Point> shotPoints;
+    private final HashMap<Direction, Vector> shotPoints;
 
     public TankFactory(PixelMatrixLoader unitsLoader) {
         PixelMatrix tank = unitsLoader.load("tank", false);
@@ -24,13 +24,13 @@ public class TankFactory {
 
         shotPoints = new HashMap<>(4);
 
-        shotPoints.put(Direction.UP, new Point(1, 2));
-        shotPoints.put(Direction.RIGHT, new Point(2, 1));
-        shotPoints.put(Direction.DOWN, new Point(1, 0));
-        shotPoints.put(Direction.LEFT, new Point(0, 1));
+        shotPoints.put(Direction.UP, new Vector(1, 2));
+        shotPoints.put(Direction.RIGHT, new Vector(2, 1));
+        shotPoints.put(Direction.DOWN, new Vector(1, 0));
+        shotPoints.put(Direction.LEFT, new Vector(0, 1));
     }
 
-    public Tank make(Point point, Direction direction) {
+    public Tank make(Vector point, Direction direction) {
         final Tank tank = new Tank(point, direction);
         tank.sprites = sprites;
         tank.shotPoints = shotPoints;

@@ -12,7 +12,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
 
         for (int y = 0; y < pm.getHeight(); y++) {
             for (int x = 0; x < pm.getWidth(); x++) {
-                Point point = new Point(x, y);
+                Vector point = new Vector(x, y);
                 setPixel(point, pm.getPixel(point));
             }
         }
@@ -48,12 +48,12 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
     }
 
     @Override
-    public Pixel getPixel(Point point) {
+    public Pixel getPixel(Vector point) {
         return pixelMatrix[point.getY()][point.getX()];
     }
 
     @Override
-    public void setPixel(Point point, Pixel value) {
+    public void setPixel(Vector point, Pixel value) {
         if(point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
             pixelMatrix[point.getY()][point.getX()] = value;
         }

@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.machine;
 
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,17 +35,17 @@ public final class Field implements PixelMatrix {
             return null;
         }
 
-        Point point = new Point(x, y);
+        Vector point = new Vector(x, y);
         return layers.stream().map(layer -> layer.getPixel(point)).reduce(null, Pixel::merge);
     }
 
     @Override
-    public Pixel getPixel(Point point) {
+    public Pixel getPixel(Vector point) {
         return this.getPixel(point.getX(), point.getY());
     }
 
     @Override
-    public void setPixel(Point point, Pixel value) {
+    public void setPixel(Vector point, Pixel value) {
     }
 
     public List<Layer> getLayers() {

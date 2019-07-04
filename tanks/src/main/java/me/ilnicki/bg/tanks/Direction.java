@@ -1,21 +1,20 @@
 package me.ilnicki.bg.tanks;
 
-import me.ilnicki.bg.core.pixelmatrix.Point;
-import me.ilnicki.bg.core.pixelmatrix.Vector2D;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public enum Direction {
-    UP(new Point(0, 1)),
-    RIGHT(new Point(1, 0)),
-    DOWN(new Point(0, -1)),
-    LEFT(new Point(-1, 0));
+    UP(new Vector(0, 1)),
+    RIGHT(new Vector(1, 0)),
+    DOWN(new Vector(0, -1)),
+    LEFT(new Vector(-1, 0));
 
-    private final Vector2D vector;
+    private final Vector vector;
 
-    Direction(Vector2D vector) {
+    Direction(Vector vector) {
         this.vector = vector;
     }
 
-    public Vector2D getVector() {
+    public Vector getVector() {
         return vector;
     }
 }

@@ -2,14 +2,14 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public class SnakePart extends Entity {
     private static final PixelMatrix sprite = MatrixUtils.fromString("#");
 
     private SnakePart child = null;
 
-    SnakePart(Point pos) {
+    SnakePart(Vector pos) {
         super(pos);
     }
 
@@ -44,8 +44,8 @@ public class SnakePart extends Entity {
     }
 
     @Override
-    void setPos(Point pos) {
-        Point prevPos = this.getPos();
+    void setPos(Vector pos) {
+        Vector prevPos = this.getPos();
         if (!prevPos.equals(pos)) {
             super.setPos(pos);
 

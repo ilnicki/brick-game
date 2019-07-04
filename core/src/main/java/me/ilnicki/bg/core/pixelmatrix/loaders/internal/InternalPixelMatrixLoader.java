@@ -3,7 +3,7 @@ package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 
 import javax.imageio.ImageIO;
@@ -63,7 +63,7 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
             for (int y = 0; y < image.getHeight(); y++) {
                 for (int x = 0; x < image.getWidth(); x++) {
                     sprite.setPixel(
-                            new Point(x, sprite.getHeight() - y - 1),
+                            new Vector(x, sprite.getHeight() - y - 1),
                             this.rgbToPixel(image.getRGB(x, y))
                     );
                 }

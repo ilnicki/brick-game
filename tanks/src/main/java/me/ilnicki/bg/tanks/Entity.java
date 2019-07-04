@@ -2,13 +2,13 @@ package me.ilnicki.bg.tanks;
 
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public class Entity {
-    private Point pos;
+    private Vector pos;
     private final PixelMatrix sprite = MatrixUtils.fromString("#");
 
-    public Entity(Point pos) {
+    public Entity(Vector pos) {
         this.pos = pos;
     }
 
@@ -20,11 +20,11 @@ public class Entity {
         return pos.getX();
     }
 
-    public void setPos(Point pos) {
+    public void setPos(Vector pos) {
         this.pos = pos;
     }
 
-    public Point getPos() {
+    public Vector getPos() {
         return pos;
     }
 
@@ -32,7 +32,7 @@ public class Entity {
         return sprite;
     }
 
-    public boolean isCollide(Point point) {
+    public boolean isCollide(Vector point) {
         return pos.equals(point);
     }
 }

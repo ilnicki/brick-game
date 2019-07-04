@@ -88,7 +88,7 @@ public class DemoGame implements Game {
         for (int y = 0; y < helper.getHeight(); y++) {
             for (int x = 0; x < helper.getWidth(); x++) {
                 if (value-- > 0) {
-                    helper.setPixel(new Point(x, y), Pixel.BLACK);
+                    helper.setPixel(new Vector(x, y), Pixel.BLACK);
                 } else {
                     return;
                 }
@@ -114,7 +114,7 @@ public class DemoGame implements Game {
 
             for (int y = 0; y < numMatrix.getHeight(); y++) {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {
-                    main.setPixel(new Point(
+                    main.setPixel(new Vector(
                                     cursorX + x,
                                     cursorY + y
                             ),

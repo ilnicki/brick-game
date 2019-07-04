@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.machine;
 
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Point;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.Positionable;
 
 public final class Screen implements PixelMatrix, Positionable {
@@ -10,7 +10,7 @@ public final class Screen implements PixelMatrix, Positionable {
     private final int width;
     private final int height;
     private Field field;
-    private Point position;
+    private Vector position;
 
     public Screen(int width, int height) {
         this.width = width;
@@ -29,15 +29,15 @@ public final class Screen implements PixelMatrix, Positionable {
 
     void setField(Field field) {
         this.field = field;
-        position = new Point(0, 0);
+        position = new Vector(0, 0);
     }
 
     @Override
-    public void setPixel(Point point, Pixel value) {
+    public void setPixel(Vector point, Pixel value) {
     }
 
     @Override
-    public Pixel getPixel(Point point) {
+    public Pixel getPixel(Vector point) {
         if (point.getX() >= getWidth() || point.getX() < 0
                 || point.getY() >= getHeight() || point.getY() < 0) {
             return Pixel.WHITE;
@@ -48,7 +48,7 @@ public final class Screen implements PixelMatrix, Positionable {
 
     @Override
     public Pixel getPixel(int x, int y) {
-        return getPixel(new Point(x, y));
+        return getPixel(new Vector(x, y));
     }
 
     @Override
@@ -62,12 +62,12 @@ public final class Screen implements PixelMatrix, Positionable {
     }
 
     @Override
-    public void setPos(Point point) {
+    public void setPos(Vector point) {
         position = point;
     }
 
     @Override
-    public Point getPos() {
+    public Vector getPos() {
         return position;
     }
 }

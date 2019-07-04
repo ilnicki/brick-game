@@ -19,7 +19,7 @@ public class MatrixUtils {
 
         for (int y = 0; y < pixelArray.length; y++) {
             for (int x = 0; x < pixelArray[y].length; x++) {
-                pm.setPixel(new Point(x, pm.getHeight() - 1 - y), pixelArray[y][x]);
+                pm.setPixel(new Vector(x, pm.getHeight() - 1 - y), pixelArray[y][x]);
             }
         }
 
@@ -50,7 +50,7 @@ public class MatrixUtils {
 
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data[y].length(); x++) {
-                pm.setPixel(new Point(x, pm.getHeight() - 1 - y), MatrixUtils.charToPixel(data[y].charAt(x)));
+                pm.setPixel(new Vector(x, pm.getHeight() - 1 - y), MatrixUtils.charToPixel(data[y].charAt(x)));
             }
         }
 
@@ -64,7 +64,7 @@ public class MatrixUtils {
     public static void fill(PixelMatrix pm, Pixel fillWith) {
         for (int y = 0; y < pm.getHeight(); y++) {
             for (int x = 0; x < pm.getWidth(); x++) {
-                pm.setPixel(new Point(x, y), fillWith);
+                pm.setPixel(new Vector(x, y), fillWith);
             }
         }
     }
@@ -76,7 +76,7 @@ public class MatrixUtils {
     public static PixelMatrix copy(PixelMatrix from, PixelMatrix to) {
         for (int y = 0; y < from.getHeight(); y++) {
             for (int x = 0; x < from.getWidth(); x++) {
-                Point point = new Point(x, y);
+                Vector point = new Vector(x, y);
                 to.setPixel(point, from.getPixel(point));
             }
         }
@@ -98,10 +98,10 @@ public class MatrixUtils {
             for (int x = 0; x < pm.getWidth(); x++) {
                 switch (type) {
                     case HORIZONTALLY:
-                        newPm.setPixel(new Point(x, y), pm.getPixel(new Point(x, pm.getHeight() - 1 - y)));
+                        newPm.setPixel(new Vector(x, y), pm.getPixel(new Vector(x, pm.getHeight() - 1 - y)));
                         break;
                     case VERTICALLY:
-                        newPm.setPixel(new Point(x, y), pm.getPixel(new Point(pm.getWidth() - 1 - x, y)));
+                        newPm.setPixel(new Vector(x, y), pm.getPixel(new Vector(pm.getWidth() - 1 - x, y)));
                         break;
                     case ON_MAJOR_DIAGONAL:
                     case ON_MINOR_DIAGONAL:
@@ -126,8 +126,8 @@ public class MatrixUtils {
 
             for (int i = 0; i < newMatrix.getWidth(); i++) {
                 for (int j = 0; j < newMatrix.getHeight(); j++) {
-                    newMatrix.setPixel(new Point(i, j),
-                            pm.getPixel(new Point(newMatrix.getHeight() - j - 1, i)));
+                    newMatrix.setPixel(new Vector(i, j),
+                            pm.getPixel(new Vector(newMatrix.getHeight() - j - 1, i)));
                 }
             }
         } else if (angle > 135 && angle <= 195) {
@@ -135,8 +135,8 @@ public class MatrixUtils {
 
             for (int y = 0; y < newMatrix.getHeight(); y++) {
                 for (int x = 0; x < newMatrix.getWidth(); x++) {
-                    newMatrix.setPixel(new Point(x, y),
-                            pm.getPixel(new Point(
+                    newMatrix.setPixel(new Vector(x, y),
+                            pm.getPixel(new Vector(
                                     newMatrix.getWidth() - x - 1,
                                     newMatrix.getHeight() - y - 1
                             ))
@@ -148,7 +148,7 @@ public class MatrixUtils {
 
             for (int i = 0; i < newMatrix.getWidth(); i++) {
                 for (int j = 0; j < newMatrix.getHeight(); j++) {
-                    newMatrix.setPixel(new Point(i, j), pm.getPixel(new Point(j, newMatrix.getWidth() - i - 1)));
+                    newMatrix.setPixel(new Vector(i, j), pm.getPixel(new Vector(j, newMatrix.getWidth() - i - 1)));
                 }
             }
         }

@@ -69,8 +69,8 @@ public class SnakeGame implements Game {
         }
 
         initGame();
-        entities.add(new Wall(new Point(0, 0)));
-        entities.add(new Wall(new Point(0, 1)));
+        entities.add(new Wall(new Vector(0, 0)));
+        entities.add(new Wall(new Vector(0, 1)));
     }
 
     @Override
@@ -104,11 +104,11 @@ public class SnakeGame implements Game {
     }
 
     private void moveSnake(SnakeHead.Direction direction) {
-        Point pos = snake.getPos();
-        processHeadPosition(pos.add((Point) direction.getVector()), direction);
+        Vector pos = snake.getPos();
+        processHeadPosition(pos.add((Vector) direction.getVector()), direction);
     }
 
-    private void processHeadPosition(Point pos, SnakeHead.Direction direction) {
+    private void processHeadPosition(Vector pos, SnakeHead.Direction direction) {
         switch (gameMode) {
             case CLASSIC:
                 if (
@@ -125,13 +125,13 @@ public class SnakeGame implements Game {
                 break;
             case PORTAL_WALLS:
                 if (pos.getX() < 0) {
-                    pos = new Point(field.getWidth() - 1, pos.getY());
+                    pos = new Vector(field.getWidth() - 1, pos.getY());
                 } else if (pos.getX() >= field.getWidth()) {
-                    pos = new Point(0, pos.getY());
+                    pos = new Vector(0, pos.getY());
                 } else if (pos.getY() < 0) {
-                    pos = new Point(pos.getX(), field.getHeight() - 1);
+                    pos = new Vector(pos.getX(), field.getHeight() - 1);
                 } else if (pos.getY() >= field.getHeight()) {
-                    pos = new Point(pos.getX(), 0);
+                    pos = new Vector(pos.getX(), 0);
                 }
 
                 snake.setPos(pos);
@@ -175,7 +175,7 @@ public class SnakeGame implements Game {
 
             for (int y = 0; y < sprite.getHeight(); y++) {
                 for (int x = 0; x < sprite.getWidth(); x++) {
-                    Point pos = entity.getPos().sub(new Point(x, y));
+                    Vector pos = entity.getPos().sub(new Vector(x, y));
                     try {
                         field.setPixel(pos, sprite.getPixel(x, y));
                     } catch (Exception ignored) {
@@ -190,7 +190,7 @@ public class SnakeGame implements Game {
         int y = helper.getHeight() - 1;
 
         for (int x = 0; x < livesCount; x++) {
-            Point point = new Point(x, y);
+            Vector point = new Vector(x, y);
             try {
                 helper.setPixel(point, Pixel.BLACK);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -209,7 +209,7 @@ public class SnakeGame implements Game {
         Random rnd = new Random();
 
         do {
-            Point foodPos = new Point(rnd.nextInt(field.getWidth()), rnd.nextInt(field.getHeight()));
+            Vector foodPos = new Vector(rnd.nextInt(field.getWidth()), rnd.nextInt(field.getHeight()));
 
             for (Entity entity : entities) {
                 if (foodPos.equals(entity.getPos())) {
@@ -254,14 +254,14 @@ public class SnakeGame implements Game {
         entities = new LinkedHashSet<>();
         isGameStarted = false;
 
-        snake = new SnakeHead(new Point(3, 0), SnakeHead.Direction.DIR_UP);
+        snake = new SnakeHead(new Vector(3, 0), SnakeHead.Direction.DIR_UP);
         entities.add(snake);
 
-        SnakePart part1 = new SnakePart(new Point(4, 0));
+        SnakePart part1 = new SnakePart(new Vector(4, 0));
         snake.append(part1);
         entities.add(part1);
 
-        SnakePart part2 = new SnakePart(new Point(5, 0));
+        SnakePart part2 = new SnakePart(new Vector(5, 0));
         part1.append(part2);
         entities.add(part2);
 
@@ -276,7 +276,7 @@ public class SnakeGame implements Game {
             if (walls != null) {
                 for (int y = 0; y < walls.getHeight(); y++) {
                     for (int x = 0; x < walls.getWidth(); x++) {
-                        Point pos = new Point(x, y);
+                        Vector pos = new Vector(x, y);
                         try {
                             if (walls.getPixel(pos) == Pixel.BLACK) {
                                 entities.add(new Wall(pos));
