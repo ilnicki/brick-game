@@ -80,7 +80,12 @@ public class ComponentContainer implements Container {
 
             for (int i = 0; i < paramTypes.length; i++) {
                 arguments[i] = get(
-                        paramTypes[i],
+                        Arrays.stream(paramAnnotations[i])
+                                .filter(Type.class::isInstance)
+                                .map(Type.class::cast)
+                                .map(Type::value)
+                                .findFirst()
+                                .orElse(paramTypes[i]),
                         Arrays.stream(paramAnnotations[i])
                                 .filter(Args.class::isInstance)
                                 .map(Args.class::cast)

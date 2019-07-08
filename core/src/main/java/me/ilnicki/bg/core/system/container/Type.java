@@ -5,13 +5,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Retention(RUNTIME)
-@Target({FIELD, CONSTRUCTOR, METHOD})
+@Target({FIELD, PARAMETER})
 @Inherited
-public @interface Inject {
-    boolean optional() default false;
+public @interface Type {
+    Class value();
 }
