@@ -4,8 +4,15 @@ import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
+import me.ilnicki.bg.core.system.container.Args;
+import me.ilnicki.bg.core.system.container.Inject;
 
 public class DemoManifest implements Manifest {
+    @Inject
+    @Args({"internal", "assets.sprites.demo"})
+    private PixelMatrixLoader matrixLoader;
+
     @Override
     public String getName() {
         return "Demo Game";
@@ -33,13 +40,7 @@ public class DemoManifest implements Manifest {
 
     @Override
     public PixelMatrix getLogo() {
-        return MatrixUtils.fromString(
-                "# #####  #",
-                "  ##  ##  ",
-                "  ##   ## ",
-                "  ##  ##  ",
-                "# #####  #"
-        );
+        return matrixLoader.load("logo", true);
     }
 
     private int tick = 0;
