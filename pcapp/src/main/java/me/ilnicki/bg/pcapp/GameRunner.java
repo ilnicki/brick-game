@@ -11,7 +11,7 @@ import me.ilnicki.bg.lwjgl3opengl.Lwjgl3;
 import me.ilnicki.bg.core.system.*;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoaderFactoryProvider;
+import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoaderFactory;
 import me.ilnicki.bg.core.system.container.Container;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.core.system.processors.SysKeysProcessor;
@@ -27,7 +27,7 @@ public class GameRunner implements Runner {
 
         container.singleton(DataProvider.class, JsonDataProvider.class);
 
-        container.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactoryProvider());
+        container.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactory());
 
         container.singleton(Machine.class);
 
