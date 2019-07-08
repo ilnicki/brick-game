@@ -9,6 +9,7 @@ import me.ilnicki.bg.core.machine.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.machine.keyboard.UpdatableKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.system.container.Inject;
 import org.lwjgl.glfw.Callbacks;
@@ -233,12 +234,12 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     private void drawField() {
-        for (int i = 0; i < screen.getHeight(); i++) {
-            for (int j = 0; j < screen.getWidth(); j++) {
-                Pixel pixel = screen.getPixel(j, i);
+        for (int y = 0; y < screen.getHeight(); y++) {
+            for (int x = 0; x < screen.getWidth(); x++) {
+                Pixel pixel = screen.getPixel(new Vector(x, y));
 
-                drawPixel(borderSize + (pixelSize + pixelDistance) * j,
-                        borderSize + (pixelSize + pixelDistance) * i, pixel);
+                drawPixel(borderSize + (pixelSize + pixelDistance) * x,
+                        borderSize + (pixelSize + pixelDistance) * y, pixel);
             }
         }
     }
@@ -272,7 +273,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         for (int i = 0; i < helper.getHeight(); i++) {
             for (int j = 0; j < helper.getWidth(); j++) {
-                Pixel pixelColor = helper.getPixel(j, i);
+                Pixel pixelColor = helper.getPixel(new Vector(j, i));
 
                 float pixelX = posX + (pixelSize + pixelDistance) * j;
                 float pixelY = posY + (pixelSize + pixelDistance) * i;

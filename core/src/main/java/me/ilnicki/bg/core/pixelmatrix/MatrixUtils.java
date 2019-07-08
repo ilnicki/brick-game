@@ -1,5 +1,9 @@
 package me.ilnicki.bg.core.pixelmatrix;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.function.Function;
+
 public class MatrixUtils {
 
     public enum ReflectType {
@@ -11,9 +15,11 @@ public class MatrixUtils {
 
     public static PixelMatrix fromArray(Pixel[][] pixelArray) {
         int width = 0;
-        for (Pixel[] row : pixelArray)
-            if (row.length > width)
+        for (Pixel[] row : pixelArray) {
+            if (row.length > width) {
                 width = row.length;
+            }
+        }
 
         PixelMatrix pm = new ArrayPixelMatrix(width, pixelArray.length);
 
@@ -38,15 +44,10 @@ public class MatrixUtils {
     }
 
     public static PixelMatrix fromString(String... data) {
-        int width = 0;
+        final int width = Arrays.stream(data).map(String::length).max(Comparator.naturalOrder()).orElse(0);
+        final int height = data.length;
 
-        for (String row : data) {
-            if (row.length() > width) {
-                width = row.length();
-            }
-        }
-
-        PixelMatrix pm = new ArrayPixelMatrix(width, data.length);
+        PixelMatrix pm = new ArrayPixelMatrix(width, height);
 
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data[y].length(); x++) {

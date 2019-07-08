@@ -5,8 +5,6 @@ public interface PixelMatrix {
 
     int getHeight();
 
-    Pixel getPixel(int x, int y);
-
     Pixel getPixel(Vector point);
 
     void setPixel(Vector point, Pixel value);

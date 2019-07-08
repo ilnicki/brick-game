@@ -145,9 +145,10 @@ public class TanksGame implements Game {
 
             for (int y = 0; y < sprite.getHeight(); y++) {
                 for (int x = 0; x < sprite.getWidth(); x++) {
+                    final Vector pos = new Vector(x, y);
                     try {
-                        if (sprite.getPixel(x, y) != null) {
-                            field.setPixel(tank.getPos().add(new Vector(x, y)), sprite.getPixel(x, y));
+                        if (sprite.getPixel(pos) != null) {
+                            field.setPixel(tank.getPos().add(pos), sprite.getPixel(pos));
                         }
                     } catch (Exception ignored) {
                     }

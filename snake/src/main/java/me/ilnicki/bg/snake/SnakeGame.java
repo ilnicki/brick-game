@@ -175,9 +175,10 @@ public class SnakeGame implements Game {
 
             for (int y = 0; y < sprite.getHeight(); y++) {
                 for (int x = 0; x < sprite.getWidth(); x++) {
-                    Vector pos = entity.getPos().sub(new Vector(x, y));
+                    final Vector pos = new Vector(x, y);
+                    Vector newPos = entity.getPos().sub(pos);
                     try {
-                        field.setPixel(pos, sprite.getPixel(x, y));
+                        field.setPixel(newPos, sprite.getPixel(pos));
                     } catch (Exception ignored) {
                     }
                 }

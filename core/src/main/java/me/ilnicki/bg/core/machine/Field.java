@@ -30,18 +30,12 @@ public final class Field implements PixelMatrix {
     }
 
     @Override
-    public Pixel getPixel(int x, int y) {
-        if (x >= getWidth() || x < 0 || y >= getHeight() || y < 0) {
+    public Pixel getPixel(Vector point) {
+        if (point.getX() >= getWidth() || point.getX() < 0 || point.getY() >= getHeight() || point.getY() < 0) {
             return null;
         }
 
-        Vector point = new Vector(x, y);
         return layers.stream().map(layer -> layer.getPixel(point)).reduce(null, Pixel::merge);
-    }
-
-    @Override
-    public Pixel getPixel(Vector point) {
-        return this.getPixel(point.getX(), point.getY());
     }
 
     @Override

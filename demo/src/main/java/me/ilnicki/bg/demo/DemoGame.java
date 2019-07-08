@@ -114,12 +114,9 @@ public class DemoGame implements Game {
 
             for (int y = 0; y < numMatrix.getHeight(); y++) {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {
-                    main.setPixel(new Vector(
-                                    cursorX + x,
-                                    cursorY + y
-                            ),
-                            numMatrix.getPixel(x, y)
-                    );
+                    final Vector point = new Vector(x, y);
+
+                    main.setPixel(point.add(new Vector(cursorX, cursorY)), numMatrix.getPixel(point));
                 }
             }
 

@@ -37,21 +37,16 @@ public final class Layer implements Positionable, PixelMatrix {
         }
     }
 
-    @Override
-    public Pixel getPixel(int x, int y) {
-        final int realX = x - pos.getX();
-        final int realY = y - pos.getY();
-
-        if (realX >= 0 && realX < getWidth() && realY >= 0 && realY < getHeight()) {
-            return pixelMatrix.getPixel(realX, realY);
-        }
-
-        return null;
-    }
 
     @Override
     public Pixel getPixel(Vector point) {
-        return this.getPixel(point.getX(), point.getY());
+        final Vector realPos = point.sub(pos);
+
+        if (realPos.getX() >= 0 && realPos.getX() < getWidth() && realPos.getY() >= 0 && realPos.getY() < getHeight()) {
+            return pixelMatrix.getPixel(realPos);
+        }
+
+        return null;
     }
 
     @Override

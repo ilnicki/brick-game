@@ -47,11 +47,6 @@ public final class Screen implements PixelMatrix, Positionable {
     }
 
     @Override
-    public Pixel getPixel(int x, int y) {
-        return getPixel(new Vector(x, y));
-    }
-
-    @Override
     public int getWidth() {
         return width;
     }
