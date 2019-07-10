@@ -108,7 +108,7 @@ public class ComponentContainer implements Container {
 
         // Double jump usage in a single loop. Seems legit. Well done.
         for (Constructor<T> constructor : constructors) {
-            if(constructor.getParameterCount() == 0) {
+            if (constructor.getParameterCount() == 0) {
                 desiredConstructor = constructor;
                 continue;
             }
@@ -151,13 +151,15 @@ public class ComponentContainer implements Container {
                     field.setAccessible(true);
                     field.set(instance, get(field.getType(), fieldArgs));
                 } catch (IllegalAccessException | ProvisionException exception) {
+                    String message = String.format("Can not inject into field %s of %s.",
+                            field.getName(),
+                            instance.getClass().getCanonicalName()
+                    );
+
                     if (field.getAnnotation(Inject.class).required()) {
-                        throw new ProvisionException(
-                                String.format("Can not inject into field %s of %s.",
-                                        field.getName(),
-                                        instance.getClass().getCanonicalName()
-                                ), exception
-                        );
+                        throw new ProvisionException(message, exception);
+                    } else {
+                        System.err.println(message);
                     }
                 }
 
@@ -178,13 +180,15 @@ public class ComponentContainer implements Container {
                     method.invoke(instance, arguments);
                 }
             } catch (InvocationTargetException | IllegalAccessException | ProvisionException exception) {
+                String message = String.format("Can not inject into into %s of %s.",
+                        method.getName(),
+                        instance.getClass().getCanonicalName()
+                );
+
                 if (method.getAnnotation(Inject.class).required()) {
-                    throw new ProvisionException(
-                            String.format("Can not inject into method %s of %s.",
-                                    method.getName(),
-                                    instance.getClass().getCanonicalName()
-                            ), exception
-                    );
+                    throw new ProvisionException(message, exception);
+                } else {
+                    System.err.println(message);
                 }
             }
         }
