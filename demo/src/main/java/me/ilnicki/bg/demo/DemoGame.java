@@ -43,7 +43,7 @@ public class DemoGame implements Game {
 
     @Inject
     public DemoGame(Field field) {
-        field.getLayers().add(new Layer(main = new ArrayPixelMatrix(10, 20)));
+        field.getLayers().add(new Layer<>(main = new ArrayPixelMatrix(10, 20)));
     }
 
     @Override

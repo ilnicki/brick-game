@@ -33,9 +33,9 @@ public class DefaultGameLauncher implements Game {
     private final Keyboard keyboard;
     private final Field field;
 
-    private final Layer logoLayer;
-    private final Layer prevLayer;
-    private final EditablePixelMatrix argLayer;
+    private final Layer<PixelMatrix> logoLayer;
+    private final Layer<PixelMatrix> prevLayer;
+    private final Layer<EditablePixelMatrix> argLayer;
 
     private final GameArgument argument = new GameArgument();
     private IntParameter selectedGame;
@@ -49,16 +49,15 @@ public class DefaultGameLauncher implements Game {
         keyboard = machine.getKeyboard();
         field = machine.getField();
 
-        logoLayer = new Layer(10, 5);
+        logoLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
         logoLayer.setPos(new Vector(0, 15));
         field.getLayers().add(logoLayer);
 
-        prevLayer = new Layer(10, 7);
+        prevLayer = new Layer<>(new ArrayPixelMatrix(10, 7));
         prevLayer.setPos(new Vector(0, 6));
         field.getLayers().add(prevLayer);
 
-        this.argLayer = new ArrayPixelMatrix(10, 5);
-        Layer argLayer = new Layer(this.argLayer);
+        argLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
         argLayer.setPos(new Vector(0, 0));
         field.getLayers().add(argLayer);
     }
@@ -140,7 +139,9 @@ public class DefaultGameLauncher implements Game {
     }
 
     private void drawArgument() {
-        Matrices.clear(argLayer);
+        EditablePixelMatrix matrix = argLayer.getData();
+
+        Matrices.clear(matrix);
 
         String[] numbers = String.format("%02d", argument.get()).split("");
 
@@ -153,7 +154,7 @@ public class DefaultGameLauncher implements Game {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {
                     Vector point = new Vector(x, y);
 
-                    argLayer.setPixel(cursor.add(point), numMatrix.getPixel(point));
+                    matrix.setPixel(cursor.add(point), numMatrix.getPixel(point));
                 }
             }
 

@@ -3,17 +3,13 @@ package me.ilnicki.bg.core.machine;
 
 import me.ilnicki.bg.core.pixelmatrix.*;
 
-public final class Layer implements Positionable, PixelMatrix {
+public final class Layer<T extends PixelMatrix> implements Positionable, PixelMatrix {
     private Vector pos;
-    private PixelMatrix data;
+    private T data;
 
-    public Layer(PixelMatrix pm) {
+    public Layer(T pm) {
         this.pos = new Vector(0, 0);
         this.data = pm;
-    }
-
-    public Layer(int width, int height) {
-        this(new ArrayPixelMatrix(width, height));
     }
 
     @Override
@@ -52,11 +48,11 @@ public final class Layer implements Positionable, PixelMatrix {
         return pos;
     }
 
-    public PixelMatrix getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(PixelMatrix data) {
+    public void setData(T data) {
         this.data = data;
     }
 }

@@ -54,7 +54,7 @@ public class SnakeGame implements Game {
 
     @Inject
     public SnakeGame(Field field) {
-        field.getLayers().add(new Layer(this.field = new ArrayPixelMatrix(10, 20)));
+        field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
     }
 
     @Override
