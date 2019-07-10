@@ -1,0 +1,21 @@
+{
+  "frames": [
+    {
+      "data": "preview0.png",
+      "length": 8
+    },
+    {
+      "data": "preview1.png",
+      "length": 8
+    },
+    {
+      "data": "preview2.png",
+      "length": 8
+    },
+    {
+      "data": "preview3.png",
+      "length": 8
+    }
+  ],
+  "looped": true
+}

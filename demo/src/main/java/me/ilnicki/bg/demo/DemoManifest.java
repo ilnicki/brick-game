@@ -2,16 +2,34 @@ package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.Manifest;
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.animation.Frame;
+import me.ilnicki.bg.core.pixelmatrix.animation.Player;
+import me.ilnicki.bg.core.pixelmatrix.animation.Track;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
+
+import java.util.ArrayList;
 
 public class DemoManifest implements Manifest {
     @Inject
     @Args({"internal", "assets.sprites.demo"})
     private PixelMatrixLoader matrixLoader;
+
+    private Player previewPlayer;
+
+    @Inject
+    private void init() {
+        previewPlayer = new Player(new Track(new ArrayList<Frame>() {
+            {
+                add(new Frame(matrixLoader.load("preview0", false), 8));
+                add(new Frame(matrixLoader.load("preview1", false), 8));
+                add(new Frame(matrixLoader.load("preview2", false), 8));
+                add(new Frame(matrixLoader.load("preview3", false), 8));
+            }
+        }, true));
+    }
 
     @Override
     public String getName() {
@@ -43,53 +61,10 @@ public class DemoManifest implements Manifest {
         return matrixLoader.load("logo", true);
     }
 
-    private int tick = 0;
-    private PixelMatrix[] prevFrames = new PixelMatrix[]{
-            MatrixUtils.fromString(
-                    "##########",
-                    "#        #",
-                    "#        #",
-                    "#  ####  #",
-                    "#  ####  #",
-                    "#        #",
-                    "#        #",
-                    "##########"
-            ),
-            MatrixUtils.fromString(
-                    "##########",
-                    "#        #",
-                    "#    #   #",
-                    "#   ###  #",
-                    "#  ###   #",
-                    "#   #    #",
-                    "#        #",
-                    "##########"
-            ),
-            MatrixUtils.fromString(
-                    "##########",
-                    "#        #",
-                    "#   ##   #",
-                    "#   ##   #",
-                    "#   ##   #",
-                    "#   ##   #",
-                    "#        #",
-                    "##########"
-            ),
-            MatrixUtils.fromString(
-                    "##########",
-                    "#        #",
-                    "#   #    #",
-                    "#  ###   #",
-                    "#   ###  #",
-                    "#    #   #",
-                    "#        #",
-                    "##########"
-            ),
-    };
-
     @Override
     public PixelMatrix getPreview() {
-        return prevFrames[tick++ / 10 % prevFrames.length];
+        previewPlayer.next();
+        return previewPlayer;
     }
 
     @Override
