@@ -2,7 +2,6 @@ package me.ilnicki.bg.core.pixelmatrix;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.function.Function;
 
 public class MatrixUtils {
 
@@ -70,10 +69,6 @@ public class MatrixUtils {
         }
     }
 
-    public static EditablePixelMatrix copy(PixelMatrix from) {
-        return copy(from, new ArrayPixelMatrix(from.getWidth(), from.getHeight()));
-    }
-
     public static EditablePixelMatrix copy(PixelMatrix from, EditablePixelMatrix to) {
         for (int y = 0; y < from.getHeight(); y++) {
             for (int x = 0; x < from.getWidth(); x++) {
@@ -121,7 +116,7 @@ public class MatrixUtils {
 
         if ((angle > 315 && angle < 360)
                 || (angle >= 0 && angle <= 45)) {
-            newMatrix = copy(pm);
+            newMatrix = copy(pm, new ArrayPixelMatrix(pm.getWidth(), pm.getHeight()));
         } else if (angle > 45 && angle <= 135) {
             newMatrix = new ArrayPixelMatrix(pm.getHeight(), pm.getWidth());
 
