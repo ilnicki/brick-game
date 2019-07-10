@@ -1,5 +1,7 @@
 package me.ilnicki.bg.core.pixelmatrix;
 
+import java.util.Objects;
+
 public class Vector implements Cloneable {
     private final int x;
     private final int y;
@@ -40,7 +42,7 @@ public class Vector implements Cloneable {
 
     @Override
     protected Object clone() {
-        return new Vector(x, y);
+        return this;
     }
 
     @Override
@@ -51,5 +53,10 @@ public class Vector implements Cloneable {
         }
 
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }
