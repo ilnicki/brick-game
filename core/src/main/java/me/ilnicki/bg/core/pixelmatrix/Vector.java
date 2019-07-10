@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.pixelmatrix;
 
 import java.util.Objects;
 
-public class Vector implements Cloneable {
+public final class Vector implements Cloneable {
     private final int x;
     private final int y;
 
