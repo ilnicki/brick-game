@@ -5,7 +5,7 @@ import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public class Player implements PixelMatrix {
-    private TrackIterator trackIterator;
+    private final TrackIterator trackIterator;
     private int currentDraw = 0;
 
     public Player(Track track) {

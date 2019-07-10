@@ -34,7 +34,7 @@ public class ComponentContainer implements Container {
 
     @Override
     public <T> void singleton(Class<? super T> abstractClass, Class<T> concreteClass) {
-        components.put(abstractClass, new SingletonProvider<T>(new ComponentProvider<>(concreteClass)));
+        components.put(abstractClass, new SingletonProvider<>(new ComponentProvider<>(concreteClass)));
         components.put(concreteClass, components.get(abstractClass));
     }
 

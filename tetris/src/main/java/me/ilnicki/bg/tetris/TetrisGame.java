@@ -19,7 +19,7 @@ public class TetrisGame implements Game
     @Inject
     private GameManager gameManager;
 
-    private EditablePixelMatrix field;
+    private final EditablePixelMatrix field;
 
     @Inject
     private Machine.Helper helper;

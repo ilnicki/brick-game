@@ -3,7 +3,7 @@ package me.ilnicki.bg.snake;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 
-public abstract class Entity {
+abstract class Entity {
     private Vector pos;
 
     Entity(Vector pos) {

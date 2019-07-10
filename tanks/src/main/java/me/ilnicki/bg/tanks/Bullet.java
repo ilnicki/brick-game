@@ -6,7 +6,7 @@ import me.ilnicki.bg.tanks.units.Tank;
 public class Bullet extends Entity {
     private final Direction direction;
     private final int speed;
-    private Tank owner;
+    private final Tank owner;
 
     public Bullet(Vector point, Direction direction, Tank owner, int speed) {
         super(point);

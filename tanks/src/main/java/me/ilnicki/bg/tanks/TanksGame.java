@@ -25,7 +25,7 @@ public class TanksGame implements Game {
     @Inject
     private GameManager gameManager;
 
-    private EditablePixelMatrix field;
+    private final EditablePixelMatrix field;
 
     @Inject
     private Machine.Helper helper;
@@ -208,7 +208,7 @@ public class TanksGame implements Game {
             Bullet bullet = i.next();
 
             if (tick % bullet.getSpeed() == 0) {
-                bullet.setPos(bullet.getPos().add((Vector) bullet.getDirection().getVector()));
+                bullet.setPos(bullet.getPos().add(bullet.getDirection().getVector()));
             }
 
             if (wallList.removeIf(wall -> wall.getPos().equals(bullet.getPos()))) {

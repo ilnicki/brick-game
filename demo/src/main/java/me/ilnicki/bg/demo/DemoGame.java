@@ -36,7 +36,7 @@ public class DemoGame implements Game {
     @Inject
     private GameArgument argument;
 
-    private EditablePixelMatrix main;
+    private final EditablePixelMatrix main;
 
     @Inject
     private Machine.Helper helper;

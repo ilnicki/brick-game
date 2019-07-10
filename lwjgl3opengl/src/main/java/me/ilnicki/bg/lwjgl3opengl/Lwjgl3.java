@@ -44,9 +44,9 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
     private final float volumeIconSize = pixelSize / 2;
 
-    private Color bgColor = new Color(0x6D, 0x77, 0x5C);
-    private Color disColor = new Color(0x60, 0x6F, 0x5C);
-    private Color fgColor = new Color(0x0, 0x0, 0x0);
+    private final Color bgColor = new Color(0x6D, 0x77, 0x5C);
+    private final Color disColor = new Color(0x60, 0x6F, 0x5C);
+    private final Color fgColor = new Color(0x0, 0x0, 0x0);
 
     @Inject
     private Kernel kernel;

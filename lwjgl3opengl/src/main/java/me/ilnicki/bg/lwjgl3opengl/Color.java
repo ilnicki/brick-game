@@ -7,33 +7,33 @@ public class Color {
 
     private final float factor = 1.0f / 255;
 
-    public Color(int red, int green, int blue) {
+    Color(int red, int green, int blue) {
         this.red = (byte) red;
         this.green = (byte) green;
         this.blue = (byte) blue;
     }
 
-    public byte getR() {
+    byte getR() {
         return red;
     }
 
-    public byte getG() {
+    byte getG() {
         return green;
     }
 
-    public byte getB() {
+    byte getB() {
         return blue;
     }
 
-    public float getFloatR() {
+    float getFloatR() {
         return red * factor;
     }
 
-    public float getFloatG() {
+    float getFloatG() {
         return green * factor;
     }
 
-    public float getFloatB() {
+    float getFloatB() {
         return blue * factor;
     }
 

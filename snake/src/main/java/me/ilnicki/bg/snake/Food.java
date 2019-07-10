@@ -4,7 +4,7 @@ import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 
-public class Food extends Entity {
+class Food extends Entity {
     private static final PixelMatrix sprite = Matrices.fromString("#");
     private static final PixelMatrix spriteBlink = Matrices.fromString(" ");
 
@@ -13,7 +13,7 @@ public class Food extends Entity {
 
     private int callCounter = 0;
 
-    public Food(Vector pos) {
+    Food(Vector pos) {
         super(pos);
     }
 

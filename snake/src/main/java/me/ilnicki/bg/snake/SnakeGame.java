@@ -26,7 +26,7 @@ public class SnakeGame implements Game {
     @Inject
     private Machine.Helper helper;
 
-    private EditablePixelMatrix field;
+    private final EditablePixelMatrix field;
 
     @Inject
     private GameArgument argument;
@@ -105,7 +105,7 @@ public class SnakeGame implements Game {
 
     private void moveSnake(SnakeHead.Direction direction) {
         Vector pos = snake.getPos();
-        processHeadPosition(pos.add((Vector) direction.getVector()), direction);
+        processHeadPosition(pos.add(direction.getVector()), direction);
     }
 
     private void processHeadPosition(Vector pos, SnakeHead.Direction direction) {
@@ -282,7 +282,7 @@ public class SnakeGame implements Game {
                             if (walls.getPixel(pos) == Pixel.BLACK) {
                                 entities.add(new Wall(pos));
                             }
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
                     }
                 }

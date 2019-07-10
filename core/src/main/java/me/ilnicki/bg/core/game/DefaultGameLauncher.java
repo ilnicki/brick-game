@@ -31,7 +31,6 @@ public class DefaultGameLauncher implements Game {
     private MachineConfig config;
 
     private final Keyboard keyboard;
-    private final Field field;
 
     private final Layer<PixelMatrix> logoLayer;
     private final Layer<PixelMatrix> prevLayer;
@@ -47,7 +46,7 @@ public class DefaultGameLauncher implements Game {
         this.machine = machine;
 
         keyboard = machine.getKeyboard();
-        field = machine.getField();
+        Field field = machine.getField();
 
         logoLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
         logoLayer.setPos(new Vector(0, 15));

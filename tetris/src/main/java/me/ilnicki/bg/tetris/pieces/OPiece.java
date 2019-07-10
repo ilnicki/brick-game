@@ -1,5 +1,5 @@
 package me.ilnicki.bg.tetris.pieces;
 
-public class OPiece extends Piece
+class OPiece extends Piece
 {
 }

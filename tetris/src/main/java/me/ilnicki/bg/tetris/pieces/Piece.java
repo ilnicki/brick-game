@@ -8,7 +8,7 @@ public abstract class Piece {
     Map<Angle, PixelMatrix> sprites;
     private Angle angle;
 
-    protected void setAngle(Angle angle) {
+    void setAngle(Angle angle) {
         this.angle = angle;
     }
 
