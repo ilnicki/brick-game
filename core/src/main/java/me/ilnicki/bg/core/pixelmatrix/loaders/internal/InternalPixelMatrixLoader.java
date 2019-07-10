@@ -1,9 +1,6 @@
 package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
 
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 
 import javax.imageio.ImageIO;
@@ -58,7 +55,7 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
         InputStream in = getClass().getResourceAsStream(path);
         try {
             BufferedImage image = ImageIO.read(in);
-            PixelMatrix sprite = new ArrayPixelMatrix(image.getWidth(), image.getHeight());
+            EditablePixelMatrix sprite = new ArrayPixelMatrix(image.getWidth(), image.getHeight());
 
             for (int y = 0; y < image.getHeight(); y++) {
                 for (int x = 0; x < image.getWidth(); x++) {

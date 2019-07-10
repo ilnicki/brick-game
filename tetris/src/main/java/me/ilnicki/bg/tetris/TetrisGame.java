@@ -6,7 +6,7 @@ import me.ilnicki.bg.core.machine.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.KeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
@@ -19,7 +19,7 @@ public class TetrisGame implements Game
     @Inject
     private GameManager gameManager;
 
-    private PixelMatrix field;
+    private EditablePixelMatrix field;
 
     @Inject
     private Machine.Helper helper;

@@ -21,7 +21,7 @@ public class MatrixUtils {
             }
         }
 
-        PixelMatrix pm = new ArrayPixelMatrix(width, pixelArray.length);
+        EditablePixelMatrix pm = new ArrayPixelMatrix(width, pixelArray.length);
 
         for (int y = 0; y < pixelArray.length; y++) {
             for (int x = 0; x < pixelArray[y].length; x++) {
@@ -47,7 +47,7 @@ public class MatrixUtils {
         final int width = Arrays.stream(data).map(String::length).max(Comparator.naturalOrder()).orElse(0);
         final int height = data.length;
 
-        PixelMatrix pm = new ArrayPixelMatrix(width, height);
+        EditablePixelMatrix pm = new ArrayPixelMatrix(width, height);
 
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data[y].length(); x++) {
@@ -58,11 +58,11 @@ public class MatrixUtils {
         return pm;
     }
 
-    public static void clear(PixelMatrix pm) {
+    public static void clear(EditablePixelMatrix pm) {
         fill(pm, null);
     }
 
-    public static void fill(PixelMatrix pm, Pixel fillWith) {
+    public static void fill(EditablePixelMatrix pm, Pixel fillWith) {
         for (int y = 0; y < pm.getHeight(); y++) {
             for (int x = 0; x < pm.getWidth(); x++) {
                 pm.setPixel(new Vector(x, y), fillWith);
@@ -70,11 +70,11 @@ public class MatrixUtils {
         }
     }
 
-    public static PixelMatrix copy(PixelMatrix from) {
+    public static EditablePixelMatrix copy(PixelMatrix from) {
         return copy(from, new ArrayPixelMatrix(from.getWidth(), from.getHeight()));
     }
 
-    public static PixelMatrix copy(PixelMatrix from, PixelMatrix to) {
+    public static EditablePixelMatrix copy(PixelMatrix from, EditablePixelMatrix to) {
         for (int y = 0; y < from.getHeight(); y++) {
             for (int x = 0; x < from.getWidth(); x++) {
                 Vector point = new Vector(x, y);
@@ -86,7 +86,7 @@ public class MatrixUtils {
     }
 
     public static PixelMatrix reflect(PixelMatrix pm, ReflectType type) {
-        PixelMatrix newPm;
+        EditablePixelMatrix newPm;
 
         if ((type == ReflectType.ON_MAJOR_DIAGONAL || type == ReflectType.ON_MINOR_DIAGONAL)
                 && pm.getWidth() != pm.getHeight()) {
@@ -115,7 +115,7 @@ public class MatrixUtils {
     }
 
     public static PixelMatrix rotate(PixelMatrix pm, int angle) {
-        PixelMatrix newMatrix = null;
+        EditablePixelMatrix newMatrix = null;
 
         angle = normalizeAngle(angle);
 

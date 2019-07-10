@@ -25,7 +25,7 @@ public class TanksGame implements Game {
     @Inject
     private GameManager gameManager;
 
-    private PixelMatrix field;
+    private EditablePixelMatrix field;
 
     @Inject
     private Machine.Helper helper;

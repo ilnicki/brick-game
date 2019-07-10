@@ -26,7 +26,7 @@ public class SnakeGame implements Game {
     @Inject
     private Machine.Helper helper;
 
-    private PixelMatrix field;
+    private EditablePixelMatrix field;
 
     @Inject
     private GameArgument argument;

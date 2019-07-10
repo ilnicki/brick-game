@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.game;
 
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.system.MachineConfig;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Layer;
@@ -9,8 +9,6 @@ import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.machine.parameters.IntParameter;
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
-import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.container.Args;
 import me.ilnicki.bg.core.system.container.Inject;
@@ -37,7 +35,7 @@ public class DefaultGameLauncher implements Game {
 
     private final Layer logoLayer;
     private final Layer prevLayer;
-    private final Layer argLayer;
+    private final EditablePixelMatrix argLayer;
 
     private final GameArgument argument = new GameArgument();
     private IntParameter selectedGame;
@@ -59,7 +57,8 @@ public class DefaultGameLauncher implements Game {
         prevLayer.setPos(new Vector(0, 6));
         field.getLayers().add(prevLayer);
 
-        argLayer = new Layer(10, 5);
+        this.argLayer = new ArrayPixelMatrix(10, 5);
+        Layer argLayer = new Layer(this.argLayer);
         argLayer.setPos(new Vector(0, 0));
         field.getLayers().add(argLayer);
     }
@@ -133,11 +132,11 @@ public class DefaultGameLauncher implements Game {
     }
 
     private void drawLogo() {
-        logoLayer.setPixelMatrix(manifestList.get(selectedGame.get()).getLogo());
+        logoLayer.setData(manifestList.get(selectedGame.get()).getLogo());
     }
 
     private void drawPreview() {
-        prevLayer.setPixelMatrix(manifestList.get(selectedGame.get()).getPreview());
+        prevLayer.setData(manifestList.get(selectedGame.get()).getPreview());
     }
 
     private void drawArgument() {

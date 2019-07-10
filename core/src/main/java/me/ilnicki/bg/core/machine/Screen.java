@@ -33,10 +33,6 @@ public final class Screen implements PixelMatrix, Positionable {
     }
 
     @Override
-    public void setPixel(Vector point, Pixel value) {
-    }
-
-    @Override
     public Pixel getPixel(Vector point) {
         if (point.getX() >= getWidth() || point.getX() < 0
                 || point.getY() >= getHeight() || point.getY() < 0) {

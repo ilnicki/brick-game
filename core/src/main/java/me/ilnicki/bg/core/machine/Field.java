@@ -38,10 +38,6 @@ public final class Field implements PixelMatrix {
         return layers.stream().map(layer -> layer.getPixel(point)).reduce(null, Pixel::merge);
     }
 
-    @Override
-    public void setPixel(Vector point, Pixel value) {
-    }
-
     public List<Layer> getLayers() {
         return layers;
     }

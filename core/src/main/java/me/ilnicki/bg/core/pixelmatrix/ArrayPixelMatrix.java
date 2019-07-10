@@ -2,8 +2,8 @@ package me.ilnicki.bg.core.pixelmatrix;
 
 import java.io.Serializable;
 
-public class ArrayPixelMatrix implements Serializable, PixelMatrix {
-    private final Pixel[][] pixelMatrix;
+public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
+    private final Pixel[][] data;
     private final int width;
     private final int height;
 
@@ -22,7 +22,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
         if (width > 0 && height > 0) {
             this.width = width;
             this.height = height;
-            pixelMatrix = new Pixel[height][width];
+            data = new Pixel[height][width];
         } else {
             throw new IllegalArgumentException("Invalid boundary.");
         }
@@ -41,7 +41,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
     @Override
     public Pixel getPixel(Vector point) {
         if(point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
-            return pixelMatrix[point.getY()][point.getX()];
+            return data[point.getY()][point.getX()];
         }
 
         return null;
@@ -50,7 +50,7 @@ public class ArrayPixelMatrix implements Serializable, PixelMatrix {
     @Override
     public void setPixel(Vector point, Pixel value) {
         if(point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
-            pixelMatrix[point.getY()][point.getX()] = value;
+            data[point.getY()][point.getX()] = value;
         }
     }
 

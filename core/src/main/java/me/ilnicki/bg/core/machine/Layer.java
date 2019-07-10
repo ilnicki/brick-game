@@ -1,14 +1,15 @@
 package me.ilnicki.bg.core.machine;
 
+
 import me.ilnicki.bg.core.pixelmatrix.*;
 
 public final class Layer implements Positionable, PixelMatrix {
     private Vector pos;
-    private PixelMatrix pixelMatrix;
+    private PixelMatrix data;
 
     public Layer(PixelMatrix pm) {
         this.pos = new Vector(0, 0);
-        this.pixelMatrix = pm;
+        this.data = pm;
     }
 
     public Layer(int width, int height) {
@@ -17,33 +18,20 @@ public final class Layer implements Positionable, PixelMatrix {
 
     @Override
     public int getWidth() {
-        return pixelMatrix.getWidth();
+        return data.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return pixelMatrix.getHeight();
+        return data.getHeight();
     }
-
-    @Override
-    public void setPixel(Vector point, Pixel value) {
-        final Vector realPoint = point.sub(pos);
-
-        if (realPoint.getX() >= 0
-                && realPoint.getX() < getWidth()
-                && realPoint.getY() >= 0
-                && realPoint.getY() < getHeight()) {
-            pixelMatrix.setPixel(realPoint, value);
-        }
-    }
-
 
     @Override
     public Pixel getPixel(Vector point) {
         final Vector realPos = point.sub(pos);
 
         if (realPos.getX() >= 0 && realPos.getX() < getWidth() && realPos.getY() >= 0 && realPos.getY() < getHeight()) {
-            return pixelMatrix.getPixel(realPos);
+            return data.getPixel(realPos);
         }
 
         return null;
@@ -51,7 +39,7 @@ public final class Layer implements Positionable, PixelMatrix {
 
     @Override
     public String toString() {
-        return pixelMatrix.toString();
+        return data.toString();
     }
 
     @Override
@@ -64,11 +52,11 @@ public final class Layer implements Positionable, PixelMatrix {
         return pos;
     }
 
-    public PixelMatrix getPixelMatrix() {
-        return pixelMatrix;
+    public PixelMatrix getData() {
+        return data;
     }
 
-    public void setPixelMatrix(PixelMatrix pm) {
-        pixelMatrix = pm;
+    public void setData(PixelMatrix data) {
+        this.data = data;
     }
 }
