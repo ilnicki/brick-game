@@ -111,8 +111,7 @@ public class SnakeGame implements Game {
     private void processHeadPosition(Vector pos, SnakeHead.Direction direction) {
         switch (gameMode) {
             case CLASSIC:
-                if (
-                        pos.getX() < 0
+                if (pos.getX() < 0
                         || pos.getX() >= field.getWidth()
                         || pos.getY() < 0
                         || pos.getY() >= field.getHeight()

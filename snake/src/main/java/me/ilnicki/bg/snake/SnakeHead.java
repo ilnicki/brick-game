@@ -36,9 +36,9 @@ public class SnakeHead extends SnakePart {
 
     public enum Direction {
         DIR_UP(new Vector(0, 1)),
-        DIR_RIGHT(new Vector(-1, 0)),
-        DIR_DOWN(new Vector(0, 1)),
-        DIR_LEFT(new Vector(1, 0));
+        DIR_RIGHT(new Vector(1, 0)),
+        DIR_DOWN(new Vector(0, -1)),
+        DIR_LEFT(new Vector(-1, 0));
 
         private final Vector vector;
 
