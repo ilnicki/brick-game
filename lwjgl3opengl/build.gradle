@@ -29,7 +29,8 @@ switch (OperatingSystem.current()) {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.0")
 
     compile project(':core')
 
@@ -46,4 +47,8 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
+}
+
+test {
+    useJUnitPlatform()
 }
