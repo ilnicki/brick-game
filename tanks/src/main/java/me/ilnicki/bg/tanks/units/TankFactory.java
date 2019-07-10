@@ -1,6 +1,6 @@
 package me.ilnicki.bg.tanks.units;
 
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
@@ -18,9 +18,9 @@ public class TankFactory {
         sprites = new HashMap<>(4);
 
         sprites.put(Direction.UP, tank);
-        sprites.put(Direction.RIGHT, MatrixUtils.rotate(tank, 90));
-        sprites.put(Direction.DOWN, MatrixUtils.rotate(tank, 180));
-        sprites.put(Direction.LEFT, MatrixUtils.rotate(tank, 270));
+        sprites.put(Direction.RIGHT, Matrices.rotate(tank, 90));
+        sprites.put(Direction.DOWN, Matrices.rotate(tank, 180));
+        sprites.put(Direction.LEFT, Matrices.rotate(tank, 270));
 
         shotPoints = new HashMap<>(4);
 

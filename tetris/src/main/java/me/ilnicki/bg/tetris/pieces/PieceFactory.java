@@ -1,6 +1,6 @@
 package me.ilnicki.bg.tetris.pieces;
 
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 
@@ -46,9 +46,9 @@ public class PieceFactory {
 
         PixelMatrix sprite = loader.load(pieceClass.getSimpleName(), true);
         sprites.put(Piece.Angle.DEG0, sprite);
-        sprites.put(Piece.Angle.DEG90, MatrixUtils.rotate(sprite, 90));
-        sprites.put(Piece.Angle.DEG180, MatrixUtils.rotate(sprite, 180));
-        sprites.put(Piece.Angle.DEG270, MatrixUtils.rotate(sprite, 270));
+        sprites.put(Piece.Angle.DEG90, Matrices.rotate(sprite, 90));
+        sprites.put(Piece.Angle.DEG180, Matrices.rotate(sprite, 180));
+        sprites.put(Piece.Angle.DEG270, Matrices.rotate(sprite, 270));
 
         spriteMap.put(pieceClass, Collections.unmodifiableMap(sprites));
     }

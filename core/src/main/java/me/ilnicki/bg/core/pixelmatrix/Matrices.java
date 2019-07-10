@@ -3,7 +3,7 @@ package me.ilnicki.bg.core.pixelmatrix;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class MatrixUtils {
+public class Matrices {
 
     public enum ReflectType {
         HORIZONTALLY,
@@ -50,7 +50,7 @@ public class MatrixUtils {
 
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data[y].length(); x++) {
-                pm.setPixel(new Vector(x, pm.getHeight() - 1 - y), MatrixUtils.charToPixel(data[y].charAt(x)));
+                pm.setPixel(new Vector(x, pm.getHeight() - 1 - y), Matrices.charToPixel(data[y].charAt(x)));
             }
         }
 
@@ -69,7 +69,7 @@ public class MatrixUtils {
         }
     }
 
-    public static EditablePixelMatrix copy(PixelMatrix from, EditablePixelMatrix to) {
+    public static <F extends PixelMatrix, T extends EditablePixelMatrix> T copy(F from, T to) {
         for (int y = 0; y < from.getHeight(); y++) {
             for (int x = 0; x < from.getWidth(); x++) {
                 Vector point = new Vector(x, y);

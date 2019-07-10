@@ -97,7 +97,7 @@ public class DemoGame implements Game {
     }
 
     private void printTime() {
-        MatrixUtils.clear(main);
+        Matrices.clear(main);
         Date date = Calendar.getInstance().getTime();
 
         int cursorY = 15;

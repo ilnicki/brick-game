@@ -82,7 +82,7 @@ public class TanksGame implements Game {
         handleControls();
         processBullets(tick);
 
-        MatrixUtils.clear(field);
+        Matrices.clear(field);
         drawTanks();
         drawBullets();
         drawWalls();

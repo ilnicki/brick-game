@@ -140,7 +140,7 @@ public class DefaultGameLauncher implements Game {
     }
 
     private void drawArgument() {
-        MatrixUtils.clear(argLayer);
+        Matrices.clear(argLayer);
 
         String[] numbers = String.format("%02d", argument.get()).split("");
 

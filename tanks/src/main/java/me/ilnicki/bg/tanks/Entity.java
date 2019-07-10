@@ -1,12 +1,12 @@
 package me.ilnicki.bg.tanks;
 
-import me.ilnicki.bg.core.pixelmatrix.MatrixUtils;
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public class Entity {
     private Vector pos;
-    private final PixelMatrix sprite = MatrixUtils.fromString("#");
+    private final PixelMatrix sprite = Matrices.fromString("#");
 
     public Entity(Vector pos) {
         this.pos = pos;

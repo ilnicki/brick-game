@@ -167,7 +167,7 @@ public class SnakeGame implements Game {
     }
 
     private void drawEntities() {
-        MatrixUtils.clear(field);
+        Matrices.clear(field);
 
         entities.forEach((entity) ->
         {
@@ -187,7 +187,7 @@ public class SnakeGame implements Game {
     }
 
     private void drawLivesCount() {
-        MatrixUtils.clear(helper);
+        Matrices.clear(helper);
         int y = helper.getHeight() - 1;
 
         for (int x = 0; x < livesCount; x++) {
