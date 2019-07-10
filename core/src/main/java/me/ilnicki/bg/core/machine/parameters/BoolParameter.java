@@ -1,15 +1,15 @@
 package me.ilnicki.bg.core.machine.parameters;
 
-import me.ilnicki.bg.core.system.Holder;
+import me.ilnicki.bg.core.system.Ref;
 
-public class BoolParameter implements Holder<Boolean> {
-    private boolean value;
+public class BoolParameter implements Ref<Boolean> {
+    private Boolean value;
 
     public BoolParameter() {
         this(false);
     }
 
-    public BoolParameter(boolean value) {
+    public BoolParameter(Boolean value) {
         this.value = value;
     }
 
@@ -22,6 +22,11 @@ public class BoolParameter implements Holder<Boolean> {
     }
 
     public void toggle() {
-        value ^= true;
+        value = !value;
+    }
+
+    @Override
+    public String toString() {
+        return Boolean.toString(value);
     }
 }

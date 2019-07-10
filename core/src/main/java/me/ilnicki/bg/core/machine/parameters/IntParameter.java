@@ -1,8 +1,8 @@
 package me.ilnicki.bg.core.machine.parameters;
 
-import me.ilnicki.bg.core.system.Holder;
+import me.ilnicki.bg.core.system.Ref;
 
-public class IntParameter implements Holder<Integer> {
+public class IntParameter implements Ref<Integer> {
     private int value;
     private final int min;
     private final int max;
