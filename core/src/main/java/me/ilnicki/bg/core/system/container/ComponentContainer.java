@@ -151,7 +151,7 @@ public class ComponentContainer implements Container {
                     field.setAccessible(true);
                     field.set(instance, get(field.getType(), fieldArgs));
                 } catch (IllegalAccessException | ProvisionException exception) {
-                    if (!field.getAnnotation(Inject.class).optional()) {
+                    if (field.getAnnotation(Inject.class).required()) {
                         throw new ProvisionException(
                                 String.format("Can not inject into field %s of %s.",
                                         field.getName(),
@@ -178,7 +178,7 @@ public class ComponentContainer implements Container {
                     method.invoke(instance, arguments);
                 }
             } catch (InvocationTargetException | IllegalAccessException | ProvisionException exception) {
-                if (!method.getAnnotation(Inject.class).optional()) {
+                if (method.getAnnotation(Inject.class).required()) {
                     throw new ProvisionException(
                             String.format("Can not inject into method %s of %s.",
                                     method.getName(),

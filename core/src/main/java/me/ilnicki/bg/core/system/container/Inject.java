@@ -13,5 +13,5 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD, CONSTRUCTOR, METHOD})
 @Inherited
 public @interface Inject {
-    boolean optional() default false;
+    boolean required() default true;
 }

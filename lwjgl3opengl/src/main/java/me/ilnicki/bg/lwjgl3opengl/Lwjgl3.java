@@ -82,7 +82,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
             throw new IllegalStateException("Unable to initialize GLFW");
 
         // Configure GLFW
-        GLFW.glfwDefaultWindowHints(); // optional, the current window hints are already the default
+        GLFW.glfwDefaultWindowHints(); // required, the current window hints are already the default
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 1);
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 5);
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden after creation
