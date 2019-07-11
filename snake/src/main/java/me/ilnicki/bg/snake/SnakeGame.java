@@ -69,8 +69,6 @@ public class SnakeGame implements Game {
         }
 
         initGame();
-        entities.add(new Wall(new Vector(0, 0)));
-        entities.add(new Wall(new Vector(0, 1)));
     }
 
     @Override
@@ -111,11 +109,8 @@ public class SnakeGame implements Game {
     private void processHeadPosition(Vector pos, SnakeHead.Direction direction) {
         switch (gameMode) {
             case CLASSIC:
-                if (pos.getX() < 0
-                        || pos.getX() >= field.getWidth()
-                        || pos.getY() < 0
-                        || pos.getY() >= field.getHeight()
-                ) {
+                if (pos.getX() < 0 || pos.getX() >= field.getWidth()
+                        || pos.getY() < 0 || pos.getY() >= field.getHeight()) {
                     die();
                 } else {
                     snake.setPos(pos);
@@ -124,13 +119,13 @@ public class SnakeGame implements Game {
                 break;
             case PORTAL_WALLS:
                 if (pos.getX() < 0) {
-                    pos = new Vector(field.getWidth() - 1, pos.getY());
+                    pos = pos.withX(field.getWidth() - 1);
                 } else if (pos.getX() >= field.getWidth()) {
-                    pos = new Vector(0, pos.getY());
+                    pos = pos.withX(0);
                 } else if (pos.getY() < 0) {
-                    pos = new Vector(pos.getX(), field.getHeight() - 1);
+                    pos = pos.withY(field.getHeight() - 1);
                 } else if (pos.getY() >= field.getHeight()) {
-                    pos = new Vector(pos.getX(), 0);
+                    pos = pos.withY(0);
                 }
 
                 snake.setPos(pos);
