@@ -54,6 +54,6 @@ public class Machine {
 
     public void setField(Field field) {
         this.field = field;
-        this.screen.setField(this.field);
+        this.screen.setData(this.field);
     }
 }
