@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.system.container;
+package me.ilnicki.container;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;

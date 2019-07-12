@@ -19,6 +19,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile project(':container')
 }
 
 test {

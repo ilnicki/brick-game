@@ -4,9 +4,9 @@ import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.core.system.container.ComponentContainer;
-import me.ilnicki.bg.core.system.container.Container;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.ComponentContainer;
+import me.ilnicki.container.Container;
+import me.ilnicki.container.Inject;
 
 public class MachineContainer extends ComponentContainer {
     @Inject

@@ -1,7 +1,7 @@
 package me.ilnicki.bg.core.system;
 
-import me.ilnicki.bg.core.system.container.ComponentContainer;
-import me.ilnicki.bg.core.system.container.Container;
+import me.ilnicki.container.ComponentContainer;
+import me.ilnicki.container.Container;
 
 public class SystemManager extends ComponentContainer implements Kernel {
     private final Runner runner;

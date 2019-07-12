@@ -1,7 +1,7 @@
-package me.ilnicki.bg.core.system.container.provider;
+package me.ilnicki.container.provider;
 
-import me.ilnicki.bg.core.system.container.Container;
-import me.ilnicki.bg.core.system.container.ProvisionException;
+import me.ilnicki.container.Container;
+import me.ilnicki.container.ProvisionException;
 
 public class LinkProvider<T> implements Provider<T> {
     private final Container container;

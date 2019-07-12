@@ -7,8 +7,8 @@ import me.ilnicki.bg.core.pixelmatrix.animation.Frame;
 import me.ilnicki.bg.core.pixelmatrix.animation.Player;
 import me.ilnicki.bg.core.pixelmatrix.animation.Track;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.core.system.container.Args;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 
 import java.util.ArrayList;
 

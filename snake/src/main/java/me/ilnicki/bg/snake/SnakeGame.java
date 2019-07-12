@@ -8,8 +8,8 @@ import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.core.system.container.Args;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 
@@ -22,6 +22,13 @@ import static me.ilnicki.bg.snake.SnakeHead.Direction.*;
 
 public class SnakeGame implements Game {
     private static final byte keyHandleFreq = 4;
+
+    @Inject
+    @Args({"internal", "assets.sprites.snake.levels"})
+    private PixelMatrixLoader levelLoader;
+
+    @Inject
+    private GameManager gameManager;
 
     @Inject
     private Machine.Helper helper;
@@ -37,12 +44,6 @@ public class SnakeGame implements Game {
     @Inject
     private Machine.Parameters params;
 
-    @Inject
-    private GameManager gameManager;
-
-    @Inject
-    @Args({"internal", "assets.sprites.snake.levels"})
-    private PixelMatrixLoader levelLoader;
 
     private GameMode gameMode;
 

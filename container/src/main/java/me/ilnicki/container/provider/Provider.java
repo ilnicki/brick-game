@@ -1,8 +1,8 @@
-package me.ilnicki.bg.core.system.container.provider;
+package me.ilnicki.container.provider;
 
-import me.ilnicki.bg.core.system.container.ProvisionException;
+import me.ilnicki.container.ProvisionException;
 
-import static me.ilnicki.bg.core.system.container.Container.NO_ARGS;
+import static me.ilnicki.container.Container.NO_ARGS;
 
 @FunctionalInterface
 public interface Provider<T> {

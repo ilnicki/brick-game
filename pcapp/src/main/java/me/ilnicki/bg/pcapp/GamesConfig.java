@@ -1,6 +1,6 @@
 package me.ilnicki.bg.pcapp;
 
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Inject;
 import me.ilnicki.bg.demo.DemoManifest;
 import me.ilnicki.bg.snake.SnakeManifest;
 import me.ilnicki.bg.tanks.TanksManifest;

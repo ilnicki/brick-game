@@ -1,9 +1,9 @@
-package me.ilnicki.bg.core.system.container;
+package me.ilnicki.container;
 
-import me.ilnicki.bg.core.system.container.provider.LinkProvider;
-import me.ilnicki.bg.core.system.container.provider.ObjectProvider;
-import me.ilnicki.bg.core.system.container.provider.Provider;
-import me.ilnicki.bg.core.system.container.provider.SingletonProvider;
+import me.ilnicki.container.provider.LinkProvider;
+import me.ilnicki.container.provider.ObjectProvider;
+import me.ilnicki.container.provider.Provider;
+import me.ilnicki.container.provider.SingletonProvider;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;

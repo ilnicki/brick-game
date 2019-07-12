@@ -11,7 +11,7 @@ import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.system.Kernel;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Inject;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;

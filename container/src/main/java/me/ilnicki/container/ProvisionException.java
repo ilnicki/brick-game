@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.system.container;
+package me.ilnicki.container;
 
 public class ProvisionException extends RuntimeException {
     public ProvisionException(Throwable cause) {

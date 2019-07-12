@@ -1,6 +1,6 @@
-package me.ilnicki.bg.core.system.container;
+package me.ilnicki.container;
 
-import me.ilnicki.bg.core.system.container.provider.Provider;
+import me.ilnicki.container.provider.Provider;
 
 import java.util.Set;
 

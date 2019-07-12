@@ -1,6 +1,6 @@
-package me.ilnicki.bg.core.system.container.provider;
+package me.ilnicki.container.provider;
 
-import me.ilnicki.bg.core.system.container.ProvisionException;
+import me.ilnicki.container.ProvisionException;
 
 public class ObjectProvider<T> implements Provider<T> {
     private final T instance;

@@ -7,7 +7,7 @@ import me.ilnicki.bg.core.machine.parameters.BoolParameter;
 import me.ilnicki.bg.core.machine.parameters.IntParameter;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.system.MachineProcessor;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Inject;
 
 public class SysKeysProcessor implements MachineProcessor {
     private final KeyMap<Keyboard.SysKey> keyMap;

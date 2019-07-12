@@ -8,8 +8,8 @@ import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.system.MachineProcessor;
 import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.SystemConfig;
-import me.ilnicki.bg.core.system.container.Container;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Container;
+import me.ilnicki.container.Inject;
 
 import java.io.File;
 import java.net.MalformedURLException;

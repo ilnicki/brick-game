@@ -1,5 +1,6 @@
 rootProject.name = 'me.ilnicki.bg'
 
+include 'container'
 include 'core'
 include 'pcapp'
 include 'lwjgl3opengl'

@@ -1,8 +1,8 @@
 package me.ilnicki.bg.core.pixelmatrix.loaders;
 
 import me.ilnicki.bg.core.pixelmatrix.loaders.internal.InternalPixelMatrixLoader;
-import me.ilnicki.bg.core.system.container.provider.Factory;
-import me.ilnicki.bg.core.system.container.ProvisionException;
+import me.ilnicki.container.provider.Factory;
+import me.ilnicki.container.ProvisionException;
 
 public class PixelMatrixLoaderFactory implements Factory<PixelMatrixLoader> {
     @Override

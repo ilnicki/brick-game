@@ -10,8 +10,8 @@ import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.machine.parameters.IntParameter;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.core.system.container.Args;
-import me.ilnicki.bg.core.system.container.Inject;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 
