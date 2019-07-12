@@ -71,9 +71,18 @@ public class ComponentContainer implements Container {
                 .collect(Collectors.toSet());
     }
 
-    private Object[] prepareExecutableArguments(Executable exec) {
+    private Object[] prepareExecutableArguments(Executable exec, boolean allowEmpty) {
         if (exec.isAnnotationPresent(Inject.class)) {
             Class[] paramTypes = exec.getParameterTypes();
+
+            if (!allowEmpty && paramTypes.length == 0) {
+                throw new ProvisionException(
+                        String.format("Empty parameters list in injection method %s. Use @PostConstructor instead.",
+                                exec.getName()
+                        )
+                );
+            }
+
             Annotation[][] paramAnnotations = exec.getParameterAnnotations();
 
             Object[] arguments = new Object[paramTypes.length];
@@ -125,7 +134,7 @@ public class ComponentContainer implements Container {
             );
         }
 
-        Object[] arguments = prepareExecutableArguments(desiredConstructor);
+        Object[] arguments = prepareExecutableArguments(desiredConstructor, true);
 
         try {
             return desiredConstructor.newInstance(arguments);
@@ -172,10 +181,9 @@ public class ComponentContainer implements Container {
     private <T> T injectIntoMethods(T instance) throws ProvisionException {
         for (Method method : instance.getClass().getDeclaredMethods()) {
             try {
-                Object[] arguments = prepareExecutableArguments(method);
+                Object[] arguments = prepareExecutableArguments(method, false);
 
                 if (arguments != null) {
-
                     method.setAccessible(true);
                     method.invoke(instance, arguments);
                 }
@@ -196,6 +204,31 @@ public class ComponentContainer implements Container {
         return instance;
     }
 
+    private <T> T postConstruct(T instance) throws ProvisionException {
+        for (Method method : instance.getClass().getDeclaredMethods()) {
+            if (method.isAnnotationPresent(PostConstructor.class)) {
+                if (method.getParameterCount() == 0) {
+                    try {
+                        method.setAccessible(true);
+                        method.invoke(instance);
+                    } catch (InvocationTargetException | IllegalAccessException | ProvisionException exception) {
+                        String message = String.format("Can not inject into into %s of %s.",
+                                method.getName(),
+                                instance.getClass().getCanonicalName()
+                        );
+
+                        throw new ProvisionException(message, exception);
+                    }
+                } else {
+                    throw new ProvisionException("Can not run PostConstructor with parameters.");
+                }
+            }
+
+        }
+
+        return instance;
+    }
+
     private class ComponentProvider<T> implements Provider<T> {
         private final Class<? extends T> concreteClass;
 
@@ -205,7 +238,16 @@ public class ComponentContainer implements Container {
 
         @Override
         public T provide(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
-            return injectIntoMethods(injectIntoFields(instantiate(concreteClass)));
+            return
+                    postConstruct(
+                            injectIntoMethods(
+                                    injectIntoFields(
+                                            instantiate(
+                                                    concreteClass
+                                            )
+                                    )
+                            )
+                    );
         }
     }
 }

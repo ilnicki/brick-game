@@ -9,6 +9,7 @@ import me.ilnicki.bg.core.pixelmatrix.animation.Track;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
+import me.ilnicki.container.PostConstructor;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class DemoManifest implements Manifest {
 
     private Player previewPlayer;
 
-    @Inject
+    @PostConstructor
     private void init() {
         previewPlayer = new Player(new Track(new ArrayList<Frame>() {
             {

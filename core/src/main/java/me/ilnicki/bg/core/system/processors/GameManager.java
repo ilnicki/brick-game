@@ -10,6 +10,7 @@ import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
+import me.ilnicki.container.PostConstructor;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -55,7 +56,7 @@ public class GameManager implements MachineProcessor {
     @Inject
     private MachineContainer machineContainer;
 
-    @Inject
+    @PostConstructor
     private void shareMachine() {
         container.share(machine.getScreen());
     }
