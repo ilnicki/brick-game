@@ -1,23 +1,15 @@
-package me.ilnicki.bg.tanks;
+package me.ilnicki.bg.tanks.units;
 
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 
-public class Entity {
+public abstract class Unit {
     private Vector pos;
     private final PixelMatrix sprite = Matrices.fromString("#");
 
-    public Entity(Vector pos) {
+    Unit(Vector pos) {
         this.pos = pos;
-    }
-
-    public int getPosY() {
-        return pos.getY();
-    }
-
-    public int getPosX() {
-        return pos.getX();
     }
 
     public void setPos(Vector pos) {

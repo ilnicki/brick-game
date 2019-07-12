@@ -8,11 +8,13 @@ import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
-import me.ilnicki.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.tanks.units.Bullet;
 import me.ilnicki.bg.tanks.units.Tank;
 import me.ilnicki.bg.tanks.units.TankFactory;
+import me.ilnicki.bg.tanks.units.Wall;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -51,13 +53,13 @@ public class TanksGame implements Game {
     private TankFactory tankFactory;
 
     private Tank player;
-    private final List<Tank> tankList = new ArrayList<>();
-    private final List<Wall> wallList = new ArrayList<>();
-    private final List<Bullet> bulletList = new ArrayList<>();
+
+    private final List<Tank> tanks = new ArrayList<>();
+    private final List<Wall> walls = new ArrayList<>();
+    private final List<Bullet> bullets = new ArrayList<>();
 
     private final int moveSpeed = 4;
     private final Random random = new Random();
-
 
     @Inject
     public TanksGame(Field field) {
@@ -69,12 +71,12 @@ public class TanksGame implements Game {
         tankFactory = new TankFactory(unitsLoader);
 
         player = tankFactory.make(new Vector(0, 0), UP);
-        tankList.add(player);
+        tanks.add(player);
     }
 
     @Override
     public void update(long tick) {
-        if (!tankList.contains(player)) {
+        if (!tanks.contains(player)) {
             gameManager.exitGame();
         }
 
@@ -90,42 +92,44 @@ public class TanksGame implements Game {
 
 
     private void handleControls() {
+        Vector pos = player.getPos();
+
         if (keyMap.getState(CtrlKey.UP) % moveSpeed == 0) {
             if (player.getDirection() == UP) {
-                int newPosY = player.getPosY() + 1;
+                int newPosY = pos.getY() + 1;
 
                 if (newPosY + player.getSprite().getHeight() - 1 < field.getHeight()) {
-                    player.setPos(player.getPos().withY(newPosY));
+                    player.setPos(pos.withY(newPosY));
                 }
             } else {
                 player.setDirection(UP);
             }
         } else if (keyMap.getState(CtrlKey.DOWN) % moveSpeed == 0) {
             if (player.getDirection() == DOWN) {
-                int newPosY = player.getPosY() - 1;
+                int newPosY = pos.getY() - 1;
 
                 if (newPosY >= 0) {
-                    player.setPos(player.getPos().withY(newPosY));
+                    player.setPos(pos.withY(newPosY));
                 }
             } else {
                 player.setDirection(DOWN);
             }
         } else if (keyMap.getState(CtrlKey.LEFT) % moveSpeed == 0) {
             if (player.getDirection() == LEFT) {
-                int newPosX = player.getPosX() - 1;
+                int newPosX = pos.getX() - 1;
 
                 if (newPosX >= 0) {
-                    player.setPos(player.getPos().withX(newPosX));
+                    player.setPos(pos.withX(newPosX));
                 }
             } else {
                 player.setDirection(LEFT);
             }
         } else if (keyMap.getState(CtrlKey.RIGHT) % moveSpeed == 0) {
             if (player.getDirection() == RIGHT) {
-                int newPosX = player.getPosX() + 1;
+                int newPosX = pos.getX() + 1;
 
                 if (newPosX + player.getSprite().getWidth() - 1 < field.getWidth()) {
-                    player.setPos(player.getPos().withX(newPosX));
+                    player.setPos(pos.withX(newPosX));
                 }
             } else {
                 player.setDirection(RIGHT);
@@ -135,11 +139,10 @@ public class TanksGame implements Game {
         if (keyMap.isPressed(CtrlKey.ROTATE)) {
             shoot();
         }
-
     }
 
     private void drawTanks() {
-        tankList.forEach((tank) ->
+        tanks.forEach((tank) ->
         {
             PixelMatrix sprite = tank.getSprite();
 
@@ -158,39 +161,39 @@ public class TanksGame implements Game {
     }
 
     private void drawBullets() {
-        bulletList.forEach((bullet) -> field.setPixel(bullet.getPos(), Pixel.BLACK));
+        bullets.forEach((bullet) -> field.setPixel(bullet.getPos(), Pixel.BLACK));
     }
 
     private void drawWalls() {
         if (blink % blinkOn != 0) {
-            wallList.forEach((mine) -> field.setPixel(mine.getPos(), Pixel.BLACK));
+            walls.forEach((mine) -> field.setPixel(mine.getPos(), Pixel.BLACK));
         }
 
         blink++;
     }
 
     private void spawnEnemies() {
-        if (tankList.size() < 3 && random.nextInt(4) == 0) {
+        if (tanks.size() < 3 && random.nextInt(4) == 0) {
             int pos = random.nextInt(6);
 
             switch (pos) {
                 case 0:
-                    tankList.add(tankFactory.make(new Vector(0, 17), RIGHT));
+                    tanks.add(tankFactory.make(new Vector(0, 17), RIGHT));
                     break;
                 case 1:
-                    tankList.add(tankFactory.make(new Vector(7, 17), DOWN));
+                    tanks.add(tankFactory.make(new Vector(7, 17), DOWN));
                     break;
                 case 2:
-                    tankList.add(tankFactory.make(new Vector(7, 10), LEFT));
+                    tanks.add(tankFactory.make(new Vector(7, 10), LEFT));
                     break;
                 case 3:
-                    tankList.add(tankFactory.make(new Vector(7, 0), LEFT));
+                    tanks.add(tankFactory.make(new Vector(7, 0), LEFT));
                     break;
                 case 4:
-                    tankList.add(tankFactory.make(new Vector(0, 0), UP));
+                    tanks.add(tankFactory.make(new Vector(0, 0), UP));
                     break;
                 case 5:
-                    tankList.add(tankFactory.make(new Vector(0, 10), RIGHT));
+                    tanks.add(tankFactory.make(new Vector(0, 10), RIGHT));
                     break;
             }
         }
@@ -198,32 +201,34 @@ public class TanksGame implements Game {
 
     private void shoot() {
         if (weaponCooldown > 0) {
-            bulletList.add(player.shoot());
+            bullets.add(player.shoot());
             weaponCooldown = -minWeaponCooldown;
         }
     }
 
     private void processBullets(long tick) {
-        for (Iterator<Bullet> i = bulletList.iterator(); i.hasNext(); ) {
+        for (Iterator<Bullet> i = bullets.iterator(); i.hasNext(); ) {
             Bullet bullet = i.next();
 
             if (tick % bullet.getSpeed() == 0) {
                 bullet.setPos(bullet.getPos().add(bullet.getDirection().getVector()));
             }
 
-            if (wallList.removeIf(wall -> wall.getPos().equals(bullet.getPos()))) {
+            if (walls.removeIf(wall -> wall.getPos().equals(bullet.getPos()))) {
                 i.remove();
             }
 
-            if (tankList.removeIf(tank -> tank.isCollide(bullet.getPos()) && tank != bullet.getOwner())) {
+            if (tanks.removeIf(tank -> tank.isCollide(bullet.getPos()) && tank != bullet.getOwner())) {
                 parameters.score.inc();
                 i.remove();
             }
 
-            if (bullet.getPosY() < 0
-                    || bullet.getPosX() < 0
-                    || bullet.getPosY() >= field.getHeight()
-                    || bullet.getPosX() >= field.getWidth()) {
+            Vector pos = bullet.getPos();
+
+            if (pos.getY() < 0
+                    || pos.getX() < 0
+                    || pos.getY() >= field.getHeight()
+                    || pos.getX() >= field.getWidth()) {
                 i.remove();
             }
         }

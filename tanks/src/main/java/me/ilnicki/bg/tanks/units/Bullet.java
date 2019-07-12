@@ -1,9 +1,9 @@
-package me.ilnicki.bg.tanks;
+package me.ilnicki.bg.tanks.units;
 
 import me.ilnicki.bg.core.pixelmatrix.Vector;
-import me.ilnicki.bg.tanks.units.Tank;
+import me.ilnicki.bg.tanks.Direction;
 
-public class Bullet extends Entity {
+public class Bullet extends Unit {
     private final Direction direction;
     private final int speed;
     private final Tank owner;
