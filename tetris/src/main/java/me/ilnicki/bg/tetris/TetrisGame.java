@@ -2,7 +2,7 @@ package me.ilnicki.bg.tetris;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.machine.Layer;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.KeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;

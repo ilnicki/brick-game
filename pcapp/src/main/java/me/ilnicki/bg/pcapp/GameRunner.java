@@ -53,6 +53,8 @@ public class GameRunner implements Runner {
 
         modules.load();
 
+        //container.get(GameManager.class).launchGame(container.get(TanksManifest.class));
+
         tp.start(modules::update);
     }
 

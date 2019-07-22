@@ -1,9 +1,11 @@
 package me.ilnicki.bg.core.game;
 
 import me.ilnicki.bg.core.pixelmatrix.*;
+import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
+import me.ilnicki.bg.core.pixelmatrix.transforming.transformers.Translate;
 import me.ilnicki.bg.core.system.MachineConfig;
 import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.machine.Layer;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
@@ -34,7 +36,7 @@ public class DefaultGameLauncher implements Game {
 
     private final Layer<PixelMatrix> logoLayer;
     private final Layer<PixelMatrix> prevLayer;
-    private final Layer<EditablePixelMatrix> argLayer;
+    private final List<Layer<PixelMatrix>> argLayers;
 
     private final GameArgument argument = new GameArgument();
     private IntParameter selectedGame;
@@ -49,16 +51,19 @@ public class DefaultGameLauncher implements Game {
         Field field = machine.getField();
 
         logoLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
-        logoLayer.setPos(new Vector(0, 15));
+        logoLayer.transform(new Translate(new Vector(0, 15)));
         field.getLayers().add(logoLayer);
 
         prevLayer = new Layer<>(new ArrayPixelMatrix(10, 7));
-        prevLayer.setPos(new Vector(0, 6));
+        prevLayer.transform(new Translate(new Vector(0, 6)));
         field.getLayers().add(prevLayer);
 
-        argLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
-        argLayer.setPos(new Vector(0, 0));
-        field.getLayers().add(argLayer);
+        LayerList argLayerList = new LayerList(10, 5);
+        argLayers = argLayerList.getLayers();
+        argLayers.add(new Layer<>(Matrices.EMPTY).transform(new Translate(new Vector(1, 0))));
+        argLayers.add(new Layer<>(Matrices.EMPTY).transform(new Translate(new Vector(5, 0))));
+
+        field.getLayers().add(new Layer<>(argLayerList).transform(new Translate(new Vector(0, 0))));
     }
 
     @Override
@@ -138,26 +143,12 @@ public class DefaultGameLauncher implements Game {
     }
 
     private void drawArgument() {
-        EditablePixelMatrix matrix = argLayer.getData();
-
-        Matrices.clear(matrix);
-
         String[] numbers = String.format("%02d", argument.get()).split("");
 
-        Vector cursor = new Vector(1, 0);
 
-        for (String number : numbers) {
-            PixelMatrix numMatrix = matrixLoader.load(number, true);
-
-            for (int y = 0; y < numMatrix.getHeight(); y++) {
-                for (int x = 0; x < numMatrix.getWidth(); x++) {
-                    Vector point = new Vector(x, y);
-
-                    matrix.setPixel(cursor.add(point), numMatrix.getPixel(point));
-                }
-            }
-
-            cursor = cursor.add(new Vector(numMatrix.getWidth() + 1, 0));
+        for (int i = 0; i < numbers.length; i++) {
+            PixelMatrix numMatrix = matrixLoader.load(numbers[i], true);
+            argLayers.get(i).setData(numMatrix);
         }
     }
 }

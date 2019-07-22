@@ -19,7 +19,7 @@ public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
     }
 
     public ArrayPixelMatrix(int width, int height) {
-        if (width > 0 && height > 0) {
+        if (width >= 0 && height >= 0) {
             this.width = width;
             this.height = height;
             data = new Pixel[height][width];
