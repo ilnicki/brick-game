@@ -7,25 +7,25 @@ import java.util.List;
 
 public class TransformerList implements VectorTransformer {
     private List<VectorTransformer> transformers = new ArrayList<>();
-    private VectorTransformer transformer = null;
+    private VectorTransformer applier = null;
 
     @Override
     public Vector apply(Vector vector) {
-        return getTransformer().apply(vector);
+        return getApplier().apply(vector);
     }
 
     public void add(VectorTransformer transformer) {
         transformers.add(transformer);
-        transformer = null;
+        applier = null;
     }
 
-    private VectorTransformer getTransformer() {
-        if (transformer == null) {
-            transformer = transformers
+    private VectorTransformer getApplier() {
+        if (applier == null) {
+            applier = transformers
                     .stream()
                     .reduce(VectorTransformer.identity(), (acc, transformer) -> acc.andThen(transformer));
         }
 
-        return transformer;
+        return applier;
     }
 }
