@@ -17,6 +17,10 @@ public interface VectorTransformer extends UnaryOperator<Vector> {
         return vector -> transformer.apply(this.apply(vector));
     }
 
+    default VectorTransformer combine(VectorTransformer transformer) {
+        return compose(transformer);
+    }
+
     static VectorTransformer identity() {
         return v -> v;
     }

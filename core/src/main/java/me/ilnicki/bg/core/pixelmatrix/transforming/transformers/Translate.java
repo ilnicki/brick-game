@@ -14,4 +14,13 @@ public class Translate implements VectorTransformer {
     public Vector apply(Vector vector) {
         return vector.sub(value);
     }
+
+    @Override
+    public VectorTransformer combine(VectorTransformer transformer) {
+        if(transformer instanceof Translate) {
+            return new Translate(value.add(((Translate) transformer).value));
+        }
+
+        return VectorTransformer.super.combine(transformer);
+    }
 }
