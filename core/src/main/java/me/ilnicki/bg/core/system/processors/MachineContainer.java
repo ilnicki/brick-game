@@ -1,6 +1,7 @@
 package me.ilnicki.bg.core.system.processors;
 
 import me.ilnicki.bg.core.machine.Field;
+import me.ilnicki.bg.core.machine.Helper;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
@@ -16,7 +17,7 @@ public class MachineContainer extends ComponentContainer {
         bind(Machine.Parameters.class, (desiredClass, args) -> machine.getParameters());
         bind(Machine.Parameters.class, (desiredClass, args) -> machine.getParameters());
         bind(Field.class, (desiredClass, args) -> machine.getField());
-        bind(Machine.Helper.class, (desiredClass, args) -> machine.getHelper());
+        bind(Helper.class, (desiredClass, args) -> machine.getHelper());
 
         bind(GameManager.class, container::get);
         bind(PixelMatrixLoader.class, container::get);

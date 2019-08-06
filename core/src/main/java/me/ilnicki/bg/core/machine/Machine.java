@@ -3,7 +3,6 @@ package me.ilnicki.bg.core.machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.parameters.BoolParameter;
 import me.ilnicki.bg.core.machine.parameters.IntParameter;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 
 public class Machine {
     public static class Parameters {
@@ -11,12 +10,6 @@ public class Machine {
         public final IntParameter hiscore = new IntParameter(0, 999999);
         public final IntParameter speed = new IntParameter(1, 10);
         public final IntParameter level = new IntParameter(1, 10);
-    }
-
-    public static class Helper extends ArrayPixelMatrix {
-        Helper() {
-            super(4, 4);
-        }
     }
 
     private final Parameters parameters = new Parameters();
@@ -45,7 +38,7 @@ public class Machine {
     }
 
     public Helper getHelper() {
-        return this.helper;
+        return helper;
     }
 
     public void recreateField(int width, int height) {

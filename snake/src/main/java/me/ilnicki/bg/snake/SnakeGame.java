@@ -2,6 +2,7 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
+import me.ilnicki.bg.core.machine.Helper;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
@@ -31,7 +32,7 @@ public class SnakeGame implements Game {
     private GameManager gameManager;
 
     @Inject
-    private Machine.Helper helper;
+    private Helper helper;
 
     private final EditablePixelMatrix field;
 
