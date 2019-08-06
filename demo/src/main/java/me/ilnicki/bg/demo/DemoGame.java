@@ -36,14 +36,13 @@ public class DemoGame implements Game {
     @Inject
     private GameArgument argument;
 
-    private final EditablePixelMatrix main;
+    private final EditablePixelMatrix field;
+    private final EditablePixelMatrix helper;
 
     @Inject
-    private Helper helper;
-
-    @Inject
-    public DemoGame(Field field) {
-        field.getLayers().add(new Layer<>(main = new ArrayPixelMatrix(10, 20)));
+    public DemoGame(Field field, Helper helper) {
+        field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
+        helper.getLayers().add(new Layer<>(this.helper = new ArrayPixelMatrix(4, 4)));
     }
 
     @Override
@@ -97,7 +96,7 @@ public class DemoGame implements Game {
     }
 
     private void printTime() {
-        Matrices.clear(main);
+        Matrices.clear(field);
         Date date = Calendar.getInstance().getTime();
 
         int cursorY = 15;
@@ -116,7 +115,7 @@ public class DemoGame implements Game {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {
                     final Vector point = new Vector(x, y);
 
-                    main.setPixel(point.add(new Vector(cursorX, cursorY)), numMatrix.getPixel(point));
+                    field.setPixel(point.add(new Vector(cursorX, cursorY)), numMatrix.getPixel(point));
                 }
             }
 

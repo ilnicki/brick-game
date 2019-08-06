@@ -31,9 +31,7 @@ public class SnakeGame implements Game {
     @Inject
     private GameManager gameManager;
 
-    @Inject
-    private Helper helper;
-
+    private final EditablePixelMatrix helper;
     private final EditablePixelMatrix field;
 
     @Inject
@@ -55,8 +53,9 @@ public class SnakeGame implements Game {
     private boolean isGameStarted;
 
     @Inject
-    public SnakeGame(Field field) {
+    public SnakeGame(Field field, Helper helper) {
         field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
+        helper.getLayers().add(new Layer<>(this.helper = new ArrayPixelMatrix(4, 4)));
     }
 
     @Override
