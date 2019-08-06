@@ -71,7 +71,7 @@ public class DefaultGameLauncher implements Game {
         manifestList = gameManager.getManifestList();
 
         selectedGame = new IntParameter(0, manifestList.size() - 1);
-        Machine.Parameters params = machine.getParameters();
+        Machine.Parameters params = machine.params;
 
         selectedGame.set(config.getSelectedGame());
         params.hiscore.set(config.getHiscore());
@@ -102,11 +102,11 @@ public class DefaultGameLauncher implements Game {
         }
 
         if (keyboard.getCtrlKeyMap().getState(CtrlKey.RIGHT) == 3) {
-            machine.getParameters().speed.inc();
+            machine.params.speed.inc();
         }
 
         if (keyboard.getCtrlKeyMap().getState(Keyboard.CtrlKey.LEFT) == 3) {
-            machine.getParameters().level.inc();
+            machine.params.level.inc();
         }
 
         if (keyboard.getCtrlKeyMap().getState(CtrlKey.ROTATE) == 3) {
@@ -124,7 +124,7 @@ public class DefaultGameLauncher implements Game {
 
     @Override
     public void stop() {
-        Machine.Parameters params = machine.getParameters();
+        Machine.Parameters params = machine.params;
 
         config.setArgument(argument.get());
         config.setSelectedGame(selectedGame.get());

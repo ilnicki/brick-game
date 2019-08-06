@@ -13,9 +13,7 @@ public class MachineContainer extends ComponentContainer {
     @Inject
     private void populate(Machine machine, Container container) {
         bind(Keyboard.CtrlKeyMap.class, (desiredClass, args) -> machine.getKeyboard().getCtrlKeyMap());
-        bind(Machine.Parameters.class, (desiredClass, args) -> machine.getParameters());
-        bind(Machine.Parameters.class, (desiredClass, args) -> machine.getParameters());
-        bind(Machine.Parameters.class, (desiredClass, args) -> machine.getParameters());
+        bind(Machine.Parameters.class, (desiredClass, args) -> machine.params);
         bind(Field.class, (desiredClass, args) -> machine.getField());
         bind(Helper.class, (desiredClass, args) -> machine.getHelper());
 

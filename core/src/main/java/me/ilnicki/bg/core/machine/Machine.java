@@ -12,7 +12,7 @@ public class Machine {
         public final IntParameter level = new IntParameter(1, 10);
     }
 
-    private final Parameters parameters = new Parameters();
+    public final Parameters params = new Parameters();
     public final IntParameter volume = new IntParameter(0, 3);
     public final BoolParameter pause = new BoolParameter(false);
 
@@ -20,10 +20,6 @@ public class Machine {
     private Field field = new Field();
     private final Screen screen = new Screen(field);
     private final Helper helper = new Helper();
-
-    public Parameters getParameters() {
-        return parameters;
-    }
 
     public Keyboard getKeyboard() {
         return keyboard;
