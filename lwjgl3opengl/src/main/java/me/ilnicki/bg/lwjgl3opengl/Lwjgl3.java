@@ -255,11 +255,11 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         drawString(posX, posY, "HI-SCORE");
         drawNumber(posX, posY - segmentSize * factor,
-                machine.getParameters().hiscore.get(), 6);
+                machine.params.hiscore.get(), 6);
 
         drawString(posX, posY - segmentSize * factor * 2, "SCORE");
         drawNumber(posX, posY - segmentSize * factor * 3,
-                machine.getParameters().score.get(), 6);
+                machine.params.score.get(), 6);
     }
 
     private void drawHelper() {
@@ -291,11 +291,11 @@ public class Lwjgl3 implements Drawer, KeyReader {
                 - ((pixelSize + pixelDistance) * machine.getHelper().getHeight() * 2.3f + borderSize);
 
         drawNumber(posX, posY,
-                machine.getParameters().speed.get(), 2);
+                machine.params.speed.get(), 2);
         drawString(posX, posY - segmentSize * 1.5f, "SPEED");
 
         drawNumber(posX + (segmentWidth * 10), posY,
-                machine.getParameters().level.get(), 2);
+                machine.params.level.get(), 2);
         drawString(posX + (segmentWidth * 10), posY - segmentSize * 1.5f, "LEVEL");
     }
 

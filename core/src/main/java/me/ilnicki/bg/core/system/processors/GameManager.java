@@ -122,7 +122,7 @@ public class GameManager implements MachineProcessor {
     }
 
     public void launchGame(Manifest manifest) {
-        machine.recreateField(manifest.getBufferWidth(), manifest.getBufferHeight());
+        machine.refreshField();
         currentGame = machineContainer.get(manifest.getGameClass());
         currentGame.load();
     }
@@ -133,7 +133,7 @@ public class GameManager implements MachineProcessor {
     }
 
     private void doExitGame() {
-        machine.getParameters().score.set(0);
+        machine.params.score.set(0);
         currentGame = launcher;
         machine.setField(launcherField);
 

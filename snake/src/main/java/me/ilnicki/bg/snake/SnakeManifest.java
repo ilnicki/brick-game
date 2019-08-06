@@ -18,16 +18,6 @@ public class SnakeManifest implements Manifest {
     }
 
     @Override
-    public int getBufferHeight() {
-        return 20;
-    }
-
-    @Override
-    public int getBufferWidth() {
-        return 10;
-    }
-
-    @Override
     public String getDescription() {
         return "Classic snake game.";
     }

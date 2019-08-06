@@ -53,18 +53,6 @@ public class TetrisManifest implements Manifest
     public PixelMatrix getPreview() {
         return matrixLoader.load("preview", true);
     }
-    
-    @Override
-    public int getBufferWidth()
-    {
-        return 10;
-    }
-
-    @Override
-    public int getBufferHeight()
-    {
-        return 20 + 4;
-    }
 
     @Override
     public Class<? extends Game> getGameClass()

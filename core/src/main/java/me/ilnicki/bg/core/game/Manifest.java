@@ -17,9 +17,5 @@ public interface Manifest {
 
     PixelMatrix getPreview();
 
-    int getBufferWidth();
-
-    int getBufferHeight();
-
     Class<? extends Game> getGameClass();
 }

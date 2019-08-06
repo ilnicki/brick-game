@@ -63,7 +63,7 @@ public class DefaultGameLauncher implements Game {
         argLayers.add(new Layer<>(Matrices.EMPTY).transform(new Translate(new Vector(1, 0))));
         argLayers.add(new Layer<>(Matrices.EMPTY).transform(new Translate(new Vector(5, 0))));
 
-        field.getLayers().add(new Layer<>(argLayerList).transform(new Translate(new Vector(0, 0))));
+        field.getLayers().add(new Layer<PixelMatrix>(argLayerList).transform(new Translate(new Vector(0, 0))));
     }
 
     @Override

@@ -69,16 +69,6 @@ public class DemoManifest implements Manifest {
     }
 
     @Override
-    public int getBufferWidth() {
-        return 10;
-    }
-
-    @Override
-    public int getBufferHeight() {
-        return 20;
-    }
-
-    @Override
     public Class<? extends Game> getGameClass() {
         return DemoGame.class;
     }

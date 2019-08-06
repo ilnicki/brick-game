@@ -17,7 +17,7 @@ public class Machine {
     public final BoolParameter pause = new BoolParameter(false);
 
     private final Keyboard keyboard = new Keyboard();
-    private Field field = new Field(10, 20);
+    private Field field = new Field();
     private final Screen screen = new Screen(field);
     private final Helper helper = new Helper();
 
@@ -41,8 +41,8 @@ public class Machine {
         return helper;
     }
 
-    public void recreateField(int width, int height) {
-        setField(new Field(width, height));
+    public void refreshField() {
+        setField(new Field());
     }
 
     public void setField(Field field) {
