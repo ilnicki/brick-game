@@ -1,5 +1,7 @@
 package me.ilnicki.bg.core.game;
 
+import me.ilnicki.bg.core.game.splash.Splash;
+import me.ilnicki.bg.core.game.splash.SplashManifest;
 import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
 import me.ilnicki.bg.core.pixelmatrix.transforming.transformers.Translate;
@@ -82,9 +84,7 @@ public class DefaultGameLauncher implements Game {
 
         gameManager.shareArgument(argument);
 
-        drawLogo();
-        drawPreview();
-        drawArgument();
+        gameManager.launchGame(new SplashManifest());
     }
 
     @Override
@@ -120,6 +120,7 @@ public class DefaultGameLauncher implements Game {
 
         drawLogo();
         drawPreview();
+        drawArgument();
     }
 
     @Override
@@ -144,7 +145,6 @@ public class DefaultGameLauncher implements Game {
 
     private void drawArgument() {
         String[] numbers = String.format("%02d", argument.get()).split("");
-
 
         for (int i = 0; i < numbers.length; i++) {
             PixelMatrix numMatrix = matrixLoader.load(numbers[i], true);
