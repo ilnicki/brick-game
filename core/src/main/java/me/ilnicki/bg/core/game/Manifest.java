@@ -1,21 +1,36 @@
 package me.ilnicki.bg.core.game;
 
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
 public interface Manifest {
-    String getName();
+    default String getName() {
+        return "";
+    }
 
-    String getVersion();
+    default String getVersion() {
+        return "";
+    }
 
-    String getAuthor();
+    default String getAuthor() {
+        return "";
+    }
 
-    String getDescription();
+    default String getDescription() {
+        return "";
+    }
 
-    String getWebSite();
+    default String getWebSite() {
+        return "";
+    }
 
-    PixelMatrix getLogo();
+    default PixelMatrix getLogo() {
+        return Matrices.EMPTY;
+    }
 
-    PixelMatrix getPreview();
+    default PixelMatrix getPreview() {
+        return Matrices.EMPTY;
+    }
 
     Class<? extends Game> getGameClass();
 }
