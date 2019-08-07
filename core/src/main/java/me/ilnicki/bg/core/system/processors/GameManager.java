@@ -43,6 +43,8 @@ public class GameManager implements MachineProcessor {
 
     private Module currentGame;
 
+    private Manifest nextGame;
+
     private List<Manifest> manifestList;
 
     private State state;
@@ -63,6 +65,7 @@ public class GameManager implements MachineProcessor {
 
     @Override
     public void load() {
+        state = State.MANAGER_LAUNCHING;
         manifestList = new ArrayList<>();
 
         for (String gameName : gamesConfig.getGameManifests()) {
@@ -80,20 +83,29 @@ public class GameManager implements MachineProcessor {
         }
 
         launcherField = machine.getField();
+        state = State.GAME_PROCESSING;
+        currentGame = launcher;
 
         launcher.load();
-        currentGame = launcher;
-        state = State.GAME_PROCESSING;
     }
 
     @Override
     public void update(long tick) {
         switch (state) {
             case MANAGER_LAUNCHING:
+                break;
             case GAME_LAUNCHING:
+                state = State.GAME_PROCESSING;
+                machine.refreshField();
+                currentGame = machineContainer.get(nextGame.getGameClass());
+                nextGame = null;
+                machine.params.score.set(0);
+                currentGame.load();
                 break;
             case GAME_STOPPING:
-                this.doExitGame();
+                state = State.GAME_PROCESSING;
+                currentGame = launcher;
+                machine.setField(launcherField);
                 break;
             case GAME_PROCESSING:
                 if (!machine.pause.get() || currentGame == launcher) {
@@ -122,22 +134,13 @@ public class GameManager implements MachineProcessor {
     }
 
     public void launchGame(Manifest manifest) {
-        machine.refreshField();
-        currentGame = machineContainer.get(manifest.getGameClass());
-        currentGame.load();
+        nextGame = manifest;
+        state = State.GAME_LAUNCHING;
     }
 
     public void exitGame() {
         currentGame.stop();
         state = State.GAME_STOPPING;
-    }
-
-    private void doExitGame() {
-        machine.params.score.set(0);
-        currentGame = launcher;
-        machine.setField(launcherField);
-
-        state = State.GAME_PROCESSING;
     }
 
     private Manifest loadGameManifests(String manifestName) {
