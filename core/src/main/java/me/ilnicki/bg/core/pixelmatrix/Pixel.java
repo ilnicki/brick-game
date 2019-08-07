@@ -16,4 +16,12 @@ public enum Pixel {
 
         return upper;
     }
+
+    public static Pixel invert(Pixel pixel) {
+        if (pixel == BLACK) {
+            return WHITE;
+        }
+
+        return BLACK;
+    }
 }
