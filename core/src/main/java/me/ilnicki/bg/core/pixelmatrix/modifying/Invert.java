@@ -6,11 +6,11 @@ import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public class Invert implements PixelMatrix {
     private final PixelMatrix target;
-    private final PixelMatrix inverter;
+    private final PixelMatrix mask;
 
-    public Invert(PixelMatrix target, PixelMatrix inverter) {
+    public Invert(PixelMatrix target, PixelMatrix mask) {
         this.target = target;
-        this.inverter = inverter;
+        this.mask = mask;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Invert implements PixelMatrix {
             return null;
         }
 
-        Pixel inverterPixel = inverter.getPixel(point);
+        Pixel inverterPixel = mask.getPixel(point);
 
         if(inverterPixel == Pixel.BLACK) {
             return Pixel.invert(targetPixel);
