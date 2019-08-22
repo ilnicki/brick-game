@@ -4,10 +4,7 @@ import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKeyMap;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.modifying.Invert;
@@ -51,7 +48,17 @@ public class Splash implements Game {
             gameManager.exitGame();
         }
 
-        Vector pos = spiral.next();
-        mask.setPixel(pos, Pixel.BLACK);
+        if (spiral != null) {
+            Vector pos = spiral.next();
+
+            if (pos != null) {
+                mask.setPixel(pos, Pixel.BLACK);
+            } else {
+                spiral = null;
+                Matrices.fill(mask, null);
+            }
+        } else {
+            gameManager.exitGame();
+        }
     }
 }
