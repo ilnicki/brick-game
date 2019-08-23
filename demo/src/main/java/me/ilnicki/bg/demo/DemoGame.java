@@ -3,41 +3,38 @@ package me.ilnicki.bg.demo;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Helper;
-import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine.Parameters;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.*;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
-import me.ilnicki.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.EnumSet;
+import java.util.stream.Collectors;
 
 public class DemoGame implements Game {
+    private final EditablePixelMatrix field;
+    private final EditablePixelMatrix helper;
     @Inject
     @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;
-
     @Inject
     private CtrlKeyMap keyMap;
-
     @Inject
     private GameManager gameManager;
-
     @Inject
     private Parameters params;
-
     @Inject
     private GameArgument argument;
-
-    private final EditablePixelMatrix field;
-    private final EditablePixelMatrix helper;
 
     @Inject
     public DemoGame(Field field, Helper helper) {
@@ -47,21 +44,20 @@ public class DemoGame implements Game {
 
     @Override
     public void update(long tick) {
-        StringBuilder sb = new StringBuilder();
+        String keys = EnumSet.allOf(CtrlKey.class)
+                .stream()
+                .filter(keyMap::isPressed)
+                .map(Object::toString)
+                .collect(Collectors.joining(" "));
 
-        for (CtrlKey key : CtrlKey.values()) {
-            if (keyMap.isPressed(key)) {
-                sb.append(key).append(' ');
-            }
-        }
-
-        if (sb.length() > 0) {
-            System.out.println("Tick: " + tick + "; Keys: " + sb.toString());
+        if (keys.length() > 0) {
+            System.out.println("Tick: " + tick + "; Keys: " + keys);
         }
 
         if (keyMap.isPressed(CtrlKey.UP)
                 && keyMap.isPressed(CtrlKey.LEFT)
-                && keyMap.isPressed(CtrlKey.RIGHT)) {
+                && keyMap.isPressed(CtrlKey.RIGHT)
+                && keyMap.isPressed(CtrlKey.DOWN)) {
             gameManager.exitGame();
         }
 

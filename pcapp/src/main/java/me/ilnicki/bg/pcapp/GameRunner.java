@@ -49,11 +49,7 @@ public class GameRunner implements Runner {
         modules.addAll(container.getCompatible(MachineProcessor.class));
         modules.addAll(container.getCompatible(CoreModule.class));
 
-        System.out.println(container);
-
         modules.load();
-
-        //container.get(GameManager.class).launchGame(container.get(TanksManifest.class));
 
         tp.start(modules::update);
     }
