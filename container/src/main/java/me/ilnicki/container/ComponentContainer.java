@@ -6,7 +6,11 @@ import me.ilnicki.container.provider.Provider;
 import me.ilnicki.container.provider.SingletonProvider;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -23,8 +27,10 @@ public class ComponentContainer implements Container {
 
     @Override
     public <T> void bind(Class<? super T> abstractClass, Class<T> concreteClass) {
-        components.put(abstractClass, new ComponentProvider<>(concreteClass));
-        components.put(concreteClass, components.get(abstractClass));
+        Provider provider = new ComponentProvider<>(concreteClass);
+
+        components.put(abstractClass, provider);
+        components.put(concreteClass, provider);
     }
 
     @Override
@@ -34,8 +40,10 @@ public class ComponentContainer implements Container {
 
     @Override
     public <T> void singleton(Class<? super T> abstractClass, Class<T> concreteClass) {
-        components.put(abstractClass, new SingletonProvider<>(new ComponentProvider<>(concreteClass)));
-        components.put(concreteClass, components.get(abstractClass));
+        Provider provider = new SingletonProvider<>(new ComponentProvider<>(concreteClass));
+
+        components.put(abstractClass, provider);
+        components.put(concreteClass, provider);
     }
 
     @Override

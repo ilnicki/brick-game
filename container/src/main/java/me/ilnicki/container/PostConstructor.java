@@ -11,5 +11,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD})
 @Inherited
 public @interface PostConstructor {
-    boolean required() default true;
 }

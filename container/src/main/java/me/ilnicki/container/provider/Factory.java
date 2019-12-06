@@ -2,6 +2,7 @@ package me.ilnicki.container.provider;
 
 import me.ilnicki.container.ProvisionException;
 
+@FunctionalInterface
 public interface Factory<T> extends Provider<T> {
     T produce(String[] args) throws ProvisionException;
 
