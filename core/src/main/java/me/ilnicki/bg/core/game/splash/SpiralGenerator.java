@@ -21,17 +21,17 @@ public class SpiralGenerator {
     }
 
     public Vector next() {
-        if(width == 0 || height == 0) {
+        if (width == 0 || height == 0) {
             return null;
         }
 
         Vector vector = new Vector(posX + offsetX, posY + offsetY);
 
-        if(posX + dirX >= width || posX + dirX < 0 || posY + dirY >= height || posY + dirY < 0) {
+        if (posX + dirX >= width || posX + dirX < 0 || posY + dirY >= height || posY + dirY < 0) {
             turnRight();
         }
 
-        if(posY == 0 && posX == 1) {
+        if (posY == 0 && posX == 1) {
             width -= 2;
             height -= 2;
             offsetX++;
@@ -50,11 +50,11 @@ public class SpiralGenerator {
         int nextDirX = 0;
         int nextDirY = 0;
 
-        if(dirX != 0) {
+        if (dirX != 0) {
             nextDirY = -dirX;
         }
 
-        if(dirY != 0) {
+        if (dirY != 0) {
             nextDirX = dirY;
         }
 

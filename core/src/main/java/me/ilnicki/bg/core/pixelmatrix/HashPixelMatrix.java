@@ -46,7 +46,7 @@ public class HashPixelMatrix implements Serializable, EditablePixelMatrix {
 
     @Override
     public void setPixel(Vector point, Pixel value) {
-        if(value != null) {
+        if (value != null) {
             data.put(point, value);
         } else {
             data.remove(point);

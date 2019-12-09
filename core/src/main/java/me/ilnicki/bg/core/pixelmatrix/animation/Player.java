@@ -28,10 +28,10 @@ public class Player implements PixelMatrix {
     }
 
     public void next() {
-        if(trackIterator.current() != null && currentDraw + 1 < trackIterator.current().getLength()) {
+        if (trackIterator.current() != null && currentDraw + 1 < trackIterator.current().getLength()) {
             currentDraw++;
         } else {
-            if(trackIterator.hasNext()) {
+            if (trackIterator.hasNext()) {
                 trackIterator.next();
                 currentDraw = 0;
             }

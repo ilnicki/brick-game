@@ -3,23 +3,31 @@ package me.ilnicki.bg.snake;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Helper;
-import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.pixelmatrix.*;
+import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
+import me.ilnicki.bg.core.pixelmatrix.Pixel;
+import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
-import me.ilnicki.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
 
-import static me.ilnicki.bg.snake.SnakeHead.Direction.*;
+import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_DOWN;
+import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_LEFT;
+import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_RIGHT;
+import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_UP;
 
 public class SnakeGame implements Game {
     private static final byte keyHandleFreq = 4;

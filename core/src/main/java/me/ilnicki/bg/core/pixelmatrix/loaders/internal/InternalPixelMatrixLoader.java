@@ -1,6 +1,10 @@
 package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
 
-import me.ilnicki.bg.core.pixelmatrix.*;
+import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Pixel;
+import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 
 import javax.imageio.ImageIO;

@@ -1,7 +1,7 @@
 package me.ilnicki.bg.core.system.processors;
 
-import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.game.GamesConfig;
+import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.system.Kernel;

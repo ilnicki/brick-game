@@ -7,15 +7,19 @@ import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.io.KeyReader;
 import me.ilnicki.bg.core.io.SoundPlayer;
 import me.ilnicki.bg.core.io.dummy.Dummy;
-import me.ilnicki.bg.lwjgl3opengl.Lwjgl3;
-import me.ilnicki.bg.core.system.*;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoaderFactory;
-import me.ilnicki.bg.lwjgltick.LwjglTickProvider;
-import me.ilnicki.container.Container;
+import me.ilnicki.bg.core.system.CoreModule;
+import me.ilnicki.bg.core.system.MachineProcessor;
+import me.ilnicki.bg.core.system.ModuleSet;
+import me.ilnicki.bg.core.system.Runner;
+import me.ilnicki.bg.core.system.SystemManager;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.core.system.processors.SysKeysProcessor;
+import me.ilnicki.bg.lwjgl3opengl.Lwjgl3;
+import me.ilnicki.bg.lwjgltick.LwjglTickProvider;
+import me.ilnicki.container.Container;
 
 public class GameRunner implements Runner {
     private boolean restartScheduled = false;

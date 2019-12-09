@@ -1,5 +1,4 @@
 package me.ilnicki.bg.tetris.pieces;
 
-class IPiece extends Piece
-{
+class IPiece extends Piece {
 }

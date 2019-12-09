@@ -27,13 +27,13 @@ public class Invert implements PixelMatrix {
     public Pixel getPixel(Vector point) {
         Pixel targetPixel = target.getPixel(point);
 
-        if(targetPixel == null) {
+        if (targetPixel == null) {
             return null;
         }
 
         Pixel inverterPixel = mask.getPixel(point);
 
-        if(inverterPixel == Pixel.BLACK) {
+        if (inverterPixel == Pixel.BLACK) {
             return Pixel.invert(targetPixel);
         }
 

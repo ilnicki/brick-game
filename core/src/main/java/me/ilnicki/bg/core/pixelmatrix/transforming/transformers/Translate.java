@@ -17,7 +17,7 @@ public class Translate implements VectorTransformer {
 
     @Override
     public VectorTransformer combine(VectorTransformer transformer) {
-        if(transformer instanceof Translate) {
+        if (transformer instanceof Translate) {
             return new Translate(value.add(((Translate) transformer).value));
         }
 

@@ -1,23 +1,25 @@
 package me.ilnicki.bg.core.game;
 
-import me.ilnicki.bg.core.game.splash.Splash;
 import me.ilnicki.bg.core.game.splash.SplashManifest;
-import me.ilnicki.bg.core.pixelmatrix.*;
-import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
-import me.ilnicki.bg.core.pixelmatrix.transforming.transformers.Translate;
-import me.ilnicki.bg.core.system.MachineConfig;
 import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.machine.parameters.IntParameter;
+import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
+import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
+import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
-import me.ilnicki.container.Inject;
+import me.ilnicki.bg.core.pixelmatrix.transforming.transformers.Translate;
+import me.ilnicki.bg.core.system.MachineConfig;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 
 import java.util.List;
 

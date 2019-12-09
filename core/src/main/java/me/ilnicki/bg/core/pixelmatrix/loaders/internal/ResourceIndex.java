@@ -19,12 +19,13 @@ public class ResourceIndex extends HashMap<String, String> {
     }
 
     public void load() {
-        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
         Gson gson = new Gson();
 
         InputStream in = getClass().getResourceAsStream(this.path + "index.json");
 
-        if(in != null) {
+        if (in != null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             Map<String, String> raw = gson.fromJson(reader.lines().collect(Collectors.joining()), type);
             raw.forEach((key, value) -> this.put(key, this.path + value));

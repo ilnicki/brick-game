@@ -3,11 +3,16 @@ package me.ilnicki.bg.tanks;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Helper;
-import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard;
 import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.pixelmatrix.*;
+import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Matrices;
+import me.ilnicki.bg.core.pixelmatrix.Pixel;
+import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.tanks.units.Bullet;
@@ -22,7 +27,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import static me.ilnicki.bg.tanks.Direction.*;
+import static me.ilnicki.bg.tanks.Direction.DOWN;
+import static me.ilnicki.bg.tanks.Direction.LEFT;
+import static me.ilnicki.bg.tanks.Direction.RIGHT;
+import static me.ilnicki.bg.tanks.Direction.UP;
 
 public class TanksGame implements Game {
     @Inject

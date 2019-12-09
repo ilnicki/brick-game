@@ -24,7 +24,7 @@ public class SnakePart extends Entity {
     SnakePart tail() {
         SnakePart tail = this;
 
-        while(tail.getChild() != null) {
+        while (tail.getChild() != null) {
             tail = tail.getChild();
         }
 
@@ -35,7 +35,7 @@ public class SnakePart extends Entity {
         int size = 1;
         SnakePart tail = this;
 
-        while(tail.getChild() != null) {
+        while (tail.getChild() != null) {
             tail = tail.getChild();
             size++;
         }

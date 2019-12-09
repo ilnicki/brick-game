@@ -19,7 +19,7 @@ public class TrackIterator implements Iterator<Frame> {
 
     @Override
     public Frame next() {
-        if(!frameIterator.hasNext() && track.isLooped()) {
+        if (!frameIterator.hasNext() && track.isLooped()) {
             frameIterator = track.getFrames().iterator();
         }
 

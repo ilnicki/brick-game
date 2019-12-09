@@ -3,20 +3,19 @@ package me.ilnicki.bg.tetris;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.machine.Field;
 import me.ilnicki.bg.core.machine.Helper;
-import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.machine.keyboard.KeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
-import me.ilnicki.container.Inject;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.tetris.pieces.Piece;
 import me.ilnicki.bg.tetris.pieces.PieceFactory;
+import me.ilnicki.container.Args;
+import me.ilnicki.container.Inject;
 
-public class TetrisGame implements Game
-{
+public class TetrisGame implements Game {
     @Inject
     private GameManager gameManager;
 
@@ -48,15 +47,13 @@ public class TetrisGame implements Game
     }
 
     @Override
-    public void load()
-    {
+    public void load() {
         this.currentPiece = this.factory.make();
         this.nextPiece = this.factory.make();
     }
 
     @Override
-    public void update(long tick)
-    {
+    public void update(long tick) {
 
     }
 }

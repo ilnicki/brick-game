@@ -47,7 +47,7 @@ public final class Vector implements Cloneable {
 
     @Override
     public boolean equals(Object other) {
-        if(other instanceof Vector) {
+        if (other instanceof Vector) {
             Vector otherVector = (Vector) other;
             return x == otherVector.x && y == otherVector.y;
         }

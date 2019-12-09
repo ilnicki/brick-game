@@ -40,7 +40,7 @@ public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
 
     @Override
     public Pixel getPixel(Vector point) {
-        if(point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
+        if (point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
             return data[point.getY()][point.getX()];
         }
 
@@ -49,7 +49,7 @@ public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
 
     @Override
     public void setPixel(Vector point, Pixel value) {
-        if(point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
+        if (point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
             data[point.getY()][point.getX()] = value;
         }
     }
