@@ -12,7 +12,7 @@ import me.ilnicki.bg.core.system.*;
 import me.ilnicki.bg.core.machine.Machine;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoaderFactory;
-import me.ilnicki.bg.tanks.TanksManifest;
+import me.ilnicki.bg.lwjgltick.LwjglTickProvider;
 import me.ilnicki.container.Container;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.core.system.processors.SysKeysProcessor;
@@ -21,7 +21,7 @@ public class GameRunner implements Runner {
     private boolean restartScheduled = false;
 
     private final ModuleSet modules = new ModuleSet();
-    private final TickProvider tp = new TickProvider(60);
+    private final TickProvider tp = new LwjglTickProvider(60);
 
     public void run() {
         Container container = new SystemManager(this);

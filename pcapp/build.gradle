@@ -32,6 +32,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.0")
 
     compile project(':core')
+    compile project(':lwjgltick')
     compile project(':lwjgl3opengl')
     compile project(':snake')
     compile project(':tanks')

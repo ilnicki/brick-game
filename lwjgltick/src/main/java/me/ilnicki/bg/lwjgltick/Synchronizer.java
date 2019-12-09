@@ -29,7 +29,7 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package me.ilnicki.bg.core;
+package me.ilnicki.bg.lwjgltick;
 
 /**
  * A highly accurate sync method that continually adapts to the system it runs
@@ -40,16 +40,10 @@ package me.ilnicki.bg.core;
  * @author ilnicki
  */
 class Synchronizer {
-
     /**
      * Number of nano seconds in a second.
      */
     private static final long NANOS_IN_SECOND = 1000_000_000L;
-
-    /**
-     * The time to sleep/yield until the next frame.
-     */
-    private long nextFrame;
 
     /**
      * The desired frame rate, in frames per second.
@@ -62,6 +56,11 @@ class Synchronizer {
     private final RunningAvg sleepDurations;
     private final RunningAvg yieldDurations;
 
+    /**
+     * The time to sleep/yield until the next frame.
+     */
+    private long nextFrame;
+
     Synchronizer(int fps) {
         this.fps = fps;
 
@@ -73,15 +72,12 @@ class Synchronizer {
 
         nextFrame = getTime();
 
-        String osName = System.getProperty("os.name");
-
-        if (osName.startsWith("Win")) {
+        if (System.getProperty("os.name").startsWith("Win")) {
             // On windows the sleep functions can be highly inaccurate by
             // over 10ms making in unusable. However it can be forced to
             // be a bit more accurate by running a separate sleeping daemon
             // thread.
-            Thread timerAccuracyThread = new Thread(() ->
-            {
+            Thread timerAccuracyThread = new Thread(() -> {
                 while (true) {
                     try {
                         Thread.sleep(Integer.MAX_VALUE);
@@ -94,6 +90,15 @@ class Synchronizer {
             timerAccuracyThread.setDaemon(true);
             timerAccuracyThread.start();
         }
+    }
+
+    /**
+     * Get the system time in nano seconds.
+     *
+     * @return will return the current time in nano's
+     */
+    private static long getTime() {
+        return System.nanoTime();
     }
 
     /**
@@ -117,29 +122,17 @@ class Synchronizer {
                 yieldDurations.add((t1 = getTime()) - t0); // update average yield time
             }
         } catch (InterruptedException ignored) {
-
         }
 
         // Schedule next frame, drop frame(s) if already too late for next frame.
         nextFrame = Math.max(nextFrame + (NANOS_IN_SECOND / fps), getTime());
     }
 
-    /**
-     * Get the system time in nano seconds.
-     *
-     * @return will return the current time in nano's
-     */
-    private static long getTime() {
-        //return (Sys.getTime() * NANOS_IN_SECOND) / Sys.getTimerResolution();
-        return System.nanoTime();
-    }
-
     private static class RunningAvg {
-        private final long[] slots;
-        private int offset;
-
         private static final long DAMPEN_THRESHOLD = 10_000_000L; // 10ms
         private static final float DAMPEN_FACTOR = 0.9f; // don't change: 0.9f is exactly right!
+        private final long[] slots;
+        private int offset;
 
         RunningAvg(int slotCount) {
             slots = new long[slotCount];
