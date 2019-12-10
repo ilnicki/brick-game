@@ -18,7 +18,6 @@ public class Machine {
 
     private final Keyboard keyboard = new Keyboard();
     private Field field = new Field();
-    private final Screen screen = new Screen(field);
     private final Helper helper = new Helper();
 
     public Keyboard getKeyboard() {
@@ -27,10 +26,6 @@ public class Machine {
 
     public Field getField() {
         return field;
-    }
-
-    public Screen getScreen() {
-        return screen;
     }
 
     public Helper getHelper() {
@@ -43,6 +38,5 @@ public class Machine {
 
     public void setField(Field field) {
         this.field = field;
-        this.screen.setData(this.field);
     }
 }

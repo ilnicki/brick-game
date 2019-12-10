@@ -5,17 +5,9 @@ import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 
 public final class Screen implements PixelMatrix {
-    private final int width;
-    private final int height;
     private PixelMatrix data;
 
-    public Screen(int width, int height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    public Screen(Field data) {
-        this(data.getWidth(), data.getHeight());
+    Screen(Field data) {
         setData(data);
     }
 
@@ -35,11 +27,11 @@ public final class Screen implements PixelMatrix {
 
     @Override
     public int getWidth() {
-        return width;
+        return data.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return data.getHeight();
     }
 }

@@ -12,55 +12,33 @@ import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
 import me.ilnicki.container.PostConstructor;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager implements MachineProcessor {
 
-    private enum State {
-        MANAGER_LAUNCHING,
-        GAME_LAUNCHING,
-        GAME_STOPPING,
-        GAME_PROCESSING,
-    }
-
     private Module launcher;
-
     @Inject
     private Machine machine;
-
     private Field launcherField;
-
     @Inject
     private Kernel kernel;
-
     @Inject
     private Container container;
-
     private Module currentGame;
-
     private Manifest nextGame;
-
     private List<Manifest> manifestList;
-
     private State state;
-
     @Inject
     private SystemConfig systemConfig;
-
     @Inject
     private GamesConfig gamesConfig;
-
     @Inject
     private MachineContainer machineContainer;
 
     @PostConstructor
     private void shareMachine() {
-        container.share(machine.getScreen());
+        //container.share(machine.getScreen());
     }
 
     @Override
@@ -69,7 +47,7 @@ public class GameManager implements MachineProcessor {
         manifestList = new ArrayList<>();
 
         for (String gameName : gamesConfig.getGameManifests()) {
-            Manifest manifest = loadGameManifests(gameName);
+            Manifest manifest = loadGameManifest(gameName);
 
             if (manifest != null) {
                 manifestList.add(manifest);
@@ -143,23 +121,18 @@ public class GameManager implements MachineProcessor {
         state = State.GAME_STOPPING;
     }
 
-    private Manifest loadGameManifests(String manifestName) {
+    private Manifest loadGameManifest(String manifestName) {
         try {
             return container.get(Class.forName(manifestName).asSubclass(Manifest.class));
         } catch (ClassNotFoundException ex) {
-            try {
-                URL[] jarFile = new URL[]{
-                        new File(this.systemConfig.getWorkingPath() + "/games/" + manifestName + "/").getAbsoluteFile().toURI().toURL(),
-                        new File(this.systemConfig.getWorkingPath() + "/games/" + manifestName + ".jar").getAbsoluteFile().toURI().toURL()
-                };
-
-                ClassLoader urlCl = new URLClassLoader(jarFile);
-
-                return container.get(urlCl.loadClass(manifestName).asSubclass(Manifest.class));
-            } catch (ClassNotFoundException | MalformedURLException ex1) {
-                return null;
-            }
+            return null;
         }
+    }
 
+    private enum State {
+        MANAGER_LAUNCHING,
+        GAME_LAUNCHING,
+        GAME_STOPPING,
+        GAME_PROCESSING,
     }
 }
