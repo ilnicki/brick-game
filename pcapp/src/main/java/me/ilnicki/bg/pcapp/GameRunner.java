@@ -1,8 +1,6 @@
 package me.ilnicki.bg.pcapp;
 
 import me.ilnicki.bg.core.TickProvider;
-import me.ilnicki.bg.core.data.DataProvider;
-import me.ilnicki.bg.core.data.json.JsonDataProvider;
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.io.KeyReader;
 import me.ilnicki.bg.core.io.SoundPlayer;
@@ -29,8 +27,6 @@ public class GameRunner implements Runner {
 
     public void run() {
         Container container = new SystemManager(this);
-
-        container.singleton(DataProvider.class, JsonDataProvider.class);
 
         container.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactory());
 
