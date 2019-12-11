@@ -16,25 +16,20 @@ public class Keyboard {
         ONOFF
     }
 
-    public class CtrlKeyMap extends ArrayKeyMap<CtrlKey> {
+    public static class CtrlKeyMap extends ArrayKeyMap<CtrlKey> {
         CtrlKeyMap() {
             super(CtrlKey.class);
         }
     }
 
-    public class SysKeyMap extends ArrayKeyMap<SysKey> {
+    public static class SysKeyMap extends ArrayKeyMap<SysKey> {
         SysKeyMap() {
             super(SysKey.class);
         }
     }
 
-    private final CtrlKeyMap ctrlKeyMap;
-    private final SysKeyMap sysKeyMap;
-
-    public Keyboard() {
-        ctrlKeyMap = new CtrlKeyMap();
-        sysKeyMap = new SysKeyMap();
-    }
+    private final CtrlKeyMap ctrlKeyMap = new CtrlKeyMap();
+    private final SysKeyMap sysKeyMap = new SysKeyMap();
 
     public CtrlKeyMap getCtrlKeyMap() {
         return ctrlKeyMap;
