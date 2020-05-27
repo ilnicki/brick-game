@@ -13,6 +13,8 @@ public class LwjglTickProvider implements TickProvider {
     }
 
     public void start(TickConsumer tickConsumer) {
+        if(isRunning) throw new IllegalStateException("Consumer is already provided and running.");
+
         isRunning = true;
 
         while (isRunning) {
