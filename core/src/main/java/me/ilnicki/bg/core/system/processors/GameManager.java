@@ -2,10 +2,10 @@ package me.ilnicki.bg.core.system.processors;
 
 import me.ilnicki.bg.core.game.GamesConfig;
 import me.ilnicki.bg.core.game.Manifest;
-import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.machine.Machine;
+import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.system.Kernel;
-import me.ilnicki.bg.core.system.MachineProcessor;
+import me.ilnicki.bg.core.system.RootProcessor;
 import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.container.Container;
@@ -14,11 +14,11 @@ import me.ilnicki.container.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameManager implements MachineProcessor {
+public class GameManager implements RootProcessor {
 
     private Module launcher;
     @Inject
-    private Machine machine;
+    private State state;
     private Field launcherField;
     @Inject
     private Kernel kernel;
@@ -33,7 +33,7 @@ public class GameManager implements MachineProcessor {
     @Inject
     private GamesConfig gamesConfig;
     @Inject
-    private MachineContainer machineContainer;
+    private StateContainer stateContainer;
 
     @Override
     public void load() {
@@ -54,7 +54,7 @@ public class GameManager implements MachineProcessor {
             e.printStackTrace();
         }
 
-        launcherField = machine.getField();
+        launcherField = state.getField();
         stage = Stage.GAME_PROCESSING;
         currentGame = launcher;
 
@@ -68,21 +68,21 @@ public class GameManager implements MachineProcessor {
                 break;
             case GAME_LAUNCHING:
                 stage = Stage.GAME_PROCESSING;
-                machine.refreshField();
-                currentGame = machineContainer.get(nextGame.getGameClass());
+                state.refreshField();
+                currentGame = stateContainer.get(nextGame.getGameClass());
                 nextGame = null;
-                machine.params.score.set(0);
+                state.params.score.set(0);
                 currentGame.load();
                 break;
             case GAME_STOPPING:
                 stage = Stage.GAME_PROCESSING;
                 currentGame = launcher;
-                machine.setField(launcherField);
+                state.setField(launcherField);
                 break;
             case GAME_PROCESSING:
-                if (!machine.pause.get() || currentGame == launcher) {
+                if (!state.pause.get() || currentGame == launcher) {
                     //If game not paused or current process is launcher
-                    machine.pause.set(false);
+                    state.pause.set(false);
                     currentGame.update(tick);
                 }
                 break;
@@ -102,7 +102,7 @@ public class GameManager implements MachineProcessor {
     }
 
     public void shareArgument(GameArgument arg) {
-        machineContainer.share(arg);
+        stateContainer.share(arg);
     }
 
     public void launchGame(Manifest manifest) {

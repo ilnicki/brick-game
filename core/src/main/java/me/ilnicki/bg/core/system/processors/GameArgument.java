@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.system.processors;
 
-import me.ilnicki.bg.core.machine.parameters.IntParameter;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 
 public class GameArgument extends IntParameter {
     public GameArgument() {

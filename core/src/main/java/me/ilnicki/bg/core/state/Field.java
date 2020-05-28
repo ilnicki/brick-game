@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.machine;
+package me.ilnicki.bg.core.state;
 
 import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
 

@@ -2,10 +2,10 @@ package me.ilnicki.bg.lwjgl3opengl;
 
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.io.KeyReader;
-import me.ilnicki.bg.core.machine.Machine;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.SysKey;
-import me.ilnicki.bg.core.machine.keyboard.UpdatableKeyMap;
+import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
+import me.ilnicki.bg.core.state.keyboard.UpdatableKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
@@ -51,7 +51,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
     private Kernel kernel;
 
     @Inject
-    private Machine machine;
+    private State state;
 
     private int width;
     private int height;
@@ -59,14 +59,14 @@ public class Lwjgl3 implements Drawer, KeyReader {
     @Override
     public void load() {
         width = (int) (borderSize * 3
-                + pixelSize * machine.getField().getWidth()
-                + pixelDistance * (machine.getField().getWidth() - 1)
-                + (pixelSize * machine.getHelper().getWidth()
-                + pixelDistance * (machine.getHelper().getWidth() - 1)));
+                + pixelSize * state.getField().getWidth()
+                + pixelDistance * (state.getField().getWidth() - 1)
+                + (pixelSize * state.getHelper().getWidth()
+                + pixelDistance * (state.getHelper().getWidth() - 1)));
 
         height = (int) (borderSize * 2
-                + pixelSize * machine.getField().getHeight()
-                + pixelDistance * (machine.getField().getHeight() - 1));
+                + pixelSize * state.getField().getHeight()
+                + pixelDistance * (state.getField().getHeight() - 1));
 
 
         // Setup an error callback. The default implementation
@@ -161,14 +161,14 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     private void updateKeys() {
-        UpdatableKeyMap<CtrlKey> ctrlKeys = this.machine.getKeyboard().getCtrlKeyMap();
+        UpdatableKeyMap<CtrlKey> ctrlKeys = this.state.getKeyboard().getCtrlKeyMap();
         ctrlKeys.update(CtrlKey.UP, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_UP) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.DOWN, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DOWN) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.LEFT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.RIGHT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_RIGHT) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.ROTATE, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_SPACE) == GLFW.GLFW_PRESS);
 
-        UpdatableKeyMap<SysKey> sysKeys = this.machine.getKeyboard().getSysKeyMap();
+        UpdatableKeyMap<SysKey> sysKeys = this.state.getKeyboard().getSysKeyMap();
         sysKeys.update(SysKey.ONOFF, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DELETE) == GLFW.GLFW_PRESS);
         sysKeys.update(SysKey.RESET, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_END) == GLFW.GLFW_PRESS);
         sysKeys.update(SysKey.START, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_ENTER) == GLFW.GLFW_PRESS);
@@ -199,10 +199,10 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         float borderX = borderSize / 2.0f;
         float borderY = borderSize / 2.0f;
-        float borderWidth = pixelSize * machine.getField().getWidth()
-                + pixelDistance * (machine.getField().getWidth() - 1) + borderSize;
-        float borderHeight = pixelSize * machine.getField().getHeight()
-                + pixelDistance * (machine.getField().getHeight() - 1) + borderSize;
+        float borderWidth = pixelSize * state.getField().getWidth()
+                + pixelDistance * (state.getField().getWidth() - 1) + borderSize;
+        float borderHeight = pixelSize * state.getField().getHeight()
+                + pixelDistance * (state.getField().getHeight() - 1) + borderSize;
 
         //Top line
         GL11.glBegin(GL11.GL_LINES);
@@ -230,9 +230,9 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     private void drawField() {
-        for (int y = 0; y < machine.getField().getHeight(); y++) {
-            for (int x = 0; x < machine.getField().getWidth(); x++) {
-                Pixel pixel = machine.getField().getPixel(new Vector(x, y));
+        for (int y = 0; y < state.getField().getHeight(); y++) {
+            for (int x = 0; x < state.getField().getWidth(); x++) {
+                Pixel pixel = state.getField().getPixel(new Vector(x, y));
 
                 drawPixel(borderSize + (pixelSize + pixelDistance) * x,
                         borderSize + (pixelSize + pixelDistance) * y, pixel);
@@ -242,30 +242,30 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
     private void drawScoreAndHiscore() {
         float posX = borderSize
-                + (pixelSize + pixelDistance) * machine.getField().getWidth()
+                + (pixelSize + pixelDistance) * state.getField().getWidth()
                 + borderSize - borderLineWidth + segmentWidth;
         float posY = borderSize * 2
-                + (pixelSize + pixelDistance) * machine.getField().getHeight()
+                + (pixelSize + pixelDistance) * state.getField().getHeight()
                 - (borderSize * 1.5f);
 
         float factor = 1.25f;
 
         drawString(posX, posY, "HI-SCORE");
         drawNumber(posX, posY - segmentSize * factor,
-                machine.params.hiscore.get(), 6);
+                state.params.hiscore.get(), 6);
 
         drawString(posX, posY - segmentSize * factor * 2, "SCORE");
         drawNumber(posX, posY - segmentSize * factor * 3,
-                machine.params.score.get(), 6);
+                state.params.score.get(), 6);
     }
 
     private void drawHelper() {
-        PixelMatrix helper = machine.getHelper();
+        PixelMatrix helper = state.getHelper();
 
         float posX = borderSize + (pixelSize + pixelDistance)
-                * machine.getField().getWidth() + borderSize - borderLineWidth;
+                * state.getField().getWidth() + borderSize - borderLineWidth;
         float posY = borderSize + (pixelSize + pixelDistance)
-                * machine.getField().getHeight() + borderSize
+                * state.getField().getHeight() + borderSize
                 - ((pixelSize + pixelDistance) * helper.getHeight() * 2 + borderSize);
 
         for (int i = 0; i < helper.getHeight(); i++) {
@@ -282,17 +282,17 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
     private void drawSpeedAndLevel() {
         float posX = borderSize + (pixelSize + pixelDistance)
-                * machine.getField().getWidth() + borderSize - borderLineWidth + segmentWidth;
+                * state.getField().getWidth() + borderSize - borderLineWidth + segmentWidth;
         float posY = borderSize + (pixelSize + pixelDistance)
-                * machine.getField().getHeight() + borderSize
-                - ((pixelSize + pixelDistance) * machine.getHelper().getHeight() * 2.3f + borderSize);
+                * state.getField().getHeight() + borderSize
+                - ((pixelSize + pixelDistance) * state.getHelper().getHeight() * 2.3f + borderSize);
 
         drawNumber(posX, posY,
-                machine.params.speed.get(), 2);
+                state.params.speed.get(), 2);
         drawString(posX, posY - segmentSize * 1.5f, "SPEED");
 
         drawNumber(posX + (segmentWidth * 10), posY,
-                machine.params.level.get(), 2);
+                state.params.level.get(), 2);
         drawString(posX + (segmentWidth * 10), posY - segmentSize * 1.5f, "LEVEL");
     }
 
@@ -324,7 +324,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
     private void drawVolume() {
         float posX = borderSize + (pixelSize + pixelDistance)
-                * machine.getField().getWidth() + borderSize - borderLineWidth
+                * state.getField().getWidth() + borderSize - borderLineWidth
                 + (segmentWidth * 1.5f) * 4;
         float posY = borderSize + segmentSize * 2;
 
@@ -343,7 +343,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
         GL11.glVertex2f(posX + volumeIconSize, posY - volumeIconSize * 0.5f);
         GL11.glEnd();
 
-        int volume = machine.volume.get();
+        int volume = state.volume.get();
 
         GL11.glLineWidth(volumeIconSize / 4);
 
@@ -370,11 +370,11 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
     private void drawPause() {
         float posX = borderSize + (pixelSize + pixelDistance)
-                * machine.getField().getWidth() + borderSize - borderLineWidth
+                * state.getField().getWidth() + borderSize - borderLineWidth
                 + (segmentWidth * 1.5f) * 4;
         float posY = borderSize;
 
-        drawString(posX, posY, machine.pause.get() ? "PAUSE" : "     ");
+        drawString(posX, posY, state.pause.get() ? "PAUSE" : "     ");
     }
 
     private void drawNumber(float x, float y, int num, int digitCount) {

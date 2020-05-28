@@ -1,10 +1,10 @@
-package me.ilnicki.bg.core.machine;
+package me.ilnicki.bg.core.state;
 
-import me.ilnicki.bg.core.machine.keyboard.Keyboard;
-import me.ilnicki.bg.core.machine.parameters.BoolParameter;
-import me.ilnicki.bg.core.machine.parameters.IntParameter;
+import me.ilnicki.bg.core.state.keyboard.Keyboard;
+import me.ilnicki.bg.core.state.parameters.BoolParameter;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 
-public class Machine {
+public class State {
     public static class Parameters {
         public final IntParameter score = new IntParameter(0, 999999);
         public final IntParameter hiscore = new IntParameter(0, 999999);

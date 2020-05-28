@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.system;
 
 import me.ilnicki.bg.core.data.DataBean;
 
-public class MachineConfig implements DataBean {
+public class StateConfig implements DataBean {
     private int argument = 1;
     private int selectedGame = 0;
     private int hiscore = 0;

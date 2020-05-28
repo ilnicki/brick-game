@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.machine.keyboard;
+package me.ilnicki.bg.core.state.keyboard;
 
 public class Keyboard {
     public enum CtrlKey {

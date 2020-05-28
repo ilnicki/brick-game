@@ -1,12 +1,12 @@
 package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.machine.Helper;
-import me.ilnicki.bg.core.machine.Machine.Parameters;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKeyMap;
+import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.Helper;
+import me.ilnicki.bg.core.state.State.Parameters;
+import me.ilnicki.bg.core.state.keyboard.Keyboard;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;

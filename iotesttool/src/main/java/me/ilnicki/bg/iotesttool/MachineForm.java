@@ -3,9 +3,9 @@ package me.ilnicki.bg.iotesttool;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import me.ilnicki.bg.core.machine.Machine;
-import me.ilnicki.bg.core.machine.parameters.BoolParameter;
-import me.ilnicki.bg.core.machine.parameters.IntParameter;
+import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.state.parameters.BoolParameter;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.HashPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
@@ -28,26 +28,26 @@ public class MachineForm extends JFrame {
     private JCheckBox checkBoxPause;
     private JPanel helperPanel;
 
-    public MachineForm(Machine machine) {
+    public MachineForm(State state) {
         $$$setupUI$$$();
 
         setTitle("State control");
         setContentPane(contentPanel);
 
         EditablePixelMatrix fieldPm = new HashPixelMatrix(10, 20);
-        machine.getField().getLayers().add(new Layer<>(fieldPm));
+        state.getField().getLayers().add(new Layer<>(fieldPm));
         attachPixelMatrixToPanel(fieldPm, fieldPanel);
 
-        attachParamToSpinner(spinnerHiScore, machine.params.hiscore);
-        attachParamToSpinner(spinnerScore, machine.params.score);
-        attachParamToSpinner(spinnerSpeed, machine.params.speed);
-        attachParamToSpinner(spinnerLevel, machine.params.level);
-        attachParamToSpinner(spinnerVolume, machine.volume);
+        attachParamToSpinner(spinnerHiScore, state.params.hiscore);
+        attachParamToSpinner(spinnerScore, state.params.score);
+        attachParamToSpinner(spinnerSpeed, state.params.speed);
+        attachParamToSpinner(spinnerLevel, state.params.level);
+        attachParamToSpinner(spinnerVolume, state.volume);
 
-        attachParamToCheckbox(checkBoxPause, machine.pause);
+        attachParamToCheckbox(checkBoxPause, state.pause);
 
         EditablePixelMatrix helperPm = new HashPixelMatrix(4, 4);
-        machine.getHelper().getLayers().add(new Layer<>(helperPm));
+        state.getHelper().getLayers().add(new Layer<>(helperPm));
         attachPixelMatrixToPanel(helperPm, helperPanel);
     }
 

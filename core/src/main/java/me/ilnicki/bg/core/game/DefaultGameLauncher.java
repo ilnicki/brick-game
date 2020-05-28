@@ -1,12 +1,12 @@
 package me.ilnicki.bg.core.game;
 
 import me.ilnicki.bg.core.game.splash.SplashManifest;
-import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.machine.Machine;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.SysKey;
-import me.ilnicki.bg.core.machine.parameters.IntParameter;
+import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.state.keyboard.Keyboard;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
@@ -15,7 +15,7 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.transforming.transformers.Translate;
-import me.ilnicki.bg.core.system.MachineConfig;
+import me.ilnicki.bg.core.system.StateConfig;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.container.Args;
@@ -27,14 +27,14 @@ public class DefaultGameLauncher implements Game {
     @Inject
     private GameManager gameManager;
 
-    private final Machine machine;
+    private final State state;
 
     @Inject
     @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;
 
     @Inject
-    private MachineConfig config;
+    private StateConfig config;
 
     private final Keyboard keyboard;
 
@@ -48,11 +48,11 @@ public class DefaultGameLauncher implements Game {
     private List<Manifest> manifestList;
 
     @Inject
-    public DefaultGameLauncher(Machine machine) {
-        this.machine = machine;
+    public DefaultGameLauncher(State state) {
+        this.state = state;
 
-        keyboard = machine.getKeyboard();
-        Field field = machine.getField();
+        keyboard = state.getKeyboard();
+        Field field = state.getField();
 
         logoLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
         logoLayer.transform(new Translate(new Vector(0, 15)));
@@ -75,13 +75,13 @@ public class DefaultGameLauncher implements Game {
         manifestList = gameManager.getManifestList();
 
         selectedGame = new IntParameter(0, manifestList.size() - 1);
-        Machine.Parameters params = machine.params;
+        State.Parameters params = state.params;
 
         selectedGame.set(config.getSelectedGame());
         params.hiscore.set(config.getHiscore());
         params.level.set(config.getLevel());
         params.speed.set(config.getSpeed());
-        machine.volume.set(config.getVolume());
+        state.volume.set(config.getVolume());
         argument.set(config.getArgument());
 
         gameManager.shareArgument(argument);
@@ -104,11 +104,11 @@ public class DefaultGameLauncher implements Game {
         }
 
         if (keyboard.getCtrlKeyMap().getValue(CtrlKey.RIGHT) == 3) {
-            machine.params.speed.inc();
+            state.params.speed.inc();
         }
 
         if (keyboard.getCtrlKeyMap().getValue(Keyboard.CtrlKey.LEFT) == 3) {
-            machine.params.level.inc();
+            state.params.level.inc();
         }
 
         if (keyboard.getCtrlKeyMap().getValue(CtrlKey.ROTATE) == 3) {
@@ -117,7 +117,7 @@ public class DefaultGameLauncher implements Game {
 
         if (keyboard.getSysKeyMap().getValue(SysKey.START) == 0) {
             gameManager.launchGame(manifestList.get(selectedGame.get()));
-            machine.pause.set(false);
+            state.pause.set(false);
         }
 
         drawLogo();
@@ -127,14 +127,14 @@ public class DefaultGameLauncher implements Game {
 
     @Override
     public void stop() {
-        Machine.Parameters params = machine.params;
+        State.Parameters params = state.params;
 
         config.setArgument(argument.get());
         config.setSelectedGame(selectedGame.get());
         config.setHiscore(params.hiscore.get());
         config.setLevel(params.level.get());
         config.setSpeed(params.speed.get());
-        config.setVolume(machine.volume.get());
+        config.setVolume(state.volume.get());
     }
 
     private void drawLogo() {

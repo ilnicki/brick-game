@@ -1,9 +1,9 @@
 package me.ilnicki.bg.core.game.splash;
 
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.machine.Field;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.machine.keyboard.Keyboard.CtrlKeyMap;
+import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;

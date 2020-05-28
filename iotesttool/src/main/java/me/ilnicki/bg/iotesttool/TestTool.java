@@ -1,7 +1,7 @@
 package me.ilnicki.bg.iotesttool;
 
 import me.ilnicki.bg.core.io.Drawer;
-import me.ilnicki.bg.core.machine.Machine;
+import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.lwjgl3opengl.Lwjgl3;
 import me.ilnicki.bg.lwjgltick.LwjglTickProvider;
@@ -21,13 +21,13 @@ public class TestTool {
         }
 
         Container container = new ComponentContainer();
-        container.share(new Machine());
+        container.share(new State());
         container.singleton(Lwjgl3.class);
         container.link(Drawer.class, Lwjgl3.class);
 
         final LwjglTickProvider ticker = new LwjglTickProvider(60);
 
-        final JFrame frame = new MachineForm(container.get(Machine.class));
+        final JFrame frame = new MachineForm(container.get(State.class));
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         container.singleton(Kernel.class, new TestKernel() {

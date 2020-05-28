@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.machine.parameters;
+package me.ilnicki.bg.core.state.parameters;
 
 import me.ilnicki.bg.core.system.Ref;
 
