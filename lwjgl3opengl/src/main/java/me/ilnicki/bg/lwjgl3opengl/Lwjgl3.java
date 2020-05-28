@@ -2,13 +2,13 @@ package me.ilnicki.bg.lwjgl3opengl;
 
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.io.KeyReader;
+import me.ilnicki.bg.core.pixelmatrix.Pixel;
+import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.state.keyboard.UpdatableKeyMap;
-import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.container.Inject;
 import org.lwjgl.glfw.Callbacks;

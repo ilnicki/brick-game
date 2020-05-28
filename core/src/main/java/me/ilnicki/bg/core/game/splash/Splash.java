@@ -1,9 +1,6 @@
 package me.ilnicki.bg.core.game.splash;
 
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.state.Field;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
@@ -12,6 +9,9 @@ import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.modifying.Invert;
+import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;

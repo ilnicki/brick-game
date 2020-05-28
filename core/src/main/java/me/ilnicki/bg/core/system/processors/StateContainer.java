@@ -1,10 +1,10 @@
 package me.ilnicki.bg.core.system.processors;
 
+import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.state.keyboard.Keyboard;
-import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.container.ComponentContainer;
 import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;

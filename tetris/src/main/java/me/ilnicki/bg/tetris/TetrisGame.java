@@ -1,14 +1,14 @@
 package me.ilnicki.bg.tetris;
 
 import me.ilnicki.bg.core.game.Game;
-import me.ilnicki.bg.core.state.Field;
-import me.ilnicki.bg.core.state.Helper;
-import me.ilnicki.bg.core.state.State;
-import me.ilnicki.bg.core.state.keyboard.KeyMap;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
+import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.Helper;
+import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.state.keyboard.KeyMap;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.tetris.pieces.Piece;
 import me.ilnicki.bg.tetris.pieces.PieceFactory;

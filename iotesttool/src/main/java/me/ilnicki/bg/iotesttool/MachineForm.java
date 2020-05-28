@@ -3,14 +3,14 @@ package me.ilnicki.bg.iotesttool;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import me.ilnicki.bg.core.state.State;
-import me.ilnicki.bg.core.state.parameters.BoolParameter;
-import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.HashPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
+import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.state.parameters.BoolParameter;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
