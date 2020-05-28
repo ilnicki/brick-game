@@ -11,15 +11,15 @@ public class ArrayKeyMap<E extends Enum<E>> implements UpdatableKeyMap<E> {
         Arrays.fill(states, -1);
     }
 
-    public int getState(E key) {
+    public int getValue(E key) {
         return states[key.ordinal()];
     }
 
     public boolean isPressed(E key) {
-        return getState(key) > -1;
+        return getValue(key) > -1;
     }
 
     public void update(E key, boolean state) {
-        states[key.ordinal()] = state ? getState(key) + 1 : -1;
+        states[key.ordinal()] = state ? getValue(key) + 1 : -1;
     }
 }

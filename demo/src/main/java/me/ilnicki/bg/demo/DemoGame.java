@@ -66,12 +66,12 @@ public class DemoGame implements Game {
             gameManager.exitGame();
         }
 
-        if (keyMap.getState(CtrlKey.UP) == 5) {
+        if (keyMap.getValue(CtrlKey.UP) == 5) {
             params.score.inc();
             params.hiscore.dec();
         }
 
-        if (keyMap.getState(Keyboard.CtrlKey.DOWN) == 5) {
+        if (keyMap.getValue(Keyboard.CtrlKey.DOWN) == 5) {
             params.score.dec();
             params.hiscore.inc();
         }

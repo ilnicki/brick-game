@@ -103,7 +103,7 @@ public class TanksGame implements Game {
     private void handleControls() {
         Vector pos = player.getPos();
 
-        if (keyMap.getState(CtrlKey.UP) % moveSpeed == 0) {
+        if (keyMap.getValue(CtrlKey.UP) % moveSpeed == 0) {
             if (player.getDirection() == UP) {
                 int newPosY = pos.getY() + 1;
 
@@ -113,7 +113,7 @@ public class TanksGame implements Game {
             } else {
                 player.setDirection(UP);
             }
-        } else if (keyMap.getState(CtrlKey.DOWN) % moveSpeed == 0) {
+        } else if (keyMap.getValue(CtrlKey.DOWN) % moveSpeed == 0) {
             if (player.getDirection() == DOWN) {
                 int newPosY = pos.getY() - 1;
 
@@ -123,7 +123,7 @@ public class TanksGame implements Game {
             } else {
                 player.setDirection(DOWN);
             }
-        } else if (keyMap.getState(CtrlKey.LEFT) % moveSpeed == 0) {
+        } else if (keyMap.getValue(CtrlKey.LEFT) % moveSpeed == 0) {
             if (player.getDirection() == LEFT) {
                 int newPosX = pos.getX() - 1;
 
@@ -133,7 +133,7 @@ public class TanksGame implements Game {
             } else {
                 player.setDirection(LEFT);
             }
-        } else if (keyMap.getState(CtrlKey.RIGHT) % moveSpeed == 0) {
+        } else if (keyMap.getValue(CtrlKey.RIGHT) % moveSpeed == 0) {
             if (player.getDirection() == RIGHT) {
                 int newPosX = pos.getX() + 1;
 

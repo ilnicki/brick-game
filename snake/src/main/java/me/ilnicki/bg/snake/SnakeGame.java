@@ -95,15 +95,15 @@ public class SnakeGame implements Game {
     }
 
     private void processMove(long tick) {
-        if (keyMap.getState(CtrlKey.UP) % keyHandleFreq == 0) {
+        if (keyMap.getValue(CtrlKey.UP) % keyHandleFreq == 0) {
             moveSnake(DIR_UP);
-        } else if (keyMap.getState(CtrlKey.DOWN) % keyHandleFreq == 0) {
+        } else if (keyMap.getValue(CtrlKey.DOWN) % keyHandleFreq == 0) {
             moveSnake(DIR_DOWN);
-        } else if (keyMap.getState(CtrlKey.LEFT) % keyHandleFreq == 0) {
+        } else if (keyMap.getValue(CtrlKey.LEFT) % keyHandleFreq == 0) {
             moveSnake(DIR_LEFT);
-        } else if (keyMap.getState(CtrlKey.RIGHT) % keyHandleFreq == 0) {
+        } else if (keyMap.getValue(CtrlKey.RIGHT) % keyHandleFreq == 0) {
             moveSnake(DIR_RIGHT);
-        } else if (keyMap.getState(CtrlKey.ROTATE) % keyHandleFreq == 0) {
+        } else if (keyMap.getValue(CtrlKey.ROTATE) % keyHandleFreq == 0) {
             moveSnake(snake.getDirection());
         } else if (tick % getSnakeSpeed() == 0) {
             moveSnake(snake.getDirection());

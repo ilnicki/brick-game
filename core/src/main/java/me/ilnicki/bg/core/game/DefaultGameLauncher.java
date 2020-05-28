@@ -91,31 +91,31 @@ public class DefaultGameLauncher implements Game {
 
     @Override
     public void update(long tick) {
-        int downKeyTime = keyboard.getCtrlKeyMap().getState(CtrlKey.DOWN);
+        int downKeyTime = keyboard.getCtrlKeyMap().getValue(CtrlKey.DOWN);
         if (downKeyTime == 0 || (downKeyTime % 8 == 0 && downKeyTime > 24)) {
             argument.inc();
             drawArgument();
         }
 
-        int upKeyTime = keyboard.getCtrlKeyMap().getState(CtrlKey.UP);
+        int upKeyTime = keyboard.getCtrlKeyMap().getValue(CtrlKey.UP);
         if (upKeyTime == 0 || (upKeyTime % 8 == 0 && upKeyTime > 24)) {
             argument.dec();
             drawArgument();
         }
 
-        if (keyboard.getCtrlKeyMap().getState(CtrlKey.RIGHT) == 3) {
+        if (keyboard.getCtrlKeyMap().getValue(CtrlKey.RIGHT) == 3) {
             machine.params.speed.inc();
         }
 
-        if (keyboard.getCtrlKeyMap().getState(Keyboard.CtrlKey.LEFT) == 3) {
+        if (keyboard.getCtrlKeyMap().getValue(Keyboard.CtrlKey.LEFT) == 3) {
             machine.params.level.inc();
         }
 
-        if (keyboard.getCtrlKeyMap().getState(CtrlKey.ROTATE) == 3) {
+        if (keyboard.getCtrlKeyMap().getValue(CtrlKey.ROTATE) == 3) {
             selectedGame.inc();
         }
 
-        if (keyboard.getSysKeyMap().getState(SysKey.START) == 0) {
+        if (keyboard.getSysKeyMap().getValue(SysKey.START) == 0) {
             gameManager.launchGame(manifestList.get(selectedGame.get()));
             machine.pause.set(false);
         }

@@ -10,7 +10,6 @@ import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
-import me.ilnicki.container.PostConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class GameManager implements MachineProcessor {
     private Module currentGame;
     private Manifest nextGame;
     private List<Manifest> manifestList;
-    private State state;
+    private Stage stage;
     @Inject
     private SystemConfig systemConfig;
     @Inject
@@ -36,14 +35,9 @@ public class GameManager implements MachineProcessor {
     @Inject
     private MachineContainer machineContainer;
 
-    @PostConstructor
-    private void shareMachine() {
-        //container.share(machine.getScreen());
-    }
-
     @Override
     public void load() {
-        state = State.MANAGER_LAUNCHING;
+        stage = Stage.MANAGER_LAUNCHING;
         manifestList = new ArrayList<>();
 
         for (String gameName : gamesConfig.getGameManifests()) {
@@ -61,7 +55,7 @@ public class GameManager implements MachineProcessor {
         }
 
         launcherField = machine.getField();
-        state = State.GAME_PROCESSING;
+        stage = Stage.GAME_PROCESSING;
         currentGame = launcher;
 
         launcher.load();
@@ -69,11 +63,11 @@ public class GameManager implements MachineProcessor {
 
     @Override
     public void update(long tick) {
-        switch (state) {
+        switch (stage) {
             case MANAGER_LAUNCHING:
                 break;
             case GAME_LAUNCHING:
-                state = State.GAME_PROCESSING;
+                stage = Stage.GAME_PROCESSING;
                 machine.refreshField();
                 currentGame = machineContainer.get(nextGame.getGameClass());
                 nextGame = null;
@@ -81,7 +75,7 @@ public class GameManager implements MachineProcessor {
                 currentGame.load();
                 break;
             case GAME_STOPPING:
-                state = State.GAME_PROCESSING;
+                stage = Stage.GAME_PROCESSING;
                 currentGame = launcher;
                 machine.setField(launcherField);
                 break;
@@ -113,12 +107,12 @@ public class GameManager implements MachineProcessor {
 
     public void launchGame(Manifest manifest) {
         nextGame = manifest;
-        state = State.GAME_LAUNCHING;
+        stage = Stage.GAME_LAUNCHING;
     }
 
     public void exitGame() {
         currentGame.stop();
-        state = State.GAME_STOPPING;
+        stage = Stage.GAME_STOPPING;
     }
 
     private Manifest loadGameManifest(String manifestName) {
@@ -129,7 +123,7 @@ public class GameManager implements MachineProcessor {
         }
     }
 
-    private enum State {
+    private enum Stage {
         MANAGER_LAUNCHING,
         GAME_LAUNCHING,
         GAME_STOPPING,

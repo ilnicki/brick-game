@@ -26,11 +26,11 @@ public class SysKeysProcessor implements MachineProcessor {
 
     @Override
     public void update(long tick) {
-        if (keyMap.getState(Keyboard.SysKey.SOUND) == 0) {
+        if (keyMap.getValue(Keyboard.SysKey.SOUND) == 0) {
             volume.inc();
         }
 
-        if (keyMap.getState(Keyboard.SysKey.START) == 0) {
+        if (keyMap.getValue(Keyboard.SysKey.START) == 0) {
             pause.toggle();
         }
 
