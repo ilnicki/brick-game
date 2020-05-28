@@ -6,7 +6,7 @@ Retro Chinese-made handheld clone made with Java 8.
 
 ## core
 
-Common engine components needed for all modules in app.
+Common engine components needed for all modules in an app.
 
 ## container
 

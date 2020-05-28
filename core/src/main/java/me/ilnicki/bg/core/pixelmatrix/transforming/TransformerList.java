@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransformerList implements VectorTransformer {
-    private List<VectorTransformer> transformers = new ArrayList<>();
+    private final List<VectorTransformer> transformers = new ArrayList<>();
     private VectorTransformer applier = null;
 
     @Override

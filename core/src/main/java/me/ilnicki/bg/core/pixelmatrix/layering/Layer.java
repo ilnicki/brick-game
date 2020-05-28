@@ -9,7 +9,7 @@ import me.ilnicki.bg.core.pixelmatrix.transforming.VectorTransformer;
 
 public final class Layer<T extends PixelMatrix> implements PixelMatrix {
     private T data;
-    private TransformerList transformers = new TransformerList();
+    private final TransformerList transformers = new TransformerList();
 
     public Layer(T pm) {
         this.data = pm;

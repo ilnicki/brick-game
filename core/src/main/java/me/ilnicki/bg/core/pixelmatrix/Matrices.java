@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class Matrices {
-    public static PixelMatrix EMPTY = new ArrayPixelMatrix(0, 0);
+    public static final PixelMatrix EMPTY = new ArrayPixelMatrix(0, 0);
 
     public enum ReflectType {
         HORIZONTALLY,

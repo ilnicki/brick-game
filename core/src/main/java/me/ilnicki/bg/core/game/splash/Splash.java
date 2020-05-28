@@ -32,7 +32,7 @@ public class Splash implements Game {
     @Inject
     private Field field;
 
-    private EditablePixelMatrix mask = new ArrayPixelMatrix(10, 20);
+    private final EditablePixelMatrix mask = new ArrayPixelMatrix(10, 20);
     private SpiralGenerator spiral = new SpiralGenerator(mask.getWidth(), mask.getHeight());
 
     @Override
