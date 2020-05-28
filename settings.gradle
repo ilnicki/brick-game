@@ -9,4 +9,5 @@ include 'demo'
 include 'tanks'
 include 'tetris'
 include 'lwjgltick'
+include 'iotesttool'
 
