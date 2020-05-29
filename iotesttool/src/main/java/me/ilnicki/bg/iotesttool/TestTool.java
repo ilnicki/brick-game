@@ -14,6 +14,10 @@ import java.awt.event.WindowEvent;
 
 public class TestTool {
     public static void main(String[] args) {
+        run(Lwjgl3.class);
+    }
+
+    public static <T extends Drawer> void run(Class<T> clazz) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -22,8 +26,8 @@ public class TestTool {
 
         Container container = new ComponentContainer();
         container.share(new State());
-        container.singleton(Lwjgl3.class);
-        container.link(Drawer.class, Lwjgl3.class);
+        container.singleton(clazz);
+        container.link(Drawer.class, clazz);
 
         final LwjglTickProvider ticker = new LwjglTickProvider(60);
 
