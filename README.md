@@ -12,7 +12,7 @@ Common engine components needed for all modules in an app.
 
 Annotation based dependency injection container implementation. 
 
-## lwjgl3opengl
+## io-lwjgl3-opengl
 
 LWJGL 3 based I/O module using OpenGL lib bindings.
 
