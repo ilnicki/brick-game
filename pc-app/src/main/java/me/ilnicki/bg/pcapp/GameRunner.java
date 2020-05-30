@@ -10,7 +10,6 @@ import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoaderFactory;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.system.CoreModule;
 import me.ilnicki.bg.core.system.ModuleSet;
-import me.ilnicki.bg.core.system.RootProcessor;
 import me.ilnicki.bg.core.system.Runner;
 import me.ilnicki.bg.core.system.SystemManager;
 import me.ilnicki.bg.core.system.processors.GameManager;
@@ -45,12 +44,8 @@ public class GameRunner implements Runner {
         container.bind(me.ilnicki.bg.core.game.GamesConfig.class, me.ilnicki.bg.pcapp.GamesConfig.class);
 
         modules.clear();
-
-        modules.addAll(container.getCompatible(RootProcessor.class));
         modules.addAll(container.getCompatible(CoreModule.class));
-
         modules.load();
-
         tp.start(modules::update);
     }
 

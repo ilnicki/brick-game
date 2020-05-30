@@ -6,10 +6,10 @@ import me.ilnicki.bg.core.state.keyboard.Keyboard;
 import me.ilnicki.bg.core.state.parameters.BoolParameter;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.Kernel;
-import me.ilnicki.bg.core.system.RootProcessor;
+import me.ilnicki.bg.core.system.CoreModule;
 import me.ilnicki.container.Inject;
 
-public class SysKeysProcessor implements RootProcessor {
+public class SysKeysProcessor implements CoreModule {
     private final KeyMap<Keyboard.SysKey> keyMap;
     private final IntParameter volume;
     private final BoolParameter pause;

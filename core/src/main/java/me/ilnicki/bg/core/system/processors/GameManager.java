@@ -4,9 +4,9 @@ import me.ilnicki.bg.core.game.GamesConfig;
 import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.system.CoreModule;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.system.Module;
-import me.ilnicki.bg.core.system.RootProcessor;
 import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
@@ -14,7 +14,7 @@ import me.ilnicki.container.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameManager implements RootProcessor {
+public class GameManager implements CoreModule {
 
     private Module launcher;
     @Inject
