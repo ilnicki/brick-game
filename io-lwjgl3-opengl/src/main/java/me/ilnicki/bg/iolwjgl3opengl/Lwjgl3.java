@@ -27,6 +27,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
     private long window;
 
     private final SegmentSchematics segments = new SegmentSchematics();
+    private static final boolean CONFIG_ENABLE_VSYNC = true;
 
     private final float pixelSize = 24.0f;
     private final float pixelDecorSize = pixelSize - pixelSize / 6;
@@ -116,8 +117,10 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         // Make the OpenGL context current
         GLFW.glfwMakeContextCurrent(window);
-        // Enable v-sync
-        GLFW.glfwSwapInterval(1);
+
+        if (CONFIG_ENABLE_VSYNC) {
+            GLFW.glfwSwapInterval(1);
+        }
 
         // Make the window visible
         GLFW.glfwShowWindow(window);
