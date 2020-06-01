@@ -137,7 +137,7 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         // Poll for window events. The key callback above will only be
         // invoked during this call.
         GLFW.glfwPollEvents();

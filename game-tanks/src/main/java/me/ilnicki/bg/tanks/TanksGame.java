@@ -70,6 +70,8 @@ public class TanksGame implements Game {
     private final int moveSpeed = 4;
     private final Random random = new Random();
 
+    private long tick = 0;
+
     @Inject
     public TanksGame(Field field) {
         field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
@@ -84,7 +86,7 @@ public class TanksGame implements Game {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         if (!tanks.contains(player)) {
             gameManager.exitGame();
         }
@@ -97,6 +99,8 @@ public class TanksGame implements Game {
         drawTanks();
         drawBullets();
         drawWalls();
+
+        tick++;
     }
 
 

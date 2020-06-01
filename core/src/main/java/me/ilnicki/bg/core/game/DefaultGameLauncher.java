@@ -90,7 +90,7 @@ public class DefaultGameLauncher implements Game {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         int downKeyTime = keyboard.getCtrlKeyMap().getValue(CtrlKey.DOWN);
         if (downKeyTime == 0 || (downKeyTime % 8 == 0 && downKeyTime > 24)) {
             argument.inc();

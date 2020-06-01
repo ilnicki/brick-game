@@ -83,8 +83,8 @@ public class ModuleSet implements Set<Module>, Module {
     }
 
     @Override
-    public void update(long tick) {
-        modules.forEach(module -> module.update(tick));
+    public void update(int delta) {
+        modules.forEach(module -> module.update(delta));
     }
 
     @Override

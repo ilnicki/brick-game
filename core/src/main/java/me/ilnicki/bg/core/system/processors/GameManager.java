@@ -62,7 +62,7 @@ public class GameManager implements CoreModule {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         switch (stage) {
             case MANAGER_LAUNCHING:
                 break;
@@ -83,7 +83,7 @@ public class GameManager implements CoreModule {
                 if (!state.pause.get() || currentGame == launcher) {
                     //If game not paused or current process is launcher
                     state.pause.set(false);
-                    currentGame.update(tick);
+                    currentGame.update(delta);
                 }
                 break;
         }

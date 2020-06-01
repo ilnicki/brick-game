@@ -41,6 +41,8 @@ public class DemoGame implements Game {
     @Inject
     private GameArgument argument;
 
+    private long tick = 0;
+
     @Inject
     public DemoGame(Field field, Helper helper) {
         field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
@@ -48,7 +50,7 @@ public class DemoGame implements Game {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         String keys = EnumSet.allOf(CtrlKey.class)
                 .stream()
                 .filter(keyMap::isPressed)
@@ -56,7 +58,7 @@ public class DemoGame implements Game {
                 .collect(Collectors.joining(" "));
 
         if (keys.length() > 0) {
-            System.out.println("Tick: " + tick + "; Keys: " + keys);
+            System.out.printf("Tick: %d; Delta: %d; Keys: %s;\n", tick , delta, keys);
         }
 
         if (keyMap.isPressed(CtrlKey.UP)
@@ -78,6 +80,8 @@ public class DemoGame implements Game {
 
         printTime();
         drawArg();
+
+        tick++;
     }
 
     private void drawArg() {

@@ -58,6 +58,8 @@ public class SnakeGame implements Game {
     private SnakeHead snake;
     private byte livesCount = 4;
 
+    private long tick = 0;
+
     private boolean isGameStarted;
 
     @Inject
@@ -81,7 +83,7 @@ public class SnakeGame implements Game {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         if (livesCount > 0) {
             if (isGameStarted || checkGameStarted()) {
                 processMove(tick);
@@ -92,6 +94,8 @@ public class SnakeGame implements Game {
         } else {
             gameManager.exitGame();
         }
+
+        tick++;
     }
 
     private void processMove(long tick) {

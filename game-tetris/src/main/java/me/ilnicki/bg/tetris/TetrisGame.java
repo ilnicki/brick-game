@@ -53,7 +53,7 @@ public class TetrisGame implements Game {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
 
     }
 }

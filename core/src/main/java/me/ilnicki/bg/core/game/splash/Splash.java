@@ -47,7 +47,7 @@ public class Splash implements Game {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         if (Arrays.stream(CtrlKey.values()).anyMatch(key -> keyMap.isPressed(key))) {
             gameManager.exitGame();
         }

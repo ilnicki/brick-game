@@ -25,7 +25,7 @@ public class SysKeysProcessor implements CoreModule {
     }
 
     @Override
-    public void update(long tick) {
+    public void update(int delta) {
         if (keyMap.getValue(Keyboard.SysKey.SOUND) == 0) {
             volume.inc();
         }

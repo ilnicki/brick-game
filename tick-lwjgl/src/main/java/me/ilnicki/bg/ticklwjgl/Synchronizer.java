@@ -31,6 +31,8 @@
  */
 package me.ilnicki.bg.ticklwjgl;
 
+import java.util.Arrays;
+
 /**
  * A highly accurate sync method that continually adapts to the system it runs
  * on to provide reliable results.
@@ -53,8 +55,8 @@ class Synchronizer {
     /**
      * For calculating the averages the previous sleep/yield times are stored.
      */
-    private final RunningAvg sleepDurations;
-    private final RunningAvg yieldDurations;
+    private RunningAvg sleepDurations;
+    private RunningAvg yieldDurations;
 
     /**
      * The time to sleep/yield until the next frame.
@@ -63,14 +65,6 @@ class Synchronizer {
 
     Synchronizer(int fps) {
         this.fps = fps;
-
-        sleepDurations = new RunningAvg(10);
-        sleepDurations.init(1_000_000);
-
-        yieldDurations = new RunningAvg(10);
-        yieldDurations.init((int) (-(getTime() - getTime()) * 1.333));
-
-        nextFrame = getTime();
 
         if (System.getProperty("os.name").startsWith("Win")) {
             // On windows the sleep functions can be highly inaccurate by
@@ -97,8 +91,18 @@ class Synchronizer {
      *
      * @return will return the current time in nano's
      */
-    private static long getTime() {
+    public long getTime() {
         return System.nanoTime();
+    }
+
+    private void init() {
+        sleepDurations = new RunningAvg(10);
+        sleepDurations.init(1_000_000);
+
+        yieldDurations = new RunningAvg(10);
+        yieldDurations.init((int) (-(getTime() - getTime()) * 1.333));
+
+        nextFrame = getTime();
     }
 
     /**
@@ -106,6 +110,10 @@ class Synchronizer {
      * rate. It should be called once every frame.
      */
     void sync() {
+        if(sleepDurations == null || yieldDurations == null) {
+            init();
+        }
+
         try {
             // Sleep until the average sleep time is greater than the time remaining till nextFrame.
             for (long t0 = getTime(), t1; (nextFrame - t0) > sleepDurations.avg(); t0 = t1) {
@@ -131,37 +139,31 @@ class Synchronizer {
     private static class RunningAvg {
         private static final long DAMPEN_THRESHOLD = 10_000_000L; // 10ms
         private static final float DAMPEN_FACTOR = 0.9f; // don't change: 0.9f is exactly right!
+
         private final long[] slots;
-        private int offset;
+        private int nextSlot = 0;
 
         RunningAvg(int slotCount) {
             slots = new long[slotCount];
-            offset = 0;
         }
 
         void init(long value) {
-            while (this.offset < this.slots.length) {
-                this.slots[this.offset++] = value;
-            }
+            Arrays.fill(slots, value);
         }
 
         void add(long value) {
-            this.slots[this.offset++ % this.slots.length] = value;
-            this.offset %= this.slots.length;
+            slots[nextSlot] = value;
+            nextSlot = (nextSlot + 1) % slots.length;
         }
 
         long avg() {
-            long sum = 0;
-            for (long slot : slots) {
-                sum += slot;
-            }
-            return sum / slots.length;
+            return Math.round(Arrays.stream(slots).average().orElse(0));
         }
 
         void dampenForLowResTicker() {
-            if (this.avg() > DAMPEN_THRESHOLD) {
-                for (int i = 0; i < this.slots.length; i++) {
-                    this.slots[i] *= DAMPEN_FACTOR;
+            if (avg() > DAMPEN_THRESHOLD) {
+                for (int i = 0; i < slots.length; i++) {
+                    slots[i] *= DAMPEN_FACTOR;
                 }
             }
         }

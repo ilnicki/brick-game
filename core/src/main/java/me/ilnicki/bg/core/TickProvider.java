@@ -6,6 +6,6 @@ public interface TickProvider {
     void stop();
 
     interface TickConsumer {
-        void consume(long tick);
+        void consume(int delta);
     }
 }
