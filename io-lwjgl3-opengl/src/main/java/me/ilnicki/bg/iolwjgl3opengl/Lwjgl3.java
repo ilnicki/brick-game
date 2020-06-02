@@ -10,6 +10,7 @@ import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.state.keyboard.UpdatableKeyMap;
 import me.ilnicki.bg.core.system.Kernel;
+import me.ilnicki.bg.core.util.tick.UpdateSpeedTester;
 import me.ilnicki.container.Inject;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
@@ -23,12 +24,14 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.IntBuffer;
 
 public class Lwjgl3 implements Drawer, KeyReader {
-    // The window handle
-    private long window;
+    private static final String WINDOW_TITLE = "Brick Game";
 
-    private final SegmentSchematics segments = new SegmentSchematics();
+    private static final boolean CONFIG_SHOW_FPS = true;
     private static final boolean CONFIG_ENABLE_VSYNC = true;
 
+    private final UpdateSpeedTester fps = new UpdateSpeedTester(UpdateSpeedTester.SYSTEM_TIME, (long) 1e9);
+
+    private final SegmentSchematics segments = new SegmentSchematics();
     private final float pixelSize = 24.0f;
     private final float pixelDecorSize = pixelSize - pixelSize / 6;
     private final float pixelInnerSize = pixelDecorSize - pixelSize / 6;
@@ -47,7 +50,8 @@ public class Lwjgl3 implements Drawer, KeyReader {
     private final Color bgColor = new Color(0x6D, 0x77, 0x5C);
     private final Color disColor = new Color(0x60, 0x6F, 0x5C);
     private final Color fgColor = new Color(0x0, 0x0, 0x0);
-
+    // The window handle
+    private long window;
     @Inject
     private Kernel kernel;
 
@@ -75,8 +79,9 @@ public class Lwjgl3 implements Drawer, KeyReader {
         GLFWErrorCallback.createPrint(System.err).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
-        if (!GLFW.glfwInit())
+        if (!GLFW.glfwInit()) {
             throw new IllegalStateException("Unable to initialize GLFW");
+        }
 
         // Configure GLFW
         GLFW.glfwDefaultWindowHints(); // required, the current window hints are already the default
@@ -85,15 +90,17 @@ public class Lwjgl3 implements Drawer, KeyReader {
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE); // the window will stay hidden after creation
 
         // Create the window
-        window = GLFW.glfwCreateWindow(width, height, "Brick Game", MemoryUtil.NULL, MemoryUtil.NULL);
+        window = GLFW.glfwCreateWindow(width, height, WINDOW_TITLE, MemoryUtil.NULL, MemoryUtil.NULL);
 
-        if (window == MemoryUtil.NULL)
+        if (window == MemoryUtil.NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
+        }
 
         // Setup a key callback. It will be called every time a key is pressed, repeated or released.
         GLFW.glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-            if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE)
+            if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE) {
                 GLFW.glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+            }
         });
 
         // Get the thread stack and push a new frame
@@ -134,6 +141,12 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         // Set the clear color
         GL11.glClearColor(bgColor.getFloatR(), bgColor.getFloatG(), bgColor.getFloatB(), 0.0f);
+
+        if (CONFIG_SHOW_FPS) {
+            fps.addListener(value ->
+                    GLFW.glfwSetWindowTitle(window, String.format("%s (FPS: %d)", WINDOW_TITLE, value))
+            );
+        }
     }
 
     @Override
@@ -141,6 +154,10 @@ public class Lwjgl3 implements Drawer, KeyReader {
         // Poll for window events. The key callback above will only be
         // invoked during this call.
         GLFW.glfwPollEvents();
+
+        if (CONFIG_SHOW_FPS) {
+            fps.update();
+        }
 
         if (GLFW.glfwWindowShouldClose(window)) {
             kernel.stop();
