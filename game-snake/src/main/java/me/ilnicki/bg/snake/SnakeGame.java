@@ -14,6 +14,7 @@ import me.ilnicki.bg.core.state.Helper;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.state.keyboard.Keyboard;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.container.Args;
@@ -49,8 +50,16 @@ public class SnakeGame implements Game {
     private Keyboard.CtrlKeyMap keyMap;
 
     @Inject
-    private State.Parameters params;
+    @Args({"score"})
+    private IntParameter score;
 
+    @Inject
+    @Args({"level"})
+    private IntParameter level;
+
+    @Inject
+    @Args({"speed"})
+    private IntParameter speed;
 
     private GameMode gameMode;
 
@@ -152,14 +161,14 @@ public class SnakeGame implements Game {
             if (entity instanceof Food) {
                 consumeFood((Food) entity);
 
-                params.score.set(params.score.get() + snake.size() - 3);
+                score.set(score.get() + snake.size() - 3);
 
-                if (params.score.get() > params.level.get() * params.speed.get() * 100) {
-                    params.level.inc();
+                if (score.get() > level.get() * speed.get() * 100) {
+                    level.inc();
                 }
 
-                if (params.score.get() > params.level.get() * 1000) {
-                    params.speed.inc();
+                if (score.get() > level.get() * 1000) {
+                    speed.inc();
                 }
 
                 generateFood();
@@ -279,7 +288,7 @@ public class SnakeGame implements Game {
 
     private void loadWalls() {
         try {
-            PixelMatrix walls = levelLoader.load(gameMode.getLevelPrefix() + params.level, false);
+            PixelMatrix walls = levelLoader.load(gameMode.getLevelPrefix() + level, false);
 
             if (walls != null) {
                 for (int y = 0; y < walls.getHeight(); y++) {
@@ -300,7 +309,7 @@ public class SnakeGame implements Game {
     }
 
     private int getSnakeSpeed() {
-        return 16 - params.speed.get();
+        return 16 - speed.get();
     }
 
     @Override

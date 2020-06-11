@@ -28,9 +28,6 @@ public class TetrisGame implements Game {
     private KeyMap keyboard;
 
     @Inject
-    private State.Parameters parameters;
-
-    @Inject
     @Args({"internal", "assets.sprites.tetris.pieces"})
     private PixelMatrixLoader unitsLoader;
 

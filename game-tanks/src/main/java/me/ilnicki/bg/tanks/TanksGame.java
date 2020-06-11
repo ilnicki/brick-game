@@ -14,6 +14,7 @@ import me.ilnicki.bg.core.state.Helper;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.state.keyboard.Keyboard;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.bg.tanks.units.Bullet;
 import me.ilnicki.bg.tanks.units.Tank;
@@ -45,7 +46,8 @@ public class TanksGame implements Game {
     private Keyboard.CtrlKeyMap keyMap;
 
     @Inject
-    private State.Parameters parameters;
+    @Args({"score"})
+    private IntParameter score;
 
     @Inject
     @Args({"internal", "assets.sprites.tanks.units"})
@@ -232,7 +234,7 @@ public class TanksGame implements Game {
             }
 
             if (tanks.removeIf(tank -> tank.isCollide(bullet.getPos()) && tank != bullet.getOwner())) {
-                parameters.score.inc();
+                score.inc();
                 i.remove();
             }
 

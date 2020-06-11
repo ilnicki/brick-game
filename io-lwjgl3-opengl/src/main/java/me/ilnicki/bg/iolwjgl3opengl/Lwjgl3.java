@@ -1,7 +1,7 @@
 package me.ilnicki.bg.iolwjgl3opengl;
 
 import me.ilnicki.bg.core.io.Drawer;
-import me.ilnicki.bg.core.io.KeyReader;
+import me.ilnicki.bg.core.io.ButtonReader;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
@@ -23,7 +23,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 
-public class Lwjgl3 implements Drawer, KeyReader {
+public class Lwjgl3 implements Drawer, ButtonReader {
     private static final String WINDOW_TITLE = "Brick Game";
 
     private static final boolean CONFIG_SHOW_FPS = true;
@@ -181,14 +181,14 @@ public class Lwjgl3 implements Drawer, KeyReader {
     }
 
     private void updateKeys() {
-        UpdatableKeyMap<CtrlKey> ctrlKeys = this.state.getKeyboard().getCtrlKeyMap();
+        UpdatableKeyMap<CtrlKey> ctrlKeys = this.state.keyboard.getCtrlKeyMap();
         ctrlKeys.update(CtrlKey.UP, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_UP) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.DOWN, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DOWN) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.LEFT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.RIGHT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_RIGHT) == GLFW.GLFW_PRESS);
         ctrlKeys.update(CtrlKey.ROTATE, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_SPACE) == GLFW.GLFW_PRESS);
 
-        UpdatableKeyMap<SysKey> sysKeys = this.state.getKeyboard().getSysKeyMap();
+        UpdatableKeyMap<SysKey> sysKeys = this.state.keyboard.getSysKeyMap();
         sysKeys.update(SysKey.ONOFF, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DELETE) == GLFW.GLFW_PRESS);
         sysKeys.update(SysKey.RESET, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_END) == GLFW.GLFW_PRESS);
         sysKeys.update(SysKey.START, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_ENTER) == GLFW.GLFW_PRESS);
@@ -272,11 +272,11 @@ public class Lwjgl3 implements Drawer, KeyReader {
 
         drawString(posX, posY, "HI-SCORE");
         drawNumber(posX, posY - segmentSize * factor,
-                state.params.hiscore.get(), 6);
+                state.hiscore.get(), 6);
 
         drawString(posX, posY - segmentSize * factor * 2, "SCORE");
         drawNumber(posX, posY - segmentSize * factor * 3,
-                state.params.score.get(), 6);
+                state.score.get(), 6);
     }
 
     private void drawHelper() {
@@ -308,11 +308,11 @@ public class Lwjgl3 implements Drawer, KeyReader {
                 - ((pixelSize + pixelDistance) * state.getHelper().getHeight() * 2.3f + borderSize);
 
         drawNumber(posX, posY,
-                state.params.speed.get(), 2);
+                state.speed.get(), 2);
         drawString(posX, posY - segmentSize * 1.5f, "SPEED");
 
         drawNumber(posX + (segmentWidth * 10), posY,
-                state.params.level.get(), 2);
+                state.level.get(), 2);
         drawString(posX + (segmentWidth * 10), posY - segmentSize * 1.5f, "LEVEL");
     }
 

@@ -38,10 +38,10 @@ public class MachineForm extends JFrame {
         state.getField().getLayers().add(new Layer<>(fieldPm));
         attachPixelMatrixToPanel(fieldPm, fieldPanel);
 
-        attachParamToSpinner(spinnerHiScore, state.params.hiscore);
-        attachParamToSpinner(spinnerScore, state.params.score);
-        attachParamToSpinner(spinnerSpeed, state.params.speed);
-        attachParamToSpinner(spinnerLevel, state.params.level);
+        attachParamToSpinner(spinnerHiScore, state.hiscore);
+        attachParamToSpinner(spinnerScore, state.score);
+        attachParamToSpinner(spinnerSpeed, state.speed);
+        attachParamToSpinner(spinnerLevel, state.level);
         attachParamToSpinner(spinnerVolume, state.volume);
 
         attachParamToCheckbox(checkBoxPause, state.pause);

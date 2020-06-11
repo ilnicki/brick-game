@@ -11,10 +11,10 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
-import me.ilnicki.bg.core.state.State.Parameters;
 import me.ilnicki.bg.core.state.keyboard.Keyboard;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
+import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
 import me.ilnicki.container.Args;
@@ -36,8 +36,15 @@ public class DemoGame implements Game {
     private CtrlKeyMap keyMap;
     @Inject
     private GameManager gameManager;
+
     @Inject
-    private Parameters params;
+    @Args({"score"})
+    private IntParameter score;
+
+    @Inject
+    @Args({"hiscore"})
+    private IntParameter hiscore;
+
     @Inject
     private GameArgument argument;
 
@@ -69,13 +76,13 @@ public class DemoGame implements Game {
         }
 
         if (keyMap.getValue(CtrlKey.UP) == 5) {
-            params.score.inc();
-            params.hiscore.dec();
+            score.inc();
+            hiscore.dec();
         }
 
         if (keyMap.getValue(Keyboard.CtrlKey.DOWN) == 5) {
-            params.score.dec();
-            params.hiscore.inc();
+            score.dec();
+            hiscore.inc();
         }
 
         printTime();

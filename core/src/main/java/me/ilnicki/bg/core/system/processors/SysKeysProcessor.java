@@ -19,7 +19,7 @@ public class SysKeysProcessor implements CoreModule {
 
     @Inject
     public SysKeysProcessor(State state) {
-        keyMap = state.getKeyboard().getSysKeyMap();
+        keyMap = state.keyboard.getSysKeyMap();
         volume = state.volume;
         pause = state.pause;
     }

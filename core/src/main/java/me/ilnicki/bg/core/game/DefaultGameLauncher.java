@@ -15,6 +15,7 @@ import me.ilnicki.bg.core.state.keyboard.Keyboard;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
 import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
+import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.StateConfig;
 import me.ilnicki.bg.core.system.processors.GameArgument;
 import me.ilnicki.bg.core.system.processors.GameManager;
@@ -23,7 +24,7 @@ import me.ilnicki.container.Inject;
 
 import java.util.List;
 
-public class DefaultGameLauncher implements Game {
+public class DefaultGameLauncher implements Module {
     @Inject
     private GameManager gameManager;
 
@@ -51,7 +52,7 @@ public class DefaultGameLauncher implements Game {
     public DefaultGameLauncher(State state) {
         this.state = state;
 
-        keyboard = state.getKeyboard();
+        keyboard = state.keyboard;
         Field field = state.getField();
 
         logoLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
@@ -75,12 +76,11 @@ public class DefaultGameLauncher implements Game {
         manifestList = gameManager.getManifestList();
 
         selectedGame = new IntParameter(0, manifestList.size() - 1);
-        State.Parameters params = state.params;
 
         selectedGame.set(config.getSelectedGame());
-        params.hiscore.set(config.getHiscore());
-        params.level.set(config.getLevel());
-        params.speed.set(config.getSpeed());
+        state.hiscore.set(config.getHiscore());
+        state.level.set(config.getLevel());
+        state.speed.set(config.getSpeed());
         state.volume.set(config.getVolume());
         argument.set(config.getArgument());
 
@@ -104,11 +104,11 @@ public class DefaultGameLauncher implements Game {
         }
 
         if (keyboard.getCtrlKeyMap().getValue(CtrlKey.RIGHT) == 3) {
-            state.params.speed.inc();
+            state.speed.inc();
         }
 
         if (keyboard.getCtrlKeyMap().getValue(Keyboard.CtrlKey.LEFT) == 3) {
-            state.params.level.inc();
+            state.level.inc();
         }
 
         if (keyboard.getCtrlKeyMap().getValue(CtrlKey.ROTATE) == 3) {
@@ -127,13 +127,11 @@ public class DefaultGameLauncher implements Game {
 
     @Override
     public void stop() {
-        State.Parameters params = state.params;
-
         config.setArgument(argument.get());
         config.setSelectedGame(selectedGame.get());
-        config.setHiscore(params.hiscore.get());
-        config.setLevel(params.level.get());
-        config.setSpeed(params.speed.get());
+        config.setHiscore(state.hiscore.get());
+        config.setLevel(state.level.get());
+        config.setSpeed(state.speed.get());
         config.setVolume(state.volume.get());
     }
 

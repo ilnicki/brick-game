@@ -5,24 +5,17 @@ import me.ilnicki.bg.core.state.parameters.BoolParameter;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 
 public class State {
-    public static class Parameters {
-        public final IntParameter score = new IntParameter(0, 999999);
-        public final IntParameter hiscore = new IntParameter(0, 999999);
-        public final IntParameter speed = new IntParameter(1, 10);
-        public final IntParameter level = new IntParameter(1, 10);
-    }
+    public final IntParameter score = new IntParameter(0, 999999);
+    public final IntParameter hiscore = new IntParameter(0, 999999);
+    public final IntParameter speed = new IntParameter(1, 10);
+    public final IntParameter level = new IntParameter(1, 10);
 
-    public final Parameters params = new Parameters();
     public final IntParameter volume = new IntParameter(0, 3);
     public final BoolParameter pause = new BoolParameter(false);
 
-    private final Keyboard keyboard = new Keyboard();
+    public final Keyboard keyboard = new Keyboard();
     private Field field = new Field();
     private final Helper helper = new Helper();
-
-    public Keyboard getKeyboard() {
-        return keyboard;
-    }
 
     public Field getField() {
         return field;

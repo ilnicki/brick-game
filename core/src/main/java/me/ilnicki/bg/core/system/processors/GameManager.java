@@ -71,7 +71,7 @@ public class GameManager implements CoreModule {
                 state.refreshField();
                 currentGame = stateContainer.get(nextGame.getGameClass());
                 nextGame = null;
-                state.params.score.set(0);
+                state.score.set(0);
                 currentGame.load();
                 break;
             case GAME_STOPPING:

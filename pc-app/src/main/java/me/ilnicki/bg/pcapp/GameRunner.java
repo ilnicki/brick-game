@@ -2,7 +2,7 @@ package me.ilnicki.bg.pcapp;
 
 import me.ilnicki.bg.core.TickProvider;
 import me.ilnicki.bg.core.io.Drawer;
-import me.ilnicki.bg.core.io.KeyReader;
+import me.ilnicki.bg.core.io.ButtonReader;
 import me.ilnicki.bg.core.io.SoundPlayer;
 import me.ilnicki.bg.core.io.dummy.Dummy;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
@@ -38,7 +38,7 @@ public class GameRunner implements Runner {
         container.singleton(Lwjgl3.class);
 
         container.link(Drawer.class, Lwjgl3.class);
-        container.link(KeyReader.class, Lwjgl3.class);
+        container.link(ButtonReader.class, Lwjgl3.class);
         container.link(SoundPlayer.class, Dummy.class);
 
         container.bind(me.ilnicki.bg.core.game.GamesConfig.class, me.ilnicki.bg.pcapp.GamesConfig.class);
