@@ -2,10 +2,9 @@ package me.ilnicki.bg.core.pixelmatrix;
 
 import java.io.Serializable;
 
-public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
+public class ArrayPixelMatrix implements Serializable, MutablePixelMatrix {
     private final Pixel[][] data;
-    private final int width;
-    private final int height;
+    private final Rectangle boundary;
 
     public ArrayPixelMatrix(PixelMatrix pm) {
         this(pm.getWidth(), pm.getHeight());
@@ -20,8 +19,7 @@ public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
 
     public ArrayPixelMatrix(int width, int height) {
         if (width >= 0 && height >= 0) {
-            this.width = width;
-            this.height = height;
+            boundary = new Rectangle(width, height);
             data = new Pixel[height][width];
         } else {
             throw new IllegalArgumentException("Invalid boundary.");
@@ -30,17 +28,17 @@ public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
 
     @Override
     public int getWidth() {
-        return width;
+        return boundary.getWidth();
     }
 
     @Override
     public int getHeight() {
-        return height;
+        return boundary.getHeight();
     }
 
     @Override
     public Pixel getPixel(Vector point) {
-        if (point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
+        if (boundary.contains(point)) {
             return data[point.getY()][point.getX()];
         }
 
@@ -49,7 +47,7 @@ public class ArrayPixelMatrix implements Serializable, EditablePixelMatrix {
 
     @Override
     public void setPixel(Vector point, Pixel value) {
-        if (point.getX() >= 0 && point.getX() < width && point.getY() >= 0 && point.getY() < height) {
+        if (boundary.contains(point)) {
             data[point.getY()][point.getX()] = value;
         }
     }

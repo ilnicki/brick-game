@@ -3,7 +3,7 @@ package me.ilnicki.bg.core.pixelmatrix;
 import java.io.Serializable;
 import java.util.HashMap;
 
-public class HashPixelMatrix implements Serializable, EditablePixelMatrix {
+public class HashPixelMatrix implements Serializable, MutablePixelMatrix {
     private final HashMap<Vector, Pixel> data;
     private final int width;
     private final int height;

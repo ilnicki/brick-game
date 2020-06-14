@@ -3,7 +3,7 @@ package me.ilnicki.bg.iotesttool;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.HashPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
@@ -34,7 +34,7 @@ public class MachineForm extends JFrame {
         setTitle("State control");
         setContentPane(contentPanel);
 
-        EditablePixelMatrix fieldPm = new HashPixelMatrix(10, 20);
+        MutablePixelMatrix fieldPm = new HashPixelMatrix(10, 20);
         state.getField().getLayers().add(new Layer<>(fieldPm));
         attachPixelMatrixToPanel(fieldPm, fieldPanel);
 
@@ -46,7 +46,7 @@ public class MachineForm extends JFrame {
 
         attachParamToCheckbox(checkBoxPause, state.pause);
 
-        EditablePixelMatrix helperPm = new HashPixelMatrix(4, 4);
+        MutablePixelMatrix helperPm = new HashPixelMatrix(4, 4);
         state.getHelper().getLayers().add(new Layer<>(helperPm));
         attachPixelMatrixToPanel(helperPm, helperPanel);
     }
@@ -67,7 +67,7 @@ public class MachineForm extends JFrame {
         });
     }
 
-    private void attachPixelMatrixToPanel(EditablePixelMatrix pm, JPanel panel) {
+    private void attachPixelMatrixToPanel(MutablePixelMatrix pm, JPanel panel) {
         for (int y = 0; y < pm.getHeight(); y++) {
             for (int x = 0; x < pm.getWidth(); x++) {
                 final Vector point = new Vector(x, pm.getHeight() - 1 - y);

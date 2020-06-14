@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.game.splash;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
@@ -32,7 +32,7 @@ public class Splash implements Game {
     @Inject
     private Field field;
 
-    private final EditablePixelMatrix mask = new ArrayPixelMatrix(10, 20);
+    private final MutablePixelMatrix mask = new ArrayPixelMatrix(10, 20);
     private SpiralGenerator spiral = new SpiralGenerator(mask.getWidth(), mask.getHeight());
 
     @Override

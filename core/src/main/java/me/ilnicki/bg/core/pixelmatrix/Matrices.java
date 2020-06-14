@@ -4,32 +4,13 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class Matrices {
-    public static final PixelMatrix EMPTY = new ArrayPixelMatrix(0, 0);
+    public static final PixelMatrix EMPTY = (new ConstantPixelMatrix.Builder(0, 0)).build();
 
     public enum ReflectType {
         HORIZONTALLY,
         VERTICALLY,
         ON_MAJOR_DIAGONAL,
         ON_MINOR_DIAGONAL
-    }
-
-    public static PixelMatrix fromArray(Pixel[][] pixelArray) {
-        int width = 0;
-        for (Pixel[] row : pixelArray) {
-            if (row.length > width) {
-                width = row.length;
-            }
-        }
-
-        EditablePixelMatrix pm = new ArrayPixelMatrix(width, pixelArray.length);
-
-        for (int y = 0; y < pixelArray.length; y++) {
-            for (int x = 0; x < pixelArray[y].length; x++) {
-                pm.setPixel(new Vector(x, pm.getHeight() - 1 - y), pixelArray[y][x]);
-            }
-        }
-
-        return pm;
     }
 
     private static Pixel charToPixel(char value) {
@@ -47,7 +28,7 @@ public class Matrices {
         final int width = Arrays.stream(data).map(String::length).max(Comparator.naturalOrder()).orElse(0);
         final int height = data.length;
 
-        EditablePixelMatrix pm = new ArrayPixelMatrix(width, height);
+        MutablePixelMatrix pm = new ArrayPixelMatrix(width, height);
 
         for (int y = 0; y < data.length; y++) {
             for (int x = 0; x < data[y].length(); x++) {
@@ -58,11 +39,11 @@ public class Matrices {
         return pm;
     }
 
-    public static void clear(EditablePixelMatrix pm) {
+    public static void clear(MutablePixelMatrix pm) {
         fill(pm, null);
     }
 
-    public static void fill(EditablePixelMatrix pm, Pixel fillWith) {
+    public static void fill(MutablePixelMatrix pm, Pixel fillWith) {
         for (int y = 0; y < pm.getHeight(); y++) {
             for (int x = 0; x < pm.getWidth(); x++) {
                 pm.setPixel(new Vector(x, y), fillWith);
@@ -70,7 +51,7 @@ public class Matrices {
         }
     }
 
-    public static <F extends PixelMatrix, T extends EditablePixelMatrix> T copy(F from, T to) {
+    public static <F extends PixelMatrix, T extends MutablePixelMatrix> T copy(F from, T to) {
         for (int y = 0; y < from.getHeight(); y++) {
             for (int x = 0; x < from.getWidth(); x++) {
                 Vector point = new Vector(x, y);
@@ -82,7 +63,7 @@ public class Matrices {
     }
 
     public static PixelMatrix reflect(PixelMatrix pm, ReflectType type) {
-        EditablePixelMatrix newPm;
+        MutablePixelMatrix newPm;
 
         if ((type == ReflectType.ON_MAJOR_DIAGONAL || type == ReflectType.ON_MINOR_DIAGONAL)
                 && pm.getWidth() != pm.getHeight()) {
@@ -111,7 +92,7 @@ public class Matrices {
     }
 
     public static PixelMatrix rotate(PixelMatrix pm, int angle) {
-        EditablePixelMatrix newMatrix = null;
+        MutablePixelMatrix newMatrix = null;
 
         angle = normalizeAngle(angle);
 

@@ -2,7 +2,7 @@ package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
@@ -27,8 +27,8 @@ import java.util.EnumSet;
 import java.util.stream.Collectors;
 
 public class DemoGame implements Game {
-    private final EditablePixelMatrix field;
-    private final EditablePixelMatrix helper;
+    private final MutablePixelMatrix field;
+    private final MutablePixelMatrix helper;
     @Inject
     @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;

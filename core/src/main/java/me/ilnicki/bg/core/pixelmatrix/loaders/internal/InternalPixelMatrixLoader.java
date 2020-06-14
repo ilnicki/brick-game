@@ -1,7 +1,8 @@
 package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
 
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.EditablePixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.ConstantPixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
@@ -59,18 +60,18 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
         InputStream in = getClass().getResourceAsStream(path);
         try {
             BufferedImage image = ImageIO.read(in);
-            EditablePixelMatrix sprite = new ArrayPixelMatrix(image.getWidth(), image.getHeight());
+            ConstantPixelMatrix.Builder sprite = new ConstantPixelMatrix.Builder(image.getWidth(), image.getHeight());
 
             for (int y = 0; y < image.getHeight(); y++) {
                 for (int x = 0; x < image.getWidth(); x++) {
                     sprite.setPixel(
-                            new Vector(x, sprite.getHeight() - y - 1),
-                            this.rgbToPixel(image.getRGB(x, y))
+                            new Vector(x, image.getHeight() - y - 1),
+                            rgbToPixel(image.getRGB(x, y))
                     );
                 }
             }
 
-            return sprite;
+            return sprite.build();
         } catch (IOException e) {
             throw new IllegalArgumentException(String.format("Sprite %s can not be read.", spriteName));
         }
