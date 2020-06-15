@@ -6,13 +6,6 @@ import java.util.Comparator;
 public class Matrices {
     public static final PixelMatrix EMPTY = (new ConstantPixelMatrix.Builder(0, 0)).build();
 
-    public enum ReflectType {
-        HORIZONTALLY,
-        VERTICALLY,
-        ON_MAJOR_DIAGONAL,
-        ON_MINOR_DIAGONAL
-    }
-
     private static Pixel charToPixel(char value) {
         switch (value) {
             case ' ':
@@ -134,7 +127,34 @@ public class Matrices {
         return newMatrix;
     }
 
+    public static PixelMatrix crop(PixelMatrix source, Rectangle boundaries) {
+        ConstantPixelMatrix.Builder builder = new ConstantPixelMatrix.Builder(
+                boundaries.getWidth(),
+                boundaries.getHeight()
+        );
+
+        for (int i = 0; i < boundaries.getWidth(); i++) {
+            for (int j = 0; j < boundaries.getHeight(); j++) {
+                builder.setPixel(
+                        new Vector(j, i),
+                        source.getPixel(
+                                boundaries.getPos().add(new Vector(j, i))
+                        )
+                );
+            }
+        }
+
+        return builder.build();
+    }
+
     private static int normalizeAngle(int angle) {
         return (angle %= 360) >= 0 ? angle : (angle + 360);
+    }
+
+    public enum ReflectType {
+        HORIZONTALLY,
+        VERTICALLY,
+        ON_MAJOR_DIAGONAL,
+        ON_MINOR_DIAGONAL
     }
 }
