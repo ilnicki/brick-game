@@ -45,7 +45,7 @@ public class TanksGame implements Game {
     private Keyboard.CtrlKeyMap keyMap;
 
     @Inject
-    @Args({"score"})
+    @Args("score")
     private IntParameter score;
 
     @Inject

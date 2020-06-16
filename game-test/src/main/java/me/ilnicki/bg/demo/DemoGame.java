@@ -38,11 +38,11 @@ public class DemoGame implements Game {
     private GameManager gameManager;
 
     @Inject
-    @Args({"score"})
+    @Args("score")
     private IntParameter score;
 
     @Inject
-    @Args({"hiscore"})
+    @Args("hiscore")
     private IntParameter hiscore;
 
     @Inject

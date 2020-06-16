@@ -1,8 +1,6 @@
 package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
 
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.ConstantPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
@@ -24,9 +22,7 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
 
 
     public InternalPixelMatrixLoader(String path) {
-        path = this.preparePath(path);
-
-        index = new ResourceIndex(path);
+        index = new ResourceIndex(preparePath(path));
         index.load();
     }
 

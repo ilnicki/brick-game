@@ -49,15 +49,15 @@ public class SnakeGame implements Game {
     private Keyboard.CtrlKeyMap keyMap;
 
     @Inject
-    @Args({"score"})
+    @Args("score")
     private IntParameter score;
 
     @Inject
-    @Args({"level"})
+    @Args("level")
     private IntParameter level;
 
     @Inject
-    @Args({"speed"})
+    @Args("speed")
     private IntParameter speed;
 
     private GameMode gameMode;

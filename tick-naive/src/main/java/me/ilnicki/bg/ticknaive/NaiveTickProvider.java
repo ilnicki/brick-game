@@ -24,7 +24,7 @@ public class NaiveTickProvider implements TickProvider {
             while (System.nanoTime() - tickStart < frameTime) {
                 try {
                     Thread.sleep(1);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
                 }
             }
         }
