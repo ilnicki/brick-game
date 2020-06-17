@@ -8,7 +8,7 @@ public class DummyPixelMatrixLoader implements PixelMatrixLoader {
     private final static PixelMatrix DUMMY = (new ConstantPixelMatrix.Builder(1, 1)).build();
 
     @Override
-    public void load(String... spriteName) {
+    public void load(String... spriteNames) {
     }
 
     @Override

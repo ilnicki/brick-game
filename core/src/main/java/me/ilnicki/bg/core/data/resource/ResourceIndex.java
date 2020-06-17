@@ -2,17 +2,16 @@ package me.ilnicki.bg.core.data.resource;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import me.ilnicki.bg.core.data.resource.ResourceProvider;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class ResourceIndex extends HashMap<String, String> {
+public class ResourceIndex extends ConcurrentHashMap<String, String> {
     private final static Type TYPE = (new TypeToken<Map<String, String>>(){}).getType();
     private final static Gson GSON = new Gson();
 

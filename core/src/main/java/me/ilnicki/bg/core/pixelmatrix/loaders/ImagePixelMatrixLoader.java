@@ -5,7 +5,6 @@ import me.ilnicki.bg.core.pixelmatrix.ConstantPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
-import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.data.resource.ResourceProvider;
 
 import javax.imageio.ImageIO;
@@ -14,9 +13,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 public class ImagePixelMatrixLoader implements PixelMatrixLoader {
-    private final Map<String, PixelMatrix> cache = new ConcurrentHashMap<>();
+    private final Map<String, Future<PixelMatrix>> cache = new ConcurrentHashMap<>();
+    private final ThreadPoolExecutor pool = new ThreadPoolExecutor(
+            3,
+            5,
+            0L,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<>()
+    );
 
     private final ResourceIndex index;
     private final ResourceProvider resourceProvider;
@@ -28,8 +40,9 @@ public class ImagePixelMatrixLoader implements PixelMatrixLoader {
     }
 
     @Override
-    public void load(String... spriteName) {
-
+    public void load(String... spriteNames) {
+        Stream.of(spriteNames)
+                .forEach(spriteName -> cache.computeIfAbsent(spriteName, this::scheduleReading));
     }
 
     @Override
@@ -38,7 +51,11 @@ public class ImagePixelMatrixLoader implements PixelMatrixLoader {
             throw new IllegalArgumentException(String.format("Sprite \"%s\" not found in registry.", spriteName));
         }
 
-        return cache.computeIfAbsent(spriteName, this::read);
+        try {
+            return cache.computeIfAbsent(spriteName, this::scheduleReading).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Pixel rgbToPixel(int color) {
@@ -50,6 +67,10 @@ public class ImagePixelMatrixLoader implements PixelMatrixLoader {
             default:
                 return null;
         }
+    }
+
+    private Future<PixelMatrix> scheduleReading(String spriteName) {
+        return pool.submit(() -> read(spriteName));
     }
 
     private PixelMatrix read(String spriteName) {
