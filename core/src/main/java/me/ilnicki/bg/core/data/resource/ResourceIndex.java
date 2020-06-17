@@ -1,7 +1,8 @@
-package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
+package me.ilnicki.bg.core.data.resource;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import me.ilnicki.bg.core.data.resource.ResourceProvider;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -12,23 +13,28 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ResourceIndex extends HashMap<String, String> {
-    private final String path;
+    private final static Type TYPE = (new TypeToken<Map<String, String>>(){}).getType();
+    private final static Gson GSON = new Gson();
 
-    public ResourceIndex(String path) {
+    private final String path;
+    private final ResourceProvider provider;
+
+    public ResourceIndex(String path, ResourceProvider provider) {
         this.path = path;
+        this.provider = provider;
     }
 
     public void load() {
-        Type type = new TypeToken<Map<String, String>>() {
-        }.getType();
-        Gson gson = new Gson();
-
-        InputStream in = getClass().getResourceAsStream(this.path + "index.json");
+        InputStream in = provider.getResourceAsStream(this.path + "index.json");
 
         if (in != null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-            Map<String, String> raw = gson.fromJson(reader.lines().collect(Collectors.joining()), type);
+            Map<String, String> raw = GSON.fromJson(reader.lines().collect(Collectors.joining()), TYPE);
             raw.forEach((key, value) -> this.put(key, this.path + value));
         }
+    }
+
+    public String getPath() {
+        return path;
     }
 }

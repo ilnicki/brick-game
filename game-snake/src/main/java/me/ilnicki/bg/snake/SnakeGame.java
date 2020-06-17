@@ -287,7 +287,7 @@ public class SnakeGame implements Game {
 
     private void loadWalls() {
         try {
-            PixelMatrix walls = levelLoader.load(gameMode.getLevelPrefix() + level, false);
+            PixelMatrix walls = levelLoader.get(gameMode.getLevelPrefix() + level);
 
             if (walls != null) {
                 for (int y = 0; y < walls.getHeight(); y++) {

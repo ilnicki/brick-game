@@ -13,7 +13,7 @@ public class TankFactory {
     private final HashMap<Direction, Vector> shotPoints;
 
     public TankFactory(PixelMatrixLoader unitsLoader) {
-        PixelMatrix tank = unitsLoader.load("tank", false);
+        PixelMatrix tank = unitsLoader.get("tank");
 
         sprites = new HashMap<>(4);
 

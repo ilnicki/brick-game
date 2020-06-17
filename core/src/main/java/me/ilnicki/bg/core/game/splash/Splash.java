@@ -40,7 +40,7 @@ public class Splash implements Game {
         field.getLayers().add(
                 new Layer<>(
                         new Invert(
-                                matrixLoader.load("9999in1", false),
+                                matrixLoader.get("9999in1"),
                                 mask
                         ))
         );

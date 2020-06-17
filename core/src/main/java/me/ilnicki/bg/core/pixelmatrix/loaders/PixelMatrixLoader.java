@@ -3,5 +3,7 @@ package me.ilnicki.bg.core.pixelmatrix.loaders;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
 public interface PixelMatrixLoader {
-    PixelMatrix load(String spriteName, boolean shouldBeCached);
+    void load(String... spriteName);
+
+    PixelMatrix get(String spriteName);
 }

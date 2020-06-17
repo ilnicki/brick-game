@@ -49,7 +49,7 @@ public class PieceFactory {
 
         HashMap<Piece.Angle, PixelMatrix> sprites = new HashMap<>();
 
-        PixelMatrix sprite = loader.load(pieceClass.getSimpleName(), true);
+        PixelMatrix sprite = loader.get(pieceClass.getSimpleName());
         sprites.put(Piece.Angle.DEG0, sprite);
         sprites.put(Piece.Angle.DEG90, Matrices.rotate(sprite, 90));
         sprites.put(Piece.Angle.DEG180, Matrices.rotate(sprite, 180));

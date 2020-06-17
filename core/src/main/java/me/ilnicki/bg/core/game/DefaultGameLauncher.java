@@ -147,7 +147,7 @@ public class DefaultGameLauncher implements Module {
         String[] numbers = String.format("%02d", argument.get()).split("");
 
         for (int i = 0; i < numbers.length; i++) {
-            PixelMatrix numMatrix = matrixLoader.load(numbers[i], true);
+            PixelMatrix numMatrix = matrixLoader.get(numbers[i]);
             argLayers.get(i).setData(numMatrix);
         }
     }

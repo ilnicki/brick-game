@@ -121,7 +121,7 @@ public class DemoGame implements Game {
     private void printNumber(int cursorY, String number) {
         int cursorX = 1;
         for (String digit : number.split("")) {
-            PixelMatrix numMatrix = matrixLoader.load(digit, true);
+            PixelMatrix numMatrix = matrixLoader.get(digit);
 
             for (int y = 0; y < numMatrix.getHeight(); y++) {
                 for (int x = 0; x < numMatrix.getWidth(); x++) {

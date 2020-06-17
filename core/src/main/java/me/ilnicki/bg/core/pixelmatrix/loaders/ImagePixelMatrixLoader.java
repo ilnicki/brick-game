@@ -1,42 +1,44 @@
-package me.ilnicki.bg.core.pixelmatrix.loaders.internal;
+package me.ilnicki.bg.core.pixelmatrix.loaders;
 
+import me.ilnicki.bg.core.data.resource.ResourceIndex;
 import me.ilnicki.bg.core.pixelmatrix.ConstantPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
+import me.ilnicki.bg.core.data.resource.ResourceProvider;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
-public class InternalPixelMatrixLoader implements PixelMatrixLoader {
-    private final Map<String, PixelMatrix> sprites = new ConcurrentHashMap<>();
-    private final Deque<String> loadingQueue = new ConcurrentLinkedDeque<>();
+public class ImagePixelMatrixLoader implements PixelMatrixLoader {
+    private final Map<String, PixelMatrix> cache = new ConcurrentHashMap<>();
+
     private final ResourceIndex index;
+    private final ResourceProvider resourceProvider;
 
-
-    public InternalPixelMatrixLoader(String path) {
-        index = new ResourceIndex(preparePath(path));
+    public ImagePixelMatrixLoader(String path, ResourceProvider provider) {
+        resourceProvider = provider;
+        index = new ResourceIndex(preparePath(path), resourceProvider);
         index.load();
     }
 
     @Override
-    public PixelMatrix load(String spriteName, boolean shouldBeCached) {
+    public void load(String... spriteName) {
+
+    }
+
+    @Override
+    public PixelMatrix get(String spriteName) {
         if (!index.containsKey(spriteName)) {
             throw new IllegalArgumentException(String.format("Sprite \"%s\" not found in registry.", spriteName));
         }
 
-        if (!sprites.containsKey(spriteName)) {
-            loadingQueue.remove(spriteName);
-        }
-
-        return sprites.computeIfAbsent(spriteName, this::read);
+        return cache.computeIfAbsent(spriteName, this::read);
     }
 
     private Pixel rgbToPixel(int color) {
@@ -53,7 +55,7 @@ public class InternalPixelMatrixLoader implements PixelMatrixLoader {
     private PixelMatrix read(String spriteName) {
         String path = index.get(spriteName);
 
-        InputStream in = getClass().getResourceAsStream(path);
+        InputStream in = resourceProvider.getResourceAsStream(path);
         try {
             BufferedImage image = ImageIO.read(in);
             ConstantPixelMatrix.Builder sprite = new ConstantPixelMatrix.Builder(image.getWidth(), image.getHeight());

@@ -29,7 +29,7 @@ public class TanksManifest implements Manifest {
 
     @Override
     public PixelMatrix getLogo() {
-        return matrixLoader.load("logo", true);
+        return matrixLoader.get("logo");
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TanksManifest implements Manifest {
 
     @Override
     public PixelMatrix getPreview() {
-        return matrixLoader.load("preview", true);
+        return matrixLoader.get("preview");
     }
 
     @Override

@@ -39,13 +39,13 @@ public class TetrisManifest implements Manifest {
 
     @Override
     public PixelMatrix getLogo() {
-        return matrixLoader.load("logo", true);
+        return matrixLoader.get("logo");
     }
 
 
     @Override
     public PixelMatrix getPreview() {
-        return matrixLoader.load("preview", true);
+        return matrixLoader.get("preview");
     }
 
     @Override

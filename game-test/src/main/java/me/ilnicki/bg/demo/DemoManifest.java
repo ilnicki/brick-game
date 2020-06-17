@@ -24,10 +24,10 @@ public class DemoManifest implements Manifest {
     private void init() {
         previewPlayer = new Player(new Track(new ArrayList<Frame>() {
             {
-                add(new Frame(matrixLoader.load("preview0", false), 8));
-                add(new Frame(matrixLoader.load("preview1", false), 8));
-                add(new Frame(matrixLoader.load("preview2", false), 8));
-                add(new Frame(matrixLoader.load("preview3", false), 8));
+                add(new Frame(matrixLoader.get("preview0"), 8));
+                add(new Frame(matrixLoader.get("preview1"), 8));
+                add(new Frame(matrixLoader.get("preview2"), 8));
+                add(new Frame(matrixLoader.get("preview3"), 8));
             }
         }, true));
     }
@@ -59,7 +59,7 @@ public class DemoManifest implements Manifest {
 
     @Override
     public PixelMatrix getLogo() {
-        return matrixLoader.load("logo", true);
+        return matrixLoader.get("logo");
     }
 
     @Override
