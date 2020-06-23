@@ -1,5 +1,6 @@
 package me.ilnicki.bg.tetris;
 
+import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
@@ -7,14 +8,14 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
-import me.ilnicki.bg.core.state.keyboard.KeyMap;
-import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.core.state.buttons.ButtonsState;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.bg.tetris.pieces.Piece;
 import me.ilnicki.bg.tetris.pieces.PieceFactory;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
-public class TetrisGame implements Game {
+public class TetrisGame extends AbstractGame {
     @Inject
     private GameManager gameManager;
 
@@ -24,7 +25,7 @@ public class TetrisGame implements Game {
     private Helper helper;
 
     @Inject
-    private KeyMap keyboard;
+    private ButtonsState keyboard;
 
     @Inject
     @Args({"internal", "assets.sprites.tetris.pieces"})
@@ -46,6 +47,8 @@ public class TetrisGame implements Game {
     public void load() {
         this.currentPiece = this.factory.make();
         this.nextPiece = this.factory.make();
+
+        super.load();
     }
 
     @Override

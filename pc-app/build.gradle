@@ -17,7 +17,7 @@ group 'me.ilnicki.bg'
 version '1.0-SNAPSHOT'
 description "Brick Game PC App"
 
-mainClassName = 'me.ilnicki.bg.pcapp.GameRunner'
+mainClassName = 'me.ilnicki.bg.pcapp.PcApp'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

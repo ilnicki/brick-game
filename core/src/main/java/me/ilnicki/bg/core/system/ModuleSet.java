@@ -90,5 +90,6 @@ public class ModuleSet implements Set<Module>, Module {
     @Override
     public void stop() {
         modules.forEach(Module::stop);
+        modules.clear();
     }
 }

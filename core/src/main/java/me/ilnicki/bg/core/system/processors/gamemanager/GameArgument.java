@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.system.processors;
+package me.ilnicki.bg.core.system.processors.gamemanager;
 
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 

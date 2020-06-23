@@ -23,8 +23,8 @@ import java.util.stream.Stream;
 public class ImagePixelMatrixLoader implements PixelMatrixLoader {
     private final Map<String, Future<PixelMatrix>> cache = new ConcurrentHashMap<>();
     private final ThreadPoolExecutor pool = new ThreadPoolExecutor(
-            3,
-            5,
+            2,
+            8,
             0L,
             TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>()

@@ -1,5 +1,6 @@
 package me.ilnicki.bg.tanks;
 
+import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
@@ -11,10 +12,10 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
-import me.ilnicki.bg.core.state.keyboard.Keyboard;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.buttons.ButtonsState;
+import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
-import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.bg.tanks.units.Bullet;
 import me.ilnicki.bg.tanks.units.Tank;
 import me.ilnicki.bg.tanks.units.TankFactory;
@@ -32,7 +33,7 @@ import static me.ilnicki.bg.tanks.Direction.LEFT;
 import static me.ilnicki.bg.tanks.Direction.RIGHT;
 import static me.ilnicki.bg.tanks.Direction.UP;
 
-public class TanksGame implements Game {
+public class TanksGame extends AbstractGame {
     @Inject
     private GameManager gameManager;
 
@@ -42,7 +43,7 @@ public class TanksGame implements Game {
     private Helper helper;
 
     @Inject
-    private Keyboard.CtrlKeyMap keyMap;
+    private ButtonsState<GameButton> buttons;
 
     @Inject
     @Args("score")
@@ -84,12 +85,14 @@ public class TanksGame implements Game {
 
         player = tankFactory.make(new Vector(0, 0), UP);
         tanks.add(player);
+
+        super.load();
     }
 
     @Override
     public void update(int delta) {
         if (!tanks.contains(player)) {
-            gameManager.exitGame();
+            quit();
         }
 
         spawnEnemies();
@@ -108,7 +111,7 @@ public class TanksGame implements Game {
     private void handleControls() {
         Vector pos = player.getPos();
 
-        if (keyMap.getValue(CtrlKey.UP) % moveSpeed == 0) {
+        if (buttons.getValue(GameButton.UP) % moveSpeed == 0) {
             if (player.getDirection() == UP) {
                 int newPosY = pos.getY() + 1;
 
@@ -118,7 +121,7 @@ public class TanksGame implements Game {
             } else {
                 player.setDirection(UP);
             }
-        } else if (keyMap.getValue(CtrlKey.DOWN) % moveSpeed == 0) {
+        } else if (buttons.getValue(GameButton.DOWN) % moveSpeed == 0) {
             if (player.getDirection() == DOWN) {
                 int newPosY = pos.getY() - 1;
 
@@ -128,7 +131,7 @@ public class TanksGame implements Game {
             } else {
                 player.setDirection(DOWN);
             }
-        } else if (keyMap.getValue(CtrlKey.LEFT) % moveSpeed == 0) {
+        } else if (buttons.getValue(GameButton.LEFT) % moveSpeed == 0) {
             if (player.getDirection() == LEFT) {
                 int newPosX = pos.getX() - 1;
 
@@ -138,7 +141,7 @@ public class TanksGame implements Game {
             } else {
                 player.setDirection(LEFT);
             }
-        } else if (keyMap.getValue(CtrlKey.RIGHT) % moveSpeed == 0) {
+        } else if (buttons.getValue(GameButton.RIGHT) % moveSpeed == 0) {
             if (player.getDirection() == RIGHT) {
                 int newPosX = pos.getX() + 1;
 
@@ -150,7 +153,7 @@ public class TanksGame implements Game {
             }
         }
 
-        if (keyMap.isPressed(CtrlKey.ROTATE)) {
+        if (buttons.isPressed(GameButton.ROTATE)) {
             shoot();
         }
     }

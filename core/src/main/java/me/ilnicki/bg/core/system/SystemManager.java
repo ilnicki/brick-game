@@ -4,20 +4,20 @@ import me.ilnicki.container.ComponentContainer;
 import me.ilnicki.container.Container;
 
 public class SystemManager extends ComponentContainer implements Kernel {
-    private final Runner runner;
+    private final App app;
 
-    public SystemManager(Runner runner) {
-        this.runner = runner;
+    public SystemManager(App app) {
+        this.app = app;
         share(this);
-        link(Container.class, this.getClass());
-        link(Kernel.class, this.getClass());
+        link(Container.class, getClass());
+        link(Kernel.class, getClass());
     }
 
     public void reset() {
-        runner.reset();
+        app.reset();
     }
 
     public void stop() {
-        runner.stop();
+        app.stop();
     }
 }

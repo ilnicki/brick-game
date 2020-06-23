@@ -8,7 +8,9 @@ import me.ilnicki.bg.core.pixelmatrix.HashPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
+import me.ilnicki.bg.core.state.GameState;
 import me.ilnicki.bg.core.state.State;
+import me.ilnicki.bg.core.state.SystemState;
 import me.ilnicki.bg.core.state.parameters.BoolParameter;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 
@@ -34,20 +36,23 @@ public class MachineForm extends JFrame {
         setTitle("State control");
         setContentPane(contentPanel);
 
+        GameState gameState = state.getGameState();
+        SystemState sysState = state.getSystemState();
+
         MutablePixelMatrix fieldPm = new HashPixelMatrix(10, 20);
-        state.getField().getLayers().add(new Layer<>(fieldPm));
+        gameState.field.getLayers().add(new Layer<>(fieldPm));
         attachPixelMatrixToPanel(fieldPm, fieldPanel);
 
-        attachParamToSpinner(spinnerHiScore, state.hiscore);
-        attachParamToSpinner(spinnerScore, state.score);
-        attachParamToSpinner(spinnerSpeed, state.speed);
-        attachParamToSpinner(spinnerLevel, state.level);
-        attachParamToSpinner(spinnerVolume, state.volume);
+        attachParamToSpinner(spinnerHiScore, gameState.hiscore);
+        attachParamToSpinner(spinnerScore, gameState.score);
+        attachParamToSpinner(spinnerSpeed, gameState.speed);
+        attachParamToSpinner(spinnerLevel, gameState.level);
+        attachParamToSpinner(spinnerVolume, sysState.volume);
 
-        attachParamToCheckbox(checkBoxPause, state.pause);
+        attachParamToCheckbox(checkBoxPause, sysState.pause);
 
         MutablePixelMatrix helperPm = new HashPixelMatrix(4, 4);
-        state.getHelper().getLayers().add(new Layer<>(helperPm));
+        gameState.helper.getLayers().add(new Layer<>(helperPm));
         attachPixelMatrixToPanel(helperPm, helperPanel);
     }
 

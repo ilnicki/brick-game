@@ -1,5 +1,6 @@
 package me.ilnicki.bg.snake;
 
+import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
@@ -11,11 +12,11 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
-import me.ilnicki.bg.core.state.keyboard.Keyboard;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
+import me.ilnicki.bg.core.state.buttons.ButtonsState;
+import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
-import me.ilnicki.bg.core.system.processors.GameArgument;
-import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
@@ -29,7 +30,7 @@ import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_LEFT;
 import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_RIGHT;
 import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_UP;
 
-public class SnakeGame implements Game {
+public class SnakeGame extends AbstractGame {
     private static final byte keyHandleFreq = 4;
 
     @Inject
@@ -46,7 +47,7 @@ public class SnakeGame implements Game {
     private GameArgument argument;
 
     @Inject
-    private Keyboard.CtrlKeyMap keyMap;
+    private ButtonsState<GameButton> buttons;
 
     @Inject
     @Args("score")
@@ -88,6 +89,8 @@ public class SnakeGame implements Game {
         }
 
         initGame();
+
+        super.load();
     }
 
     @Override
@@ -100,22 +103,22 @@ public class SnakeGame implements Game {
             drawEntities();
             drawLivesCount();
         } else {
-            gameManager.exitGame();
+            quit();
         }
 
         tick++;
     }
 
     private void processMove(long tick) {
-        if (keyMap.getValue(CtrlKey.UP) % keyHandleFreq == 0) {
+        if (buttons.getValue(GameButton.UP) % keyHandleFreq == 0) {
             moveSnake(DIR_UP);
-        } else if (keyMap.getValue(CtrlKey.DOWN) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.DOWN) % keyHandleFreq == 0) {
             moveSnake(DIR_DOWN);
-        } else if (keyMap.getValue(CtrlKey.LEFT) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.LEFT) % keyHandleFreq == 0) {
             moveSnake(DIR_LEFT);
-        } else if (keyMap.getValue(CtrlKey.RIGHT) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.RIGHT) % keyHandleFreq == 0) {
             moveSnake(DIR_RIGHT);
-        } else if (keyMap.getValue(CtrlKey.ROTATE) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.ROTATE) % keyHandleFreq == 0) {
             moveSnake(snake.getDirection());
         } else if (tick % getSnakeSpeed() == 0) {
             moveSnake(snake.getDirection());
@@ -178,7 +181,7 @@ public class SnakeGame implements Game {
     }
 
     private boolean checkGameStarted() {
-        return isGameStarted = Arrays.stream(CtrlKey.values()).anyMatch(key -> keyMap.isPressed(key));
+        return isGameStarted = Arrays.stream(GameButton.values()).anyMatch(key -> buttons.isPressed(key));
     }
 
     private void drawEntities() {
@@ -309,16 +312,6 @@ public class SnakeGame implements Game {
 
     private int getSnakeSpeed() {
         return 16 - speed.get();
-    }
-
-    @Override
-    public void save() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void recover() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private enum GameMode {

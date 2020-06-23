@@ -1,5 +1,6 @@
 package me.ilnicki.bg.demo;
 
+import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
@@ -11,12 +12,11 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
-import me.ilnicki.bg.core.state.keyboard.Keyboard;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
+import me.ilnicki.bg.core.state.buttons.ButtonsState;
+import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
-import me.ilnicki.bg.core.system.processors.GameArgument;
-import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
@@ -26,14 +26,14 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.stream.Collectors;
 
-public class DemoGame implements Game {
+public class DemoGame extends AbstractGame {
     private final MutablePixelMatrix field;
     private final MutablePixelMatrix helper;
     @Inject
     @Args({"internal", "assets.sprites.characters"})
     private PixelMatrixLoader matrixLoader;
     @Inject
-    private CtrlKeyMap keyMap;
+    private ButtonsState<GameButton> buttons;
     @Inject
     private GameManager gameManager;
 
@@ -58,9 +58,9 @@ public class DemoGame implements Game {
 
     @Override
     public void update(int delta) {
-        String keys = EnumSet.allOf(CtrlKey.class)
+        String keys = EnumSet.allOf(GameButton.class)
                 .stream()
-                .filter(keyMap::isPressed)
+                .filter(buttons::isPressed)
                 .map(Object::toString)
                 .collect(Collectors.joining(" "));
 
@@ -68,19 +68,19 @@ public class DemoGame implements Game {
             System.out.printf("Tick: %d; Delta: %d; Keys: %s;\n", tick , delta, keys);
         }
 
-        if (keyMap.isPressed(CtrlKey.UP)
-                && keyMap.isPressed(CtrlKey.LEFT)
-                && keyMap.isPressed(CtrlKey.RIGHT)
-                && keyMap.isPressed(CtrlKey.DOWN)) {
-            gameManager.exitGame();
+        if (buttons.isPressed(GameButton.UP)
+                && buttons.isPressed(GameButton.LEFT)
+                && buttons.isPressed(GameButton.RIGHT)
+                && buttons.isPressed(GameButton.DOWN)) {
+            quit();
         }
 
-        if (keyMap.getValue(CtrlKey.UP) == 5) {
+        if (buttons.getValue(GameButton.UP) == 5) {
             score.inc();
             hiscore.dec();
         }
 
-        if (keyMap.getValue(Keyboard.CtrlKey.DOWN) == 5) {
+        if (buttons.getValue(GameButton.DOWN) == 5) {
             score.dec();
             hiscore.inc();
         }

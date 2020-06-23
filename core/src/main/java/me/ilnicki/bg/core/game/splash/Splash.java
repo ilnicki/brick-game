@@ -1,5 +1,6 @@
 package me.ilnicki.bg.core.game.splash;
 
+import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
@@ -10,21 +11,21 @@ import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.modifying.Invert;
 import me.ilnicki.bg.core.state.Field;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKeyMap;
-import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.core.state.buttons.ButtonsState;
+import me.ilnicki.bg.core.state.buttons.GameButton;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 import java.util.Arrays;
 
-public class Splash implements Game {
+public class Splash extends AbstractGame {
     @Inject
     @Args({"internal", "assets.sprites.splash"})
     private PixelMatrixLoader matrixLoader;
 
     @Inject
-    private CtrlKeyMap keyMap;
+    private ButtonsState<GameButton> keyMap;
 
     @Inject
     private GameManager gameManager;
@@ -44,12 +45,14 @@ public class Splash implements Game {
                                 mask
                         ))
         );
+
+        super.load();
     }
 
     @Override
     public void update(int delta) {
-        if (Arrays.stream(CtrlKey.values()).anyMatch(key -> keyMap.isPressed(key))) {
-            gameManager.exitGame();
+        if (Arrays.stream(GameButton.values()).anyMatch(key -> keyMap.isPressed(key))) {
+            quit();
         }
 
         if (spiral != null) {
@@ -62,7 +65,7 @@ public class Splash implements Game {
                 Matrices.fill(mask, null);
             }
         } else {
-            gameManager.exitGame();
+            quit();
         }
     }
 }

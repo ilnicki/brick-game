@@ -1,11 +1,11 @@
 package me.ilnicki.bg.core.system;
 
-public interface Runner {
+public interface App {
     void run();
 
     void stop();
 
     void reset();
 
-    boolean isRestartScheduled();
+    boolean isStopped();
 }

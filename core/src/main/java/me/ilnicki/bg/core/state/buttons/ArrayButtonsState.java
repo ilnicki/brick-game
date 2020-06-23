@@ -1,11 +1,11 @@
-package me.ilnicki.bg.core.state.keyboard;
+package me.ilnicki.bg.core.state.buttons;
 
 import java.util.Arrays;
 
-public class ArrayKeyMap<E extends Enum<E>> implements UpdatableKeyMap<E> {
+public class ArrayButtonsState<E extends Enum<E>> implements UpdatableButtonsState<E> {
     private final int[] states;
 
-    ArrayKeyMap(Class<E> enumClass) {
+    public ArrayButtonsState(Class<E> enumClass) {
         states = new int[enumClass.getEnumConstants().length];
 
         Arrays.fill(states, -1);

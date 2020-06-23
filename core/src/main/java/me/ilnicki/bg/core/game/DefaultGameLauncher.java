@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.game;
 
-import me.ilnicki.bg.core.game.splash.SplashManifest;
+import me.ilnicki.bg.core.game.splash.Splash;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
@@ -10,15 +10,16 @@ import me.ilnicki.bg.core.pixelmatrix.layering.LayerList;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.transforming.transformers.Translate;
 import me.ilnicki.bg.core.state.Field;
+import me.ilnicki.bg.core.state.GameState;
 import me.ilnicki.bg.core.state.State;
-import me.ilnicki.bg.core.state.keyboard.Keyboard;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
+import me.ilnicki.bg.core.state.SystemState;
+import me.ilnicki.bg.core.state.buttons.GameButton;
+import me.ilnicki.bg.core.state.buttons.SystemButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.StateConfig;
-import me.ilnicki.bg.core.system.processors.GameArgument;
-import me.ilnicki.bg.core.system.processors.GameManager;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
+import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
@@ -28,7 +29,8 @@ public class DefaultGameLauncher implements Module {
     @Inject
     private GameManager gameManager;
 
-    private final State state;
+    private final GameState gameState;
+    private final SystemState systemState;
 
     @Inject
     @Args({"internal", "assets.sprites.characters"})
@@ -37,23 +39,23 @@ public class DefaultGameLauncher implements Module {
     @Inject
     private StateConfig config;
 
-    private final Keyboard keyboard;
-
     private final Layer<PixelMatrix> logoLayer;
     private final Layer<PixelMatrix> prevLayer;
     private final List<Layer<PixelMatrix>> argLayers;
 
-    private final GameArgument argument = new GameArgument();
+    @Inject
+    private GameArgument argument;
+
     private IntParameter selectedGame;
 
     private List<Manifest> manifestList;
 
     @Inject
     public DefaultGameLauncher(State state) {
-        this.state = state;
+        gameState = state.getGameState();
+        systemState = state.getSystemState();
 
-        keyboard = state.keyboard;
-        Field field = state.getField();
+        Field field = state.getGameState().field;
 
         logoLayer = new Layer<>(new ArrayPixelMatrix(10, 5));
         logoLayer.transform(new Translate(new Vector(0, 15)));
@@ -73,51 +75,50 @@ public class DefaultGameLauncher implements Module {
 
     @Override
     public void load() {
-        manifestList = gameManager.getManifestList();
+        manifestList = gameManager.getManifests();
 
         selectedGame = new IntParameter(0, manifestList.size() - 1);
 
         selectedGame.set(config.getSelectedGame());
-        state.hiscore.set(config.getHiscore());
-        state.level.set(config.getLevel());
-        state.speed.set(config.getSpeed());
-        state.volume.set(config.getVolume());
+        systemState.volume.set(config.getVolume());
         argument.set(config.getArgument());
 
-        gameManager.shareArgument(argument);
+        gameState.hiscore.set(config.getHiscore());
+        gameState.level.set(config.getLevel());
+        gameState.speed.set(config.getSpeed());
 
-        gameManager.launchGame(new SplashManifest());
+        gameManager.launchGame(Splash.class);
     }
 
     @Override
     public void update(int delta) {
-        int downKeyTime = keyboard.getCtrlKeyMap().getValue(CtrlKey.DOWN);
+        int downKeyTime = gameState.buttons.getValue(GameButton.DOWN);
         if (downKeyTime == 0 || (downKeyTime % 8 == 0 && downKeyTime > 24)) {
             argument.inc();
             drawArgument();
         }
 
-        int upKeyTime = keyboard.getCtrlKeyMap().getValue(CtrlKey.UP);
+        int upKeyTime = gameState.buttons.getValue(GameButton.UP);
         if (upKeyTime == 0 || (upKeyTime % 8 == 0 && upKeyTime > 24)) {
             argument.dec();
             drawArgument();
         }
 
-        if (keyboard.getCtrlKeyMap().getValue(CtrlKey.RIGHT) == 3) {
-            state.speed.inc();
+        if (gameState.buttons.getValue(GameButton.RIGHT) == 3) {
+            gameState.speed.inc();
         }
 
-        if (keyboard.getCtrlKeyMap().getValue(Keyboard.CtrlKey.LEFT) == 3) {
-            state.level.inc();
+        if (gameState.buttons.getValue(GameButton.LEFT) == 3) {
+            gameState.level.inc();
         }
 
-        if (keyboard.getCtrlKeyMap().getValue(CtrlKey.ROTATE) == 3) {
+        if (gameState.buttons.getValue(GameButton.ROTATE) == 3) {
             selectedGame.inc();
         }
 
-        if (keyboard.getSysKeyMap().getValue(SysKey.START) == 0) {
-            gameManager.launchGame(manifestList.get(selectedGame.get()));
-            state.pause.set(false);
+        if (systemState.buttons.getValue(SystemButton.START) == 0) {
+            gameManager.launchGame(manifestList.get(selectedGame.get()).getGameClass());
+            systemState.pause.set(false);
         }
 
         drawLogo();
@@ -129,10 +130,10 @@ public class DefaultGameLauncher implements Module {
     public void stop() {
         config.setArgument(argument.get());
         config.setSelectedGame(selectedGame.get());
-        config.setHiscore(state.hiscore.get());
-        config.setLevel(state.level.get());
-        config.setSpeed(state.speed.get());
-        config.setVolume(state.volume.get());
+        config.setHiscore(gameState.hiscore.get());
+        config.setLevel(gameState.level.get());
+        config.setSpeed(gameState.speed.get());
+        config.setVolume(systemState.volume.get());
     }
 
     private void drawLogo() {
@@ -147,8 +148,7 @@ public class DefaultGameLauncher implements Module {
         String[] numbers = String.format("%02d", argument.get()).split("");
 
         for (int i = 0; i < numbers.length; i++) {
-            PixelMatrix numMatrix = matrixLoader.get(numbers[i]);
-            argLayers.get(i).setData(numMatrix);
+            argLayers.get(i).setData(matrixLoader.get(numbers[i]));
         }
     }
 }

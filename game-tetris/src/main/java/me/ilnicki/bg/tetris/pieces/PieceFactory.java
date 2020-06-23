@@ -39,7 +39,7 @@ public class PieceFactory {
             piece.setAngle(values[random.nextInt(values.length)]);
 
             return piece;
-        } catch (InstantiationException | IllegalAccessException ex) {
+        } catch (InstantiationException | IllegalAccessException e) {
             return null;
         }
     }

@@ -6,9 +6,9 @@ import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.state.State;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.CtrlKey;
-import me.ilnicki.bg.core.state.keyboard.Keyboard.SysKey;
-import me.ilnicki.bg.core.state.keyboard.UpdatableKeyMap;
+import me.ilnicki.bg.core.state.buttons.GameButton;
+import me.ilnicki.bg.core.state.buttons.SystemButton;
+import me.ilnicki.bg.core.state.buttons.UpdatableButtonsState;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.util.tick.UpdateSpeedTester;
 import me.ilnicki.container.Inject;
@@ -63,15 +63,18 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     @Override
     public void load() {
+        PixelMatrix field = state.getGameState().field;
+        PixelMatrix helper = state.getGameState().helper;
+
         width = (int) (borderSize * 3
-                + pixelSize * state.getField().getWidth()
-                + pixelDistance * (state.getField().getWidth() - 1)
-                + (pixelSize * state.getHelper().getWidth()
-                + pixelDistance * (state.getHelper().getWidth() - 1)));
+                + pixelSize * field.getWidth()
+                + pixelDistance * (field.getWidth() - 1)
+                + (pixelSize * helper.getWidth()
+                + pixelDistance * (helper.getWidth() - 1)));
 
         height = (int) (borderSize * 2
-                + pixelSize * state.getField().getHeight()
-                + pixelDistance * (state.getField().getHeight() - 1));
+                + pixelSize * field.getHeight()
+                + pixelDistance * (field.getHeight() - 1));
 
 
         // Setup an error callback. The default implementation
@@ -181,18 +184,18 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     }
 
     private void updateKeys() {
-        UpdatableKeyMap<CtrlKey> ctrlKeys = this.state.keyboard.getCtrlKeyMap();
-        ctrlKeys.update(CtrlKey.UP, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_UP) == GLFW.GLFW_PRESS);
-        ctrlKeys.update(CtrlKey.DOWN, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DOWN) == GLFW.GLFW_PRESS);
-        ctrlKeys.update(CtrlKey.LEFT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT) == GLFW.GLFW_PRESS);
-        ctrlKeys.update(CtrlKey.RIGHT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_RIGHT) == GLFW.GLFW_PRESS);
-        ctrlKeys.update(CtrlKey.ROTATE, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_SPACE) == GLFW.GLFW_PRESS);
+        UpdatableButtonsState<GameButton> gameButtons = state.getGameState().buttons;
+        gameButtons.update(GameButton.UP, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_UP) == GLFW.GLFW_PRESS);
+        gameButtons.update(GameButton.DOWN, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DOWN) == GLFW.GLFW_PRESS);
+        gameButtons.update(GameButton.LEFT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_LEFT) == GLFW.GLFW_PRESS);
+        gameButtons.update(GameButton.RIGHT, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_RIGHT) == GLFW.GLFW_PRESS);
+        gameButtons.update(GameButton.ROTATE, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_SPACE) == GLFW.GLFW_PRESS);
 
-        UpdatableKeyMap<SysKey> sysKeys = this.state.keyboard.getSysKeyMap();
-        sysKeys.update(SysKey.ONOFF, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DELETE) == GLFW.GLFW_PRESS);
-        sysKeys.update(SysKey.RESET, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_END) == GLFW.GLFW_PRESS);
-        sysKeys.update(SysKey.START, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_ENTER) == GLFW.GLFW_PRESS);
-        sysKeys.update(SysKey.SOUND, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_PAGE_DOWN) == GLFW.GLFW_PRESS);
+        UpdatableButtonsState<SystemButton> systemButtons = state.getSystemState().buttons;
+        systemButtons.update(SystemButton.ONOFF, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DELETE) == GLFW.GLFW_PRESS);
+        systemButtons.update(SystemButton.RESET, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_END) == GLFW.GLFW_PRESS);
+        systemButtons.update(SystemButton.START, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_ENTER) == GLFW.GLFW_PRESS);
+        systemButtons.update(SystemButton.SOUND, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_PAGE_DOWN) == GLFW.GLFW_PRESS);
     }
 
     private void draw() {
@@ -214,15 +217,15 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     private void drawBorder() {
         GL11.glLineWidth(borderLineWidth);
-
         GL11.glColor3ub(fgColor.getR(), fgColor.getG(), fgColor.getB());
 
+        PixelMatrix field = state.getGameState().field;
         float borderX = borderSize / 2.0f;
         float borderY = borderSize / 2.0f;
-        float borderWidth = pixelSize * state.getField().getWidth()
-                + pixelDistance * (state.getField().getWidth() - 1) + borderSize;
-        float borderHeight = pixelSize * state.getField().getHeight()
-                + pixelDistance * (state.getField().getHeight() - 1) + borderSize;
+        float borderWidth = pixelSize * field.getWidth()
+                + pixelDistance * (field.getWidth() - 1) + borderSize;
+        float borderHeight = pixelSize * field.getHeight()
+                + pixelDistance * (field.getHeight() - 1) + borderSize;
 
         //Top line
         GL11.glBegin(GL11.GL_LINES);
@@ -250,9 +253,11 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     }
 
     private void drawField() {
-        for (int y = 0; y < state.getField().getHeight(); y++) {
-            for (int x = 0; x < state.getField().getWidth(); x++) {
-                Pixel pixel = state.getField().getPixel(new Vector(x, y));
+        PixelMatrix field = state.getGameState().field;
+
+        for (int y = 0; y < field.getHeight(); y++) {
+            for (int x = 0; x < field.getWidth(); x++) {
+                Pixel pixel = field.getPixel(new Vector(x, y));
 
                 drawPixel(borderSize + (pixelSize + pixelDistance) * x,
                         borderSize + (pixelSize + pixelDistance) * y, pixel);
@@ -261,31 +266,34 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     }
 
     private void drawScoreAndHiscore() {
+        PixelMatrix field = state.getGameState().field;
+
         float posX = borderSize
-                + (pixelSize + pixelDistance) * state.getField().getWidth()
+                + (pixelSize + pixelDistance) * field.getWidth()
                 + borderSize - borderLineWidth + segmentWidth;
         float posY = borderSize * 2
-                + (pixelSize + pixelDistance) * state.getField().getHeight()
+                + (pixelSize + pixelDistance) * field.getHeight()
                 - (borderSize * 1.5f);
 
         float factor = 1.25f;
 
         drawString(posX, posY, "HI-SCORE");
         drawNumber(posX, posY - segmentSize * factor,
-                state.hiscore.get(), 6);
+                state.getGameState().hiscore.get(), 6);
 
         drawString(posX, posY - segmentSize * factor * 2, "SCORE");
         drawNumber(posX, posY - segmentSize * factor * 3,
-                state.score.get(), 6);
+                state.getGameState().score.get(), 6);
     }
 
     private void drawHelper() {
-        PixelMatrix helper = state.getHelper();
+        PixelMatrix field = state.getGameState().field;
+        PixelMatrix helper = state.getGameState().helper;
 
         float posX = borderSize + (pixelSize + pixelDistance)
-                * state.getField().getWidth() + borderSize - borderLineWidth;
+                * field.getWidth() + borderSize - borderLineWidth;
         float posY = borderSize + (pixelSize + pixelDistance)
-                * state.getField().getHeight() + borderSize
+                * field.getHeight() + borderSize
                 - ((pixelSize + pixelDistance) * helper.getHeight() * 2 + borderSize);
 
         for (int i = 0; i < helper.getHeight(); i++) {
@@ -302,17 +310,17 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     private void drawSpeedAndLevel() {
         float posX = borderSize + (pixelSize + pixelDistance)
-                * state.getField().getWidth() + borderSize - borderLineWidth + segmentWidth;
+                * state.getGameState().field.getWidth() + borderSize - borderLineWidth + segmentWidth;
         float posY = borderSize + (pixelSize + pixelDistance)
-                * state.getField().getHeight() + borderSize
-                - ((pixelSize + pixelDistance) * state.getHelper().getHeight() * 2.3f + borderSize);
+                * state.getGameState().field.getHeight() + borderSize
+                - ((pixelSize + pixelDistance) * state.getGameState().helper.getHeight() * 2.3f + borderSize);
 
         drawNumber(posX, posY,
-                state.speed.get(), 2);
+                state.getGameState().speed.get(), 2);
         drawString(posX, posY - segmentSize * 1.5f, "SPEED");
 
         drawNumber(posX + (segmentWidth * 10), posY,
-                state.level.get(), 2);
+                state.getGameState().level.get(), 2);
         drawString(posX + (segmentWidth * 10), posY - segmentSize * 1.5f, "LEVEL");
     }
 
@@ -344,7 +352,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     private void drawVolume() {
         float posX = borderSize + (pixelSize + pixelDistance)
-                * state.getField().getWidth() + borderSize - borderLineWidth
+                * state.getGameState().field.getWidth() + borderSize - borderLineWidth
                 + (segmentWidth * 1.5f) * 4;
         float posY = borderSize + segmentSize * 2;
 
@@ -363,7 +371,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
         GL11.glVertex2f(posX + volumeIconSize, posY - volumeIconSize * 0.5f);
         GL11.glEnd();
 
-        int volume = state.volume.get();
+        int volume = state.getSystemState().volume.get();
 
         GL11.glLineWidth(volumeIconSize / 4);
 
@@ -390,11 +398,11 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     private void drawPause() {
         float posX = borderSize + (pixelSize + pixelDistance)
-                * state.getField().getWidth() + borderSize - borderLineWidth
+                * state.getGameState().field.getWidth() + borderSize - borderLineWidth
                 + (segmentWidth * 1.5f) * 4;
         float posY = borderSize;
 
-        drawString(posX, posY, state.pause.get() ? "PAUSE" : "     ");
+        drawString(posX, posY, state.getSystemState().pause.get() ? "PAUSE" : "     ");
     }
 
     private void drawNumber(float x, float y, int num, int digitCount) {
