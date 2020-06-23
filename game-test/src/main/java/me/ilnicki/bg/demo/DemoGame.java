@@ -58,14 +58,14 @@ public class DemoGame extends AbstractGame {
 
     @Override
     public void update(int delta) {
-        String keys = EnumSet.allOf(GameButton.class)
+        String buttonsPressed = EnumSet.allOf(GameButton.class)
                 .stream()
                 .filter(buttons::isPressed)
                 .map(Object::toString)
                 .collect(Collectors.joining(" "));
 
-        if (keys.length() > 0) {
-            System.out.printf("Tick: %d; Delta: %d; Keys: %s;\n", tick , delta, keys);
+        if (buttonsPressed.length() > 0) {
+            System.out.printf("Tick: %d; Delta: %d; Buttons: %s;\n", tick , delta, buttonsPressed);
         }
 
         if (buttons.isPressed(GameButton.UP)

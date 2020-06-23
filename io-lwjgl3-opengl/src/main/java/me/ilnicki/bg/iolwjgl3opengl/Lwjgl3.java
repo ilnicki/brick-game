@@ -166,7 +166,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
             kernel.stop();
         }
 
-        updateKeys();
+        updateButtons();
         draw();
 
         GLFW.glfwSwapBuffers(window); // swap the color buffers
@@ -183,7 +183,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
         GLFW.glfwSetErrorCallback(null);
     }
 
-    private void updateKeys() {
+    private void updateButtons() {
         UpdatableButtonsState<GameButton> gameButtons = state.getGameState().buttons;
         gameButtons.update(GameButton.UP, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_UP) == GLFW.GLFW_PRESS);
         gameButtons.update(GameButton.DOWN, GLFW.glfwGetKey(window, GLFW.GLFW_KEY_DOWN) == GLFW.GLFW_PRESS);

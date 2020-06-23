@@ -9,6 +9,7 @@ import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.Helper;
 import me.ilnicki.bg.core.state.buttons.ButtonsState;
+import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.bg.tetris.pieces.Piece;
 import me.ilnicki.bg.tetris.pieces.PieceFactory;
@@ -25,7 +26,7 @@ public class TetrisGame extends AbstractGame {
     private Helper helper;
 
     @Inject
-    private ButtonsState keyboard;
+    private ButtonsState<GameButton> buttons;
 
     @Inject
     @Args({"internal", "assets.sprites.tetris.pieces"})

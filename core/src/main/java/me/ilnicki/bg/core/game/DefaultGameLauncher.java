@@ -92,14 +92,14 @@ public class DefaultGameLauncher implements Module {
 
     @Override
     public void update(int delta) {
-        int downKeyTime = gameState.buttons.getValue(GameButton.DOWN);
-        if (downKeyTime == 0 || (downKeyTime % 8 == 0 && downKeyTime > 24)) {
+        int downTime = gameState.buttons.getValue(GameButton.DOWN);
+        if (downTime == 0 || (downTime % 8 == 0 && downTime > 24)) {
             argument.inc();
             drawArgument();
         }
 
-        int upKeyTime = gameState.buttons.getValue(GameButton.UP);
-        if (upKeyTime == 0 || (upKeyTime % 8 == 0 && upKeyTime > 24)) {
+        int upTime = gameState.buttons.getValue(GameButton.UP);
+        if (upTime == 0 || (upTime % 8 == 0 && upTime > 24)) {
             argument.dec();
             drawArgument();
         }

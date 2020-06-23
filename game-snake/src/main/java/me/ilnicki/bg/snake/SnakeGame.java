@@ -1,7 +1,6 @@
 package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.game.AbstractGame;
-import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
@@ -31,7 +30,7 @@ import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_RIGHT;
 import static me.ilnicki.bg.snake.SnakeHead.Direction.DIR_UP;
 
 public class SnakeGame extends AbstractGame {
-    private static final byte keyHandleFreq = 4;
+    private static final byte buttonHandleFreq = 4;
 
     @Inject
     @Args({"internal", "assets.sprites.snake.levels"})
@@ -110,15 +109,15 @@ public class SnakeGame extends AbstractGame {
     }
 
     private void processMove(long tick) {
-        if (buttons.getValue(GameButton.UP) % keyHandleFreq == 0) {
+        if (buttons.getValue(GameButton.UP) % buttonHandleFreq == 0) {
             moveSnake(DIR_UP);
-        } else if (buttons.getValue(GameButton.DOWN) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.DOWN) % buttonHandleFreq == 0) {
             moveSnake(DIR_DOWN);
-        } else if (buttons.getValue(GameButton.LEFT) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.LEFT) % buttonHandleFreq == 0) {
             moveSnake(DIR_LEFT);
-        } else if (buttons.getValue(GameButton.RIGHT) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.RIGHT) % buttonHandleFreq == 0) {
             moveSnake(DIR_RIGHT);
-        } else if (buttons.getValue(GameButton.ROTATE) % keyHandleFreq == 0) {
+        } else if (buttons.getValue(GameButton.ROTATE) % buttonHandleFreq == 0) {
             moveSnake(snake.getDirection());
         } else if (tick % getSnakeSpeed() == 0) {
             moveSnake(snake.getDirection());

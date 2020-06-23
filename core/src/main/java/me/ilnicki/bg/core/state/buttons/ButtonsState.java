@@ -1,7 +1,7 @@
 package me.ilnicki.bg.core.state.buttons;
 
 public interface ButtonsState<E extends Enum<E>> {
-    int getValue(E key);
+    int getValue(E button);
 
-    boolean isPressed(E key);
+    boolean isPressed(E button);
 }

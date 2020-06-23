@@ -1,7 +1,6 @@
 package me.ilnicki.bg.core.game.splash;
 
 import me.ilnicki.bg.core.game.AbstractGame;
-import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
@@ -25,7 +24,7 @@ public class Splash extends AbstractGame {
     private PixelMatrixLoader matrixLoader;
 
     @Inject
-    private ButtonsState<GameButton> keyMap;
+    private ButtonsState<GameButton> buttons;
 
     @Inject
     private GameManager gameManager;
@@ -51,7 +50,7 @@ public class Splash extends AbstractGame {
 
     @Override
     public void update(int delta) {
-        if (Arrays.stream(GameButton.values()).anyMatch(key -> keyMap.isPressed(key))) {
+        if (Arrays.stream(GameButton.values()).anyMatch(key -> buttons.isPressed(key))) {
             quit();
         }
 

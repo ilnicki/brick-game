@@ -11,15 +11,15 @@ public class ArrayButtonsState<E extends Enum<E>> implements UpdatableButtonsSta
         Arrays.fill(states, -1);
     }
 
-    public int getValue(E key) {
-        return states[key.ordinal()];
+    public int getValue(E button) {
+        return states[button.ordinal()];
     }
 
-    public boolean isPressed(E key) {
-        return getValue(key) > -1;
+    public boolean isPressed(E button) {
+        return getValue(button) > -1;
     }
 
-    public void update(E key, boolean state) {
-        states[key.ordinal()] = state ? getValue(key) + 1 : -1;
+    public void update(E button, boolean state) {
+        states[button.ordinal()] = state ? getValue(button) + 1 : -1;
     }
 }
