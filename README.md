@@ -12,26 +12,42 @@ Common engine components needed for all modules in an app.
 
 Annotation based dependency injection container implementation. 
 
+## event-loop
+
+Event loop implementation.
+
 ## io-lwjgl3-opengl
 
 LWJGL 3 based I/O module using OpenGL lib bindings.
 
-## pcapp
+## tick-lwjgl
+
+Tick generator with syncronization from LWJGL 2.
+
+## tick-naive
+
+Simple tick generator.
+
+## io-test-tool
+
+Swing state editor and renderer testing tool.
+
+## pc-app
 
 Module to gather other modules into a single build for Linux/Windows/Mac platforms.
 
-## demo
+## game-test
 
 Game implementation example.
 
-## snake
+## game-snake
 
 Snake game implementation.
 
-## tanks
+## game-tanks
 
 Tanks game implementation.
 
-## tetris
+## game-tetris
 
 Tetris game implementation.
