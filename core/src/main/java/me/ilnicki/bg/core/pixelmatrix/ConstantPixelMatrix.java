@@ -1,5 +1,8 @@
 package me.ilnicki.bg.core.pixelmatrix;
 
+import me.ilnicki.bg.core.math.Rectangle;
+import me.ilnicki.bg.core.math.Vector;
+
 public class ConstantPixelMatrix implements PixelMatrix {
     private final Pixel[][] data;
     private final Rectangle boundary;

@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.game.splash;
 
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 public class SpiralGenerator {
     private int width;

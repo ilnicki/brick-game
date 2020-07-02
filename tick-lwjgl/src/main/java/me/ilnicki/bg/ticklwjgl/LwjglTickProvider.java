@@ -1,6 +1,6 @@
 package me.ilnicki.bg.ticklwjgl;
 
-import me.ilnicki.bg.core.TickProvider;
+import me.ilnicki.bg.core.tick.TickProvider;
 
 public class LwjglTickProvider implements TickProvider {
     private final Synchronizer synchronizer;

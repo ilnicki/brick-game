@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.util.math;
+package me.ilnicki.bg.core.math;
 
 public final class Range<T extends Comparable<T>> {
     private final T min;

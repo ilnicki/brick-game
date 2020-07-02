@@ -2,7 +2,7 @@ package me.ilnicki.bg.core.pixelmatrix.animation;
 
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 public class Player implements PixelMatrix {
     private final TrackIterator trackIterator;

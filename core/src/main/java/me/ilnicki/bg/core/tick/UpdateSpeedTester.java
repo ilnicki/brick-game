@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.util.tick;
+package me.ilnicki.bg.core.tick;
 
 import java.util.HashSet;
 import java.util.Set;

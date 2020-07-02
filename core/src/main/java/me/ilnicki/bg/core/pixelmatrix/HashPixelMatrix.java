@@ -1,5 +1,7 @@
 package me.ilnicki.bg.core.pixelmatrix;
 
+import me.ilnicki.bg.core.math.Vector;
+
 import java.io.Serializable;
 import java.util.HashMap;
 

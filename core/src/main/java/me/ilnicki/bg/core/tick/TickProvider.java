@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core;
+package me.ilnicki.bg.core.tick;
 
 public interface TickProvider {
     void start(TickConsumer tickConsumer);

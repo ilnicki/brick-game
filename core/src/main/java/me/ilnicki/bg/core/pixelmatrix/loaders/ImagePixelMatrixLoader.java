@@ -4,7 +4,7 @@ import me.ilnicki.bg.core.data.resource.ResourceIndex;
 import me.ilnicki.bg.core.pixelmatrix.ConstantPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.data.resource.ResourceProvider;
 
 import javax.imageio.ImageIO;

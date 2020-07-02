@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.pixelmatrix.transforming;
 
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 import java.util.ArrayList;
 import java.util.List;

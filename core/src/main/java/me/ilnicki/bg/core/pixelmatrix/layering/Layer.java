@@ -3,7 +3,7 @@ package me.ilnicki.bg.core.pixelmatrix.layering;
 
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.transforming.TransformerList;
 import me.ilnicki.bg.core.pixelmatrix.transforming.VectorTransformer;
 

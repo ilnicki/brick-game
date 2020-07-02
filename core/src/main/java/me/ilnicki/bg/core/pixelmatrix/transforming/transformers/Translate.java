@@ -1,6 +1,6 @@
 package me.ilnicki.bg.core.pixelmatrix.transforming.transformers;
 
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.transforming.VectorTransformer;
 
 public class Translate implements VectorTransformer {

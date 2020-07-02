@@ -6,7 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.HashPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.state.GameState;
 import me.ilnicki.bg.core.state.State;

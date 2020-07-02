@@ -5,7 +5,7 @@ import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.modifying.Invert;

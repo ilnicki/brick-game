@@ -2,7 +2,7 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 class Food extends Entity {
     private static final PixelMatrix sprite = Matrices.fromString("#");

@@ -1,13 +1,12 @@
 package me.ilnicki.bg.demo;
 
 import me.ilnicki.bg.core.game.AbstractGame;
-import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.state.Field;

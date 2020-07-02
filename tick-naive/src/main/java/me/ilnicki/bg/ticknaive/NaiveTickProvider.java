@@ -1,6 +1,6 @@
 package me.ilnicki.bg.ticknaive;
 
-import me.ilnicki.bg.core.TickProvider;
+import me.ilnicki.bg.core.tick.TickProvider;
 
 public class NaiveTickProvider implements TickProvider {
     private final long frameTime;

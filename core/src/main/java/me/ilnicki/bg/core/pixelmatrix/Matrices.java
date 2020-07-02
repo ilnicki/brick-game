@@ -1,5 +1,8 @@
 package me.ilnicki.bg.core.pixelmatrix;
 
+import me.ilnicki.bg.core.math.Rectangle;
+import me.ilnicki.bg.core.math.Vector;
+
 import java.util.Arrays;
 import java.util.Comparator;
 

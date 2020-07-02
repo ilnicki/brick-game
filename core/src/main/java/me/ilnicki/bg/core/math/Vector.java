@@ -1,4 +1,4 @@
-package me.ilnicki.bg.core.pixelmatrix;
+package me.ilnicki.bg.core.math;
 
 import java.util.Objects;
 

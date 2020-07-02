@@ -2,7 +2,7 @@ package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 public class SnakeHead extends SnakePart {
     private static final PixelMatrix spriteBlink = Matrices.fromString(" ");

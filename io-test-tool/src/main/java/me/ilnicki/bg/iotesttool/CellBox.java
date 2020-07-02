@@ -2,7 +2,7 @@ package me.ilnicki.bg.iotesttool;
 
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 import javax.swing.*;
 import java.awt.*;

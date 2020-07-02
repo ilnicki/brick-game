@@ -1,6 +1,6 @@
 package me.ilnicki.bg.tanks;
 
-import me.ilnicki.bg.core.pixelmatrix.Vector;
+import me.ilnicki.bg.core.math.Vector;
 
 public enum Direction {
     UP(new Vector(0, 1)),

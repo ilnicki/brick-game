@@ -1,6 +1,6 @@
 package me.ilnicki.bg.pcapp;
 
-import me.ilnicki.bg.core.TickProvider;
+import me.ilnicki.bg.core.tick.TickProvider;
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.io.ButtonReader;
 import me.ilnicki.bg.core.io.SoundPlayer;
