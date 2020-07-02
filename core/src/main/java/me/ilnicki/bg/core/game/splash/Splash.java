@@ -2,8 +2,8 @@ package me.ilnicki.bg.core.game.splash;
 
 import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
+import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.Vector;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
@@ -50,21 +50,18 @@ public class Splash extends AbstractGame {
 
     @Override
     public void update(int delta) {
-        if (Arrays.stream(GameButton.values()).anyMatch(key -> buttons.isPressed(key))) {
+        if (Arrays.stream(GameButton.values()).anyMatch(key -> buttons.isPressed(key)) || spiral == null) {
             quit();
+            return;
         }
 
-        if (spiral != null) {
-            Vector pos = spiral.next();
+        final Vector pos = spiral.next();
 
-            if (pos != null) {
-                mask.setPixel(pos, Pixel.BLACK);
-            } else {
-                spiral = null;
-                Matrices.fill(mask, null);
-            }
+        if (pos != null) {
+            mask.setPixel(pos, Pixel.BLACK);
         } else {
-            quit();
+            spiral = null;
+            Matrices.fill(mask, null);
         }
     }
 }
