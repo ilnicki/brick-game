@@ -38,6 +38,10 @@ public final class Rectangle implements Cloneable {
                 && point.getY() < height;
     }
 
+    public int getArea() {
+        return width * height;
+    }
+
     @Override
     protected Object clone() {
         return this;
@@ -60,5 +64,10 @@ public final class Rectangle implements Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(width, height, pos);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("p=%s w=%d h=%d", pos, width, height);
     }
 }
