@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.sherter.google-java-format" version "0.8" apply false
+    id "com.github.sherter.google-java-format" version "0.9" apply false
 }
 
 allprojects {
@@ -19,4 +19,8 @@ allprojects {
 
 subprojects {
     apply plugin: "com.github.sherter.google-java-format"
+
+    googleJavaFormat {
+        toolVersion = '1.7'
+    }
 }

@@ -70,9 +70,7 @@ public class ComponentContainer implements Container {
 
   @SuppressWarnings("unchecked")
   public <T> Set<T> getCompatible(Class<? extends T> baseClass) throws ProvisionException {
-    return components
-        .entrySet()
-        .stream()
+    return components.entrySet().stream()
         .filter(e -> baseClass.isAssignableFrom(e.getKey()))
         .map(Map.Entry::getValue)
         .distinct()

@@ -25,6 +25,7 @@ import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class DemoGame extends AbstractGame {
+
   private final MutablePixelMatrix field;
   private final MutablePixelMatrix helper;
 
@@ -56,8 +57,7 @@ public class DemoGame extends AbstractGame {
   @Override
   public void update(int delta) {
     String buttonsPressed =
-        EnumSet.allOf(GameButton.class)
-            .stream()
+        EnumSet.allOf(GameButton.class).stream()
             .filter(buttons::isPressed)
             .map(Object::toString)
             .collect(Collectors.joining(" "));

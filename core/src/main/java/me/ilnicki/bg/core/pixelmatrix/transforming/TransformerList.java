@@ -21,8 +21,7 @@ public class TransformerList implements VectorTransformer {
   private VectorTransformer getApplier() {
     if (applier == null) {
       applier =
-          transformers
-              .stream()
+          transformers.stream()
               .reduce(VectorTransformer.identity(), (acc, transformer) -> acc.andThen(transformer));
     }
 
