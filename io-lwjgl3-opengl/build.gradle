@@ -1,36 +1,25 @@
 import org.gradle.internal.os.OperatingSystem
 
-apply plugin: 'java'
-apply plugin: 'idea'
-
-group 'me.ilnicki.bg'
-version '1.0-SNAPSHOT'
-description "Brick Game LWJGL3 IO module"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+plugins {
+    id 'java'
 }
 
-project.ext.lwjglVersion = "3.2.1"
+description = 'Brick Game LWJGL3 IO module'
 
-switch (OperatingSystem.current()) {
-    case OperatingSystem.LINUX:
-        project.ext.lwjglNatives = "natives-linux"
-        break
-    case OperatingSystem.MAC_OS:
-        project.ext.lwjglNatives = "natives-macos"
-        break
-    case OperatingSystem.WINDOWS:
-        project.ext.lwjglNatives = "natives-windows"
-        break
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+project.ext.lwjglVersion = '3.2.1'
+
+project.ext.lwjglNatives = [
+        (OperatingSystem.LINUX)  : 'natives-linux',
+        (OperatingSystem.MAC_OS) : 'natives-macos',
+        (OperatingSystem.WINDOWS): 'natives-windows',
+].get(OperatingSystem.current())
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.0")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
 
     compile project(':core')
 

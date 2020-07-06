@@ -2,17 +2,14 @@ plugins {
     id 'java'
 }
 
-version 'unspecified'
+description = 'LWJGL2 tick provider'
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.0")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
 
     compile project(':core')
 }

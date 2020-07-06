@@ -1,24 +1,18 @@
-apply plugin: 'java'
-apply plugin: 'idea'
-
-group 'me.ilnicki.bg'
-version '1.0-SNAPSHOT'
-description "Brick Game Core"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-repositories {
-    mavenCentral()
+plugins {
+    id 'java'
 }
 
+description = 'Brick Game Core'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.5.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.5.0")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile project(':container')
     compile project(':event-loop')
 }
