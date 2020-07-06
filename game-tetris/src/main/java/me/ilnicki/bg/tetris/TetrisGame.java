@@ -1,7 +1,6 @@
 package me.ilnicki.bg.tetris;
 
 import me.ilnicki.bg.core.game.AbstractGame;
-import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
@@ -17,43 +16,37 @@ import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class TetrisGame extends AbstractGame {
-    @Inject
-    private GameManager gameManager;
+  @Inject private GameManager gameManager;
 
-    private final MutablePixelMatrix field;
+  private final MutablePixelMatrix field;
 
-    @Inject
-    private Helper helper;
+  @Inject private Helper helper;
 
-    @Inject
-    private ButtonsState<GameButton> buttons;
+  @Inject private ButtonsState<GameButton> buttons;
 
-    @Inject
-    @Args({"internal", "assets.sprites.tetris.pieces"})
-    private PixelMatrixLoader unitsLoader;
+  @Inject
+  @Args({"internal", "assets.sprites.tetris.pieces"})
+  private PixelMatrixLoader unitsLoader;
 
+  private PieceFactory factory;
 
-    private PieceFactory factory;
+  private Piece currentPiece;
 
-    private Piece currentPiece;
+  private Piece nextPiece;
 
-    private Piece nextPiece;
+  @Inject
+  public TetrisGame(Field field) {
+    field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
+  }
 
-    @Inject
-    public TetrisGame(Field field) {
-        field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
-    }
+  @Override
+  public void load() {
+    this.currentPiece = this.factory.make();
+    this.nextPiece = this.factory.make();
 
-    @Override
-    public void load() {
-        this.currentPiece = this.factory.make();
-        this.nextPiece = this.factory.make();
+    super.load();
+  }
 
-        super.load();
-    }
-
-    @Override
-    public void update(int delta) {
-
-    }
+  @Override
+  public void update(int delta) {}
 }

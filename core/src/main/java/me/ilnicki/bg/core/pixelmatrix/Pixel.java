@@ -1,27 +1,27 @@
 package me.ilnicki.bg.core.pixelmatrix;
 
 public enum Pixel {
-    BLACK,
-    WHITE;
+  BLACK,
+  WHITE;
 
-    @Override
-    public String toString() {
-        return "[" + (this == BLACK ? 'X' : ' ') + "]";
+  @Override
+  public String toString() {
+    return "[" + (this == BLACK ? 'X' : ' ') + "]";
+  }
+
+  public static Pixel merge(Pixel upper, Pixel lower) {
+    if (upper == null) {
+      return lower;
     }
 
-    public static Pixel merge(Pixel upper, Pixel lower) {
-        if (upper == null) {
-            return lower;
-        }
+    return upper;
+  }
 
-        return upper;
+  public static Pixel invert(Pixel pixel) {
+    if (pixel == BLACK) {
+      return WHITE;
     }
 
-    public static Pixel invert(Pixel pixel) {
-        if (pixel == BLACK) {
-            return WHITE;
-        }
-
-        return BLACK;
-    }
+    return BLACK;
+  }
 }

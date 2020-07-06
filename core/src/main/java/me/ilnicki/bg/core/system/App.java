@@ -1,11 +1,11 @@
 package me.ilnicki.bg.core.system;
 
 public interface App {
-    void run();
+  void run();
 
-    void stop();
+  void stop();
 
-    void reset();
+  void reset();
 
-    boolean isStopped();
+  boolean isStopped();
 }

@@ -1,4 +1,3 @@
 package me.ilnicki.bg.tetris.pieces;
 
-class ZPiece extends Piece {
-}
+class ZPiece extends Piece {}

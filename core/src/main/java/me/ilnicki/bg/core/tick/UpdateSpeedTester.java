@@ -8,54 +8,52 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class UpdateSpeedTester {
-    public final static TimeSupplier SYSTEM_TIME = System::nanoTime;
+  public static final TimeSupplier SYSTEM_TIME = System::nanoTime;
 
-    private final SortedSet<Long> updateTimestamps = new TreeSet<>();
-    private final TimeSupplier timeSupplier;
-    private final long period;
+  private final SortedSet<Long> updateTimestamps = new TreeSet<>();
+  private final TimeSupplier timeSupplier;
+  private final long period;
 
-    private final Set<SpeedConsumer> listeners = new HashSet<>();
-    private int speed = 0;
+  private final Set<SpeedConsumer> listeners = new HashSet<>();
+  private int speed = 0;
 
-    public UpdateSpeedTester(TimeSupplier timeSupplier, long period) {
-        this.timeSupplier = timeSupplier;
-        this.period = period;
+  public UpdateSpeedTester(TimeSupplier timeSupplier, long period) {
+    this.timeSupplier = timeSupplier;
+    this.period = period;
+  }
+
+  public void update() {
+    updateTimestamps.add(timeSupplier.get());
+
+    if (updateTimestamps.first() < timeSupplier.get() - period) {
+      setSpeed(updateTimestamps.size());
+      updateTimestamps.clear();
     }
+  }
 
-    public void update() {
-        updateTimestamps.add(timeSupplier.get());
+  public int getSpeed() {
+    return speed;
+  }
 
-        if (updateTimestamps.first() < timeSupplier.get() - period) {
-            setSpeed(updateTimestamps.size());
-            updateTimestamps.clear();
-        }
-    }
+  private void setSpeed(int speed) {
+    this.speed = speed;
 
-    public int getSpeed() {
-        return speed;
-    }
+    listeners.forEach(lst -> lst.accept(speed));
+  }
 
-    private void setSpeed(int speed) {
-        this.speed = speed;
+  public void addListener(SpeedConsumer listener) {
+    listeners.add(listener);
+  }
 
-        listeners.forEach(lst -> lst.accept(speed));
-    }
+  public void removeListener(SpeedConsumer listener) {
+    listeners.remove(listener);
+  }
 
-    public void addListener(SpeedConsumer listener) {
-        listeners.add(listener);
-    }
+  public void clearListeners() {
+    listeners.clear();
+  }
 
-    public void removeListener(SpeedConsumer listener) {
-        listeners.remove(listener);
-    }
+  public interface TimeSupplier extends Supplier<Long> {}
 
-    public void clearListeners() {
-        listeners.clear();
-    }
-
-    public interface TimeSupplier extends Supplier<Long> {
-    }
-
-    public interface SpeedConsumer extends Consumer<Integer> {
-    }
+  public interface SpeedConsumer extends Consumer<Integer> {}
 }

@@ -3,9 +3,9 @@ package me.ilnicki.bg.core.pixelmatrix;
 import me.ilnicki.bg.core.math.Vector;
 
 public interface PixelMatrix {
-    int getWidth();
+  int getWidth();
 
-    int getHeight();
+  int getHeight();
 
-    Pixel getPixel(Vector point);
+  Pixel getPixel(Vector point);
 }

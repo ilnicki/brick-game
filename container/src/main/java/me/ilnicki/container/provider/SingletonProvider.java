@@ -3,20 +3,20 @@ package me.ilnicki.container.provider;
 import me.ilnicki.container.ProvisionException;
 
 public class SingletonProvider<T> implements Provider<T> {
-    private Provider<T> provider;
-    private T instance;
+  private Provider<T> provider;
+  private T instance;
 
-    public SingletonProvider(Provider<T> provider) {
-        this.provider = provider;
+  public SingletonProvider(Provider<T> provider) {
+    this.provider = provider;
+  }
+
+  @Override
+  public T provide(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
+    if (instance == null) {
+      instance = provider.provide(desiredClass, args);
+      provider = null;
     }
 
-    @Override
-    public T provide(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
-        if (instance == null) {
-            instance = provider.provide(desiredClass, args);
-            provider = null;
-        }
-
-        return instance;
-    }
+    return instance;
+  }
 }

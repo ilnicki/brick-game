@@ -4,9 +4,9 @@ import me.ilnicki.container.ProvisionException;
 
 @FunctionalInterface
 public interface Factory<T> extends Provider<T> {
-    T produce(String[] args) throws ProvisionException;
+  T produce(String[] args) throws ProvisionException;
 
-    default T provide(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
-        return produce(args);
-    }
+  default T provide(Class<? extends T> desiredClass, String[] args) throws ProvisionException {
+    return produce(args);
+  }
 }

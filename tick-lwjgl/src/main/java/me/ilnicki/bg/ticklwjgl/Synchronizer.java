@@ -34,138 +34,133 @@ package me.ilnicki.bg.ticklwjgl;
 import java.util.Arrays;
 
 /**
- * A highly accurate sync method that continually adapts to the system it runs
- * on to provide reliable results.
+ * A highly accurate sync method that continually adapts to the system it runs on to provide
+ * reliable results.
  *
  * @author Riven
  * @author kappaOne
  * @author ilnicki
  */
 class Synchronizer {
-    /**
-     * Number of nano seconds in a second.
-     */
-    private static final long NANOS_IN_SECOND = 1000_000_000L;
+  /** Number of nano seconds in a second. */
+  private static final long NANOS_IN_SECOND = 1000_000_000L;
 
-    /**
-     * The desired frame rate, in frames per second.
-     */
-    private final int fps;
+  /** The desired frame rate, in frames per second. */
+  private final int fps;
 
-    /**
-     * For calculating the averages the previous sleep/yield times are stored.
-     */
-    private RunningAvg sleepDurations;
-    private RunningAvg yieldDurations;
+  /** For calculating the averages the previous sleep/yield times are stored. */
+  private RunningAvg sleepDurations;
 
-    /**
-     * The time to sleep/yield until the next frame.
-     */
-    private long nextFrame;
+  private RunningAvg yieldDurations;
 
-    Synchronizer(int fps) {
-        this.fps = fps;
+  /** The time to sleep/yield until the next frame. */
+  private long nextFrame;
 
-        if (System.getProperty("os.name").startsWith("Win")) {
-            // On windows the sleep functions can be highly inaccurate by
-            // over 10ms making in unusable. However it can be forced to
-            // be a bit more accurate by running a separate sleeping daemon
-            // thread.
-            Thread timerAccuracyThread = new Thread(() -> {
+  Synchronizer(int fps) {
+    this.fps = fps;
+
+    if (System.getProperty("os.name").startsWith("Win")) {
+      // On windows the sleep functions can be highly inaccurate by
+      // over 10ms making in unusable. However it can be forced to
+      // be a bit more accurate by running a separate sleeping daemon
+      // thread.
+      Thread timerAccuracyThread =
+          new Thread(
+              () -> {
                 while (true) {
-                    try {
-                        Thread.sleep(Integer.MAX_VALUE);
-                    } catch (InterruptedException ignored) {
-                    }
+                  try {
+                    Thread.sleep(Integer.MAX_VALUE);
+                  } catch (InterruptedException ignored) {
+                  }
                 }
-            });
+              });
 
-            timerAccuracyThread.setName("Synchronizer Timer");
-            timerAccuracyThread.setDaemon(true);
-            timerAccuracyThread.start();
-        }
+      timerAccuracyThread.setName("Synchronizer Timer");
+      timerAccuracyThread.setDaemon(true);
+      timerAccuracyThread.start();
+    }
+  }
+
+  /**
+   * Get the system time in nano seconds.
+   *
+   * @return will return the current time in nano's
+   */
+  public long getTime() {
+    return System.nanoTime();
+  }
+
+  private void init() {
+    sleepDurations = new RunningAvg(10);
+    sleepDurations.init(1_000_000);
+
+    yieldDurations = new RunningAvg(10);
+    yieldDurations.init((int) (-(getTime() - getTime()) * 1.333));
+
+    nextFrame = getTime();
+  }
+
+  /**
+   * An accurate sync method that will attempt to run at a constant frame rate. It should be called
+   * once every frame.
+   */
+  void sync() {
+    if (sleepDurations == null || yieldDurations == null) {
+      init();
     }
 
-    /**
-     * Get the system time in nano seconds.
-     *
-     * @return will return the current time in nano's
-     */
-    public long getTime() {
-        return System.nanoTime();
+    try {
+      // Sleep until the average sleep time is greater than the time remaining till nextFrame.
+      for (long t0 = getTime(), t1; (nextFrame - t0) > sleepDurations.avg(); t0 = t1) {
+        Thread.sleep(1);
+        sleepDurations.add((t1 = getTime()) - t0); // update average sleep time
+      }
+
+      // Slowly dampen sleep average if too high to avoid yielding too much
+      sleepDurations.dampenForLowResTicker();
+
+      // Yield until the average yield time is greater than the time remaining till nextFrame.
+      for (long t0 = getTime(), t1; (nextFrame - t0) > yieldDurations.avg(); t0 = t1) {
+        Thread.yield();
+        yieldDurations.add((t1 = getTime()) - t0); // update average yield time
+      }
+    } catch (InterruptedException ignored) {
     }
 
-    private void init() {
-        sleepDurations = new RunningAvg(10);
-        sleepDurations.init(1_000_000);
+    // Schedule next frame, drop frame(s) if already too late for next frame.
+    nextFrame = Math.max(nextFrame + (NANOS_IN_SECOND / fps), getTime());
+  }
 
-        yieldDurations = new RunningAvg(10);
-        yieldDurations.init((int) (-(getTime() - getTime()) * 1.333));
+  private static class RunningAvg {
+    private static final long DAMPEN_THRESHOLD = 10_000_000L; // 10ms
+    private static final float DAMPEN_FACTOR = 0.9f; // don't change: 0.9f is exactly right!
 
-        nextFrame = getTime();
+    private final long[] slots;
+    private int nextSlot = 0;
+
+    RunningAvg(int slotCount) {
+      slots = new long[slotCount];
     }
 
-    /**
-     * An accurate sync method that will attempt to run at a constant frame
-     * rate. It should be called once every frame.
-     */
-    void sync() {
-        if(sleepDurations == null || yieldDurations == null) {
-            init();
-        }
-
-        try {
-            // Sleep until the average sleep time is greater than the time remaining till nextFrame.
-            for (long t0 = getTime(), t1; (nextFrame - t0) > sleepDurations.avg(); t0 = t1) {
-                Thread.sleep(1);
-                sleepDurations.add((t1 = getTime()) - t0); // update average sleep time
-            }
-
-            // Slowly dampen sleep average if too high to avoid yielding too much
-            sleepDurations.dampenForLowResTicker();
-
-            // Yield until the average yield time is greater than the time remaining till nextFrame.
-            for (long t0 = getTime(), t1; (nextFrame - t0) > yieldDurations.avg(); t0 = t1) {
-                Thread.yield();
-                yieldDurations.add((t1 = getTime()) - t0); // update average yield time
-            }
-        } catch (InterruptedException ignored) {
-        }
-
-        // Schedule next frame, drop frame(s) if already too late for next frame.
-        nextFrame = Math.max(nextFrame + (NANOS_IN_SECOND / fps), getTime());
+    void init(long value) {
+      Arrays.fill(slots, value);
     }
 
-    private static class RunningAvg {
-        private static final long DAMPEN_THRESHOLD = 10_000_000L; // 10ms
-        private static final float DAMPEN_FACTOR = 0.9f; // don't change: 0.9f is exactly right!
-
-        private final long[] slots;
-        private int nextSlot = 0;
-
-        RunningAvg(int slotCount) {
-            slots = new long[slotCount];
-        }
-
-        void init(long value) {
-            Arrays.fill(slots, value);
-        }
-
-        void add(long value) {
-            slots[nextSlot] = value;
-            nextSlot = (nextSlot + 1) % slots.length;
-        }
-
-        long avg() {
-            return Math.round(Arrays.stream(slots).average().orElse(0));
-        }
-
-        void dampenForLowResTicker() {
-            if (avg() > DAMPEN_THRESHOLD) {
-                for (int i = 0; i < slots.length; i++) {
-                    slots[i] *= DAMPEN_FACTOR;
-                }
-            }
-        }
+    void add(long value) {
+      slots[nextSlot] = value;
+      nextSlot = (nextSlot + 1) % slots.length;
     }
+
+    long avg() {
+      return Math.round(Arrays.stream(slots).average().orElse(0));
+    }
+
+    void dampenForLowResTicker() {
+      if (avg() > DAMPEN_THRESHOLD) {
+        for (int i = 0; i < slots.length; i++) {
+          slots[i] *= DAMPEN_FACTOR;
+        }
+      }
+    }
+  }
 }

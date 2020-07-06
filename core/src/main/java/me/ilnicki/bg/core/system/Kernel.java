@@ -1,7 +1,7 @@
 package me.ilnicki.bg.core.system;
 
 public interface Kernel {
-    void reset();
+  void reset();
 
-    void stop();
+  void stop();
 }

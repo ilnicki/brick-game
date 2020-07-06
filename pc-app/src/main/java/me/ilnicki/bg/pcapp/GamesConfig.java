@@ -7,13 +7,14 @@ import me.ilnicki.bg.tetris.TetrisManifest;
 import me.ilnicki.container.Inject;
 
 public class GamesConfig extends me.ilnicki.bg.core.game.GamesConfig {
-    @Inject
-    public GamesConfig() {
-        setGameManifests(new String[]{
-                DemoManifest.class.getName(),
-                SnakeManifest.class.getName(),
-                TanksManifest.class.getName(),
-                TetrisManifest.class.getName(),
+  @Inject
+  public GamesConfig() {
+    setGameManifests(
+        new String[] {
+          DemoManifest.class.getName(),
+          SnakeManifest.class.getName(),
+          TanksManifest.class.getName(),
+          TetrisManifest.class.getName(),
         });
-    }
+  }
 }

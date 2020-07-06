@@ -1,7 +1,7 @@
 package me.ilnicki.bg.core.system;
 
 public interface Ref<T> {
-    T get();
+  T get();
 
-    void set(T value);
+  void set(T value);
 }
