@@ -1,3 +1,7 @@
+plugins {
+    id "com.github.sherter.google-java-format" version "0.8" apply false
+}
+
 allprojects {
     group = 'me.ilnicki.bg'
     version = '1.0-SNAPSHOT'
@@ -11,4 +15,8 @@ allprojects {
     repositories {
         jcenter()
     }
+}
+
+subprojects {
+    apply plugin: "com.github.sherter.google-java-format"
 }
