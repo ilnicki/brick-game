@@ -14,11 +14,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
 
-    compile project(':core')
-    compile project(':tick-lwjgl')
-    compile project(':io-lwjgl3-opengl')
+    implementation project(':core')
+    implementation project(':container')
+    implementation project(':tick-lwjgl')
+    implementation project(':io-lwjgl3-opengl')
 
-    compile 'com.intellij:forms_rt:7.0.3'
+    implementation 'com.intellij:forms_rt:7.0.3'
 }
 
 test {

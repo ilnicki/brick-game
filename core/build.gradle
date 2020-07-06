@@ -13,8 +13,8 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    compile project(':container')
-    compile project(':event-loop')
+    implementation project(':container')
+    implementation project(':event-loop')
 }
 
 test {

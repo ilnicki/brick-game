@@ -14,13 +14,14 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
 
-    compile project(':core')
-    compile project(':tick-lwjgl')
-    compile project(':io-lwjgl3-opengl')
-    compile project(':game-snake')
-    compile project(':game-tanks')
-    compile project(':game-tetris')
-    compile project(':game-test')
+    implementation project(':core')
+    implementation project(':container')
+    implementation project(':tick-lwjgl')
+    implementation project(':io-lwjgl3-opengl')
+    implementation project(':game-snake')
+    implementation project(':game-tanks')
+    implementation project(':game-tetris')
+    implementation project(':game-test')
 }
 
 test {
