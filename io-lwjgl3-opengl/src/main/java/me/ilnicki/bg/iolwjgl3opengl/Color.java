@@ -1,16 +1,21 @@
 package me.ilnicki.bg.iolwjgl3opengl;
 
-public class Color {
+public final class Color {
+
+  private static final float FACTOR = 1.0f / 255;
+
   private final byte red;
   private final byte green;
   private final byte blue;
 
-  private final float factor = 1.0f / 255;
+  Color(byte red, byte green, byte blue) {
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+  }
 
   Color(int red, int green, int blue) {
-    this.red = (byte) red;
-    this.green = (byte) green;
-    this.blue = (byte) blue;
+    this((byte) red, (byte) green, (byte) blue);
   }
 
   byte getR() {
@@ -26,19 +31,19 @@ public class Color {
   }
 
   float getFloatR() {
-    return red * factor;
+    return red * FACTOR;
   }
 
   float getFloatG() {
-    return green * factor;
+    return green * FACTOR;
   }
 
   float getFloatB() {
-    return blue * factor;
+    return blue * FACTOR;
   }
 
   @Override
   public String toString() {
-    return String.format("#%02x%02x%02x", this.red, this.red, this.blue).toUpperCase();
+    return String.format("#%02x%02x%02x", red, green, blue).toUpperCase();
   }
 }
