@@ -2,6 +2,7 @@ package me.ilnicki.bg.core.system.processors.gamemanager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -16,6 +17,7 @@ import me.ilnicki.bg.core.system.CoreModule;
 import me.ilnicki.bg.core.system.Kernel;
 import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.SystemConfig;
+import me.ilnicki.bg.core.util.Safe;
 import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
 import me.ilnicki.eventloop.EventLoop;
@@ -67,7 +69,7 @@ public class GameManager implements CoreModule {
   @Override
   public void stop() {
     while (!gamesStack.empty()) {
-      gamesStack.peek().getGame().stop();
+      gamesStack.pop().getGame().stop();
     }
   }
 
@@ -96,10 +98,10 @@ public class GameManager implements CoreModule {
   }
 
   private void processStack(int delta) {
-    GameProcess process = gamesStack.peek();
+    Optional<GameProcess> process = Safe.of(gamesStack::peek);
 
-    if (process != null) {
-      Game game = process.getGame();
+    if (process.isPresent()) {
+      Game game = process.get().getGame();
       Game.Status status = game.getStatus();
 
       if (status == Game.Status.RUNNING) {

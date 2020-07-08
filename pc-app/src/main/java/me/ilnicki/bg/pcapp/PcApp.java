@@ -21,7 +21,7 @@ import me.ilnicki.container.Container;
 public class PcApp implements App {
   private boolean stopped = false;
 
-  private final ModuleSet modules = new ModuleSet();
+  private ModuleSet modules;
   private final TickProvider tp = new LwjglTickProvider(60);
 
   public void run() {
@@ -43,6 +43,8 @@ public class PcApp implements App {
 
     container.bind(
         me.ilnicki.bg.core.game.GamesConfig.class, me.ilnicki.bg.pcapp.GamesConfig.class);
+
+    modules = new ModuleSet();
 
     modules.addAll(container.getCompatible(CoreModule.class));
     modules.load();

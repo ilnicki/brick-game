@@ -8,8 +8,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import me.ilnicki.bg.core.data.resource.ResourceIndex;
@@ -22,7 +24,8 @@ import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 public class ImagePixelMatrixLoader implements PixelMatrixLoader {
   private final Map<String, Future<PixelMatrix>> cache = new ConcurrentHashMap<>();
   private final ThreadPoolExecutor pool =
-      new ThreadPoolExecutor(2, 8, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>());
+      new ThreadPoolExecutor(
+          2, 8, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(), new DaemonThreadFactory());
 
   private final ResourceIndex index;
   private final ResourceProvider resourceProvider;
@@ -91,5 +94,25 @@ public class ImagePixelMatrixLoader implements PixelMatrixLoader {
 
   private String preparePath(String path) {
     return '/' + path.replace('.', '/') + '/';
+  }
+
+  private static class DaemonThreadFactory implements ThreadFactory {
+    private static final AtomicInteger poolNumber = new AtomicInteger(1);
+    private final AtomicInteger threadNumber = new AtomicInteger(1);
+
+    private final ThreadGroup group;
+    private final String namePrefix;
+
+    DaemonThreadFactory() {
+      SecurityManager s = System.getSecurityManager();
+      group = (s != null) ? s.getThreadGroup() : Thread.currentThread().getThreadGroup();
+      namePrefix = String.format("loader-pool-%d-thread-", poolNumber.getAndIncrement());
+    }
+
+    public Thread newThread(Runnable r) {
+      Thread t = new Thread(group, r, namePrefix + threadNumber.getAndIncrement(), 0);
+      t.setDaemon(true);
+      return t;
+    }
   }
 }
