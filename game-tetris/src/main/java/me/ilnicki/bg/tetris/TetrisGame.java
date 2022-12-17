@@ -12,7 +12,6 @@ import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.bg.tetris.pieces.Piece;
 import me.ilnicki.bg.tetris.pieces.PieceFactory;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class TetrisGame extends AbstractGame {
@@ -27,8 +26,7 @@ public class TetrisGame extends AbstractGame {
   @Inject
   private ButtonsState<GameButton> buttons;
 
-  @Inject
-  @Args({"internal", "assets.sprites.tetris.pieces"})
+  @Inject({"internal", "assets.sprites.tetris.pieces"})
   private PixelMatrixLoader unitsLoader;
 
   private PieceFactory factory;

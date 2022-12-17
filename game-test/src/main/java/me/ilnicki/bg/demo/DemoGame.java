@@ -22,7 +22,6 @@ import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class DemoGame extends AbstractGame {
@@ -30,8 +29,7 @@ public class DemoGame extends AbstractGame {
   private final MutablePixelMatrix field;
   private final MutablePixelMatrix helper;
 
-  @Inject
-  @Args({"internal", "assets.sprites.characters"})
+  @Inject({"internal", "assets.sprites.characters"})
   private PixelMatrixLoader matrixLoader;
 
   @Inject
@@ -39,12 +37,10 @@ public class DemoGame extends AbstractGame {
   @Inject
   private GameManager gameManager;
 
-  @Inject
-  @Args("score")
+  @Inject("score")
   private IntParameter score;
 
-  @Inject
-  @Args("hiscore")
+  @Inject("hiscore")
   private IntParameter hiscore;
 
   @Inject

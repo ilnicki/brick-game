@@ -1,6 +1,7 @@
 package me.ilnicki.bg.demo;
 
 import java.util.ArrayList;
+
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
@@ -8,13 +9,11 @@ import me.ilnicki.bg.core.pixelmatrix.animation.Frame;
 import me.ilnicki.bg.core.pixelmatrix.animation.Player;
 import me.ilnicki.bg.core.pixelmatrix.animation.Track;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 import me.ilnicki.container.PostConstructor;
 
 public class DemoManifest implements Manifest {
-  @Inject
-  @Args({"internal", "assets.sprites.demo"})
+  @Inject({"internal", "assets.sprites.demo"})
   private PixelMatrixLoader matrixLoader;
 
   private Player previewPlayer;

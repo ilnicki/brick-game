@@ -13,5 +13,5 @@ import java.lang.annotation.Target;
 @Target({FIELD, CONSTRUCTOR, METHOD})
 @Inherited
 public @interface Inject {
-  boolean required() default true;
+  String[] value() default {};
 }

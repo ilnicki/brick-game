@@ -29,7 +29,6 @@ import me.ilnicki.bg.tanks.units.Bullet;
 import me.ilnicki.bg.tanks.units.Tank;
 import me.ilnicki.bg.tanks.units.TankFactory;
 import me.ilnicki.bg.tanks.units.Wall;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class TanksGame extends AbstractGame {
@@ -44,12 +43,10 @@ public class TanksGame extends AbstractGame {
   @Inject
   private ButtonsState<GameButton> buttons;
 
-  @Inject
-  @Args("score")
+  @Inject("score")
   private IntParameter score;
 
-  @Inject
-  @Args({"internal", "assets.sprites.tanks.units"})
+  @Inject({"internal", "assets.sprites.tanks.units"})
   private PixelMatrixLoader unitsLoader;
 
   private int blink = 0;

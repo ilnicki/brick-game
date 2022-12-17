@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
 import me.ilnicki.container.provider.LinkProvider;
 import me.ilnicki.container.provider.ObjectProvider;
 import me.ilnicki.container.provider.Provider;
@@ -104,9 +105,9 @@ public class ComponentContainer implements Container {
                     .findFirst()
                     .orElse(paramTypes[i]),
                 Arrays.stream(paramAnnotations[i])
-                    .filter(Args.class::isInstance)
-                    .map(Args.class::cast)
-                    .map(Args::value)
+                    .filter(Inject.class::isInstance)
+                    .map(Inject.class::cast)
+                    .map(Inject::value)
                     .findFirst()
                     .orElse(NO_ARGS));
       }
@@ -145,8 +146,8 @@ public class ComponentContainer implements Container {
     try {
       return desiredConstructor.newInstance(arguments);
     } catch (InstantiationException
-        | IllegalAccessException
-        | InvocationTargetException exception) {
+             | IllegalAccessException
+             | InvocationTargetException exception) {
       throw new ProvisionException(
           String.format("Can not inject into constructor of %s.", instanceClass.getCanonicalName()),
           exception);
@@ -156,11 +157,8 @@ public class ComponentContainer implements Container {
   private <T> T injectIntoFields(T instance) throws ProvisionException {
     for (Field field : instance.getClass().getDeclaredFields()) {
       if (field.isAnnotationPresent(Inject.class)) {
-        String[] fieldArgs = NO_ARGS;
-
-        if (field.isAnnotationPresent(Args.class)) {
-          fieldArgs = field.getAnnotation(Args.class).value();
-        }
+        String[] injectValue = field.getAnnotation(Inject.class).value();
+        String[] fieldArgs = injectValue != null ? injectValue : NO_ARGS;
 
         try {
           field.setAccessible(true);
@@ -171,10 +169,10 @@ public class ComponentContainer implements Container {
                   "Can not inject into field %s of %s.",
                   field.getName(), instance.getClass().getCanonicalName());
 
-          if (field.getAnnotation(Inject.class).required()) {
-            throw new ProvisionException(message, exception);
-          } else {
+          if (field.isAnnotationPresent(Optional.class)) {
             System.err.println(message);
+          } else {
+            throw new ProvisionException(message, exception);
           }
         }
       }
@@ -198,10 +196,10 @@ public class ComponentContainer implements Container {
                 "Can not inject into into %s of %s.",
                 method.getName(), instance.getClass().getCanonicalName());
 
-        if (method.getAnnotation(Inject.class).required()) {
-          throw new ProvisionException(message, exception);
-        } else {
+        if (method.isAnnotationPresent(Optional.class)) {
           System.err.println(message);
+        } else {
+          throw new ProvisionException(message, exception);
         }
       }
     }
@@ -217,8 +215,8 @@ public class ComponentContainer implements Container {
             method.setAccessible(true);
             method.invoke(instance);
           } catch (InvocationTargetException
-              | IllegalAccessException
-              | ProvisionException exception) {
+                   | IllegalAccessException
+                   | ProvisionException exception) {
             String message =
                 String.format(
                     "Can not inject into into %s of %s.",

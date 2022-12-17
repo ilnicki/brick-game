@@ -26,14 +26,12 @@ import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class SnakeGame extends AbstractGame {
   private static final byte buttonHandleFreq = 4;
 
-  @Inject
-  @Args({"internal", "assets.sprites.snake.levels"})
+  @Inject({"internal", "assets.sprites.snake.levels"})
   private PixelMatrixLoader levelLoader;
 
   @Inject
@@ -48,16 +46,13 @@ public class SnakeGame extends AbstractGame {
   @Inject
   private ButtonsState<GameButton> buttons;
 
-  @Inject
-  @Args("score")
+  @Inject("score")
   private IntParameter score;
 
-  @Inject
-  @Args("level")
+  @Inject("level")
   private IntParameter level;
 
-  @Inject
-  @Args("speed")
+  @Inject("speed")
   private IntParameter speed;
 
   private GameMode gameMode;

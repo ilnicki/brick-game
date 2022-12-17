@@ -22,7 +22,6 @@ import me.ilnicki.bg.core.system.Module;
 import me.ilnicki.bg.core.system.StateConfig;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class DefaultGameLauncher implements Module {
@@ -32,8 +31,7 @@ public class DefaultGameLauncher implements Module {
   private final GameState gameState;
   private final SystemState systemState;
 
-  @Inject
-  @Args({"internal", "assets.sprites.characters"})
+  @Inject({"internal", "assets.sprites.characters"})
   private PixelMatrixLoader matrixLoader;
 
   @Inject

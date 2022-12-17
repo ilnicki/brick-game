@@ -15,12 +15,10 @@ import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.buttons.ButtonsState;
 import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class Splash extends AbstractGame {
-  @Inject
-  @Args({"internal", "assets.sprites.splash"})
+  @Inject({"internal", "assets.sprites.splash"})
   private PixelMatrixLoader matrixLoader;
 
   @Inject

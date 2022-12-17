@@ -4,12 +4,10 @@ import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class SnakeManifest implements Manifest {
-  @Inject
-  @Args({"internal", "assets.sprites.snake"})
+  @Inject({"internal", "assets.sprites.snake"})
   private PixelMatrixLoader matrixLoader;
 
   @Override
