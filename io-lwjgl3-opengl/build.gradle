@@ -18,25 +18,25 @@ project.ext.lwjglNatives = [
 ].get(OperatingSystem.current())
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 
     implementation project(':core')
     implementation project(':container')
 
-    implementation "org.lwjgl:lwjgl:$lwjglVersion"
-    implementation "org.lwjgl:lwjgl-assimp:$lwjglVersion"
-    implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
-    implementation "org.lwjgl:lwjgl-openal:$lwjglVersion"
-    implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion"
-    implementation "org.lwjgl:lwjgl-stb:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl:3.3.1"
+    implementation "org.lwjgl:lwjgl-assimp:3.3.1"
+    implementation "org.lwjgl:lwjgl-glfw:3.3.1"
+    implementation "org.lwjgl:lwjgl-openal:3.3.1"
+    implementation "org.lwjgl:lwjgl-opengl:3.3.1"
+    implementation "org.lwjgl:lwjgl-stb:3.3.1"
 
-    runtimeOnly "org.lwjgl:lwjgl:$lwjglVersion:$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-assimp:$lwjglVersion:$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-glfw:$lwjglVersion:$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-stb:$lwjglVersion:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl:3.3.1:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-assimp:3.3.1:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:3.3.1:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-openal:3.3.1:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:3.3.1:$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-stb:3.3.1:$lwjglNatives"
 }
 
 test {

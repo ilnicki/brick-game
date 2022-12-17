@@ -11,8 +11,8 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 
     implementation project(':core')
     implementation project(':container')
