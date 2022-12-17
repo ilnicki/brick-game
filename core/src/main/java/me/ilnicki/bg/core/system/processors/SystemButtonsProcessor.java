@@ -15,7 +15,8 @@ public class SystemButtonsProcessor implements CoreModule {
   private final IntParameter volume;
   private final BoolParameter pause;
 
-  @Inject private Kernel kernel;
+  @Inject
+  private Kernel kernel;
 
   @Inject
   public SystemButtonsProcessor(State state) {

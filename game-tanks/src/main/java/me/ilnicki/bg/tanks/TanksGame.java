@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
@@ -32,13 +33,16 @@ import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class TanksGame extends AbstractGame {
-  @Inject private GameManager gameManager;
+  @Inject
+  private GameManager gameManager;
 
   private final MutablePixelMatrix field;
 
-  @Inject private Helper helper;
+  @Inject
+  private Helper helper;
 
-  @Inject private ButtonsState<GameButton> buttons;
+  @Inject
+  private ButtonsState<GameButton> buttons;
 
   @Inject
   @Args("score")

@@ -8,6 +8,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.GamesConfig;
 import me.ilnicki.bg.core.game.Manifest;
@@ -23,17 +24,23 @@ import me.ilnicki.container.Inject;
 import me.ilnicki.eventloop.EventLoop;
 
 public class GameManager implements CoreModule {
-  @Inject private State state;
+  @Inject
+  private State state;
 
-  @Inject private Kernel kernel;
-  @Inject private Container container;
+  @Inject
+  private Kernel kernel;
+  @Inject
+  private Container container;
 
   private List<Manifest> manifests;
 
-  @Inject private SystemConfig systemConfig;
-  @Inject private GamesConfig gamesConfig;
+  @Inject
+  private SystemConfig systemConfig;
+  @Inject
+  private GamesConfig gamesConfig;
 
-  @Inject private StateContainer stateContainer;
+  @Inject
+  private StateContainer stateContainer;
 
   private final EventLoop loop = new EventLoop();
   private final Stack<GameProcess> gamesStack = new Stack<>();

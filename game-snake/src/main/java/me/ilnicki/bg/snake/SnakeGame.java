@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
+
 import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
@@ -35,14 +36,17 @@ public class SnakeGame extends AbstractGame {
   @Args({"internal", "assets.sprites.snake.levels"})
   private PixelMatrixLoader levelLoader;
 
-  @Inject private GameManager gameManager;
+  @Inject
+  private GameManager gameManager;
 
   private final MutablePixelMatrix helper;
   private final MutablePixelMatrix field;
 
-  @Inject private GameArgument argument;
+  @Inject
+  private GameArgument argument;
 
-  @Inject private ButtonsState<GameButton> buttons;
+  @Inject
+  private ButtonsState<GameButton> buttons;
 
   @Inject
   @Args("score")

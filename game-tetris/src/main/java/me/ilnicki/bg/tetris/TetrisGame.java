@@ -16,13 +16,16 @@ import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class TetrisGame extends AbstractGame {
-  @Inject private GameManager gameManager;
+  @Inject
+  private GameManager gameManager;
 
   private final MutablePixelMatrix field;
 
-  @Inject private Helper helper;
+  @Inject
+  private Helper helper;
 
-  @Inject private ButtonsState<GameButton> buttons;
+  @Inject
+  private ButtonsState<GameButton> buttons;
 
   @Inject
   @Args({"internal", "assets.sprites.tetris.pieces"})
@@ -48,5 +51,6 @@ public class TetrisGame extends AbstractGame {
   }
 
   @Override
-  public void update(int delta) {}
+  public void update(int delta) {
+  }
 }

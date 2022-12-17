@@ -1,6 +1,7 @@
 package me.ilnicki.bg.core.game;
 
 import java.util.List;
+
 import me.ilnicki.bg.core.game.splash.Splash;
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
@@ -25,7 +26,8 @@ import me.ilnicki.container.Args;
 import me.ilnicki.container.Inject;
 
 public class DefaultGameLauncher implements Module {
-  @Inject private GameManager gameManager;
+  @Inject
+  private GameManager gameManager;
 
   private final GameState gameState;
   private final SystemState systemState;
@@ -34,13 +36,15 @@ public class DefaultGameLauncher implements Module {
   @Args({"internal", "assets.sprites.characters"})
   private PixelMatrixLoader matrixLoader;
 
-  @Inject private StateConfig config;
+  @Inject
+  private StateConfig config;
 
   private final Layer<PixelMatrix> logoLayer;
   private final Layer<PixelMatrix> prevLayer;
   private final List<Layer<PixelMatrix>> argLayers;
 
-  @Inject private GameArgument argument;
+  @Inject
+  private GameArgument argument;
 
   private IntParameter selectedGame;
 

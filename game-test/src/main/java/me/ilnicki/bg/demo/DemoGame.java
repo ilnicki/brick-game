@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.stream.Collectors;
+
 import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
@@ -33,8 +34,10 @@ public class DemoGame extends AbstractGame {
   @Args({"internal", "assets.sprites.characters"})
   private PixelMatrixLoader matrixLoader;
 
-  @Inject private ButtonsState<GameButton> buttons;
-  @Inject private GameManager gameManager;
+  @Inject
+  private ButtonsState<GameButton> buttons;
+  @Inject
+  private GameManager gameManager;
 
   @Inject
   @Args("score")
@@ -44,7 +47,8 @@ public class DemoGame extends AbstractGame {
   @Args("hiscore")
   private IntParameter hiscore;
 
-  @Inject private GameArgument argument;
+  @Inject
+  private GameArgument argument;
 
   private long tick = 0;
 

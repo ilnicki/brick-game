@@ -1,6 +1,7 @@
 package me.ilnicki.bg.core.game.splash;
 
 import java.util.Arrays;
+
 import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
@@ -22,11 +23,14 @@ public class Splash extends AbstractGame {
   @Args({"internal", "assets.sprites.splash"})
   private PixelMatrixLoader matrixLoader;
 
-  @Inject private ButtonsState<GameButton> buttons;
+  @Inject
+  private ButtonsState<GameButton> buttons;
 
-  @Inject private GameManager gameManager;
+  @Inject
+  private GameManager gameManager;
 
-  @Inject private Field field;
+  @Inject
+  private Field field;
 
   private final MutablePixelMatrix mask = new ArrayPixelMatrix(10, 20);
   private SpiralGenerator spiral = new SpiralGenerator(mask.getWidth(), mask.getHeight());

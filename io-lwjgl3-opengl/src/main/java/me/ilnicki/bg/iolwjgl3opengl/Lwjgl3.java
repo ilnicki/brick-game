@@ -1,6 +1,7 @@
 package me.ilnicki.bg.iolwjgl3opengl;
 
 import java.nio.IntBuffer;
+
 import me.ilnicki.bg.core.io.ButtonReader;
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.math.Vector;
@@ -52,9 +53,11 @@ public class Lwjgl3 implements Drawer, ButtonReader {
   private final Color fgColor = new Color(0x0, 0x0, 0x0);
   // The window handle
   private long window;
-  @Inject private Kernel kernel;
+  @Inject
+  private Kernel kernel;
 
-  @Inject private State state;
+  @Inject
+  private State state;
 
   private int width;
   private int height;
@@ -100,7 +103,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
       throw new RuntimeException("Failed to create the GLFW window");
     }
 
-    // Setup a key callback. It will be called every time a key is pressed, repeated or released.
+    // Set up a key callback. It will be called every time a key is pressed, repeated or released.
     GLFW.glfwSetKeyCallback(
         window,
         (window, key, scancode, action, mods) -> {
@@ -333,7 +336,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
             + (pixelSize + pixelDistance) * state.getGameState().field.getHeight()
             + borderSize
             - ((pixelSize + pixelDistance) * state.getGameState().helper.getHeight() * 2.3f
-                + borderSize);
+            + borderSize);
 
     drawNumber(posX, posY, state.getGameState().speed.get(), 2);
     drawString(posX, posY - segmentSize * 1.5f, "SPEED");
