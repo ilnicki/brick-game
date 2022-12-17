@@ -1,11 +1,13 @@
 package me.ilnicki.bg.tetris.pieces;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
@@ -32,14 +34,14 @@ public class PieceFactory {
   public Piece make() {
     Class<? extends Piece> pieceType = pieceTypes.get(random.nextInt(pieceTypes.size()));
     try {
-      Piece piece = pieceType.newInstance();
+      Piece piece = pieceType.getDeclaredConstructor().newInstance();
       piece.sprites = spriteMap.get(pieceType);
 
       Piece.Angle[] values = Piece.Angle.values();
       piece.setAngle(values[random.nextInt(values.length)]);
 
       return piece;
-    } catch (InstantiationException | IllegalAccessException e) {
+    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
       return null;
     }
   }
