@@ -1,19 +1,19 @@
 {
   "frames": [
     {
-      "data": "preview0.png",
+      "data": "preview/frame-0.png",
       "length": 8
     },
     {
-      "data": "preview1.png",
+      "data": "preview/frame-1.png",
       "length": 8
     },
     {
-      "data": "preview2.png",
+      "data": "preview/frame-2.png",
       "length": 8
     },
     {
-      "data": "preview3.png",
+      "data": "preview/frame-3.png",
       "length": 8
     }
   ],

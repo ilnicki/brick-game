@@ -7,7 +7,7 @@ import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.container.Inject;
 
 public class SnakeManifest implements Manifest {
-  @Inject({"internal", "assets.sprites.snake"})
+  @Inject({"assets.sprites.snake"})
   private PixelMatrixLoader matrixLoader;
 
   @Override

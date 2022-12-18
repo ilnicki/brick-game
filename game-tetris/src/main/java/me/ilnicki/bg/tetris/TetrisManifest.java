@@ -7,7 +7,7 @@ import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.container.Inject;
 
 public class TetrisManifest implements Manifest {
-  @Inject({"internal", "assets.sprites.tetris"})
+  @Inject({"assets.sprites.tetris"})
   private PixelMatrixLoader matrixLoader;
 
   @Override

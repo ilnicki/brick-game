@@ -31,7 +31,7 @@ import me.ilnicki.container.Inject;
 public class SnakeGame extends AbstractGame {
   private static final byte buttonHandleFreq = 4;
 
-  @Inject({"internal", "assets.sprites.snake.levels"})
+  @Inject({"assets.sprites.snake.levels"})
   private PixelMatrixLoader levelLoader;
 
   @Inject

@@ -18,7 +18,7 @@ import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.container.Inject;
 
 public class Splash extends AbstractGame {
-  @Inject({"internal", "assets.sprites.splash"})
+  @Inject({"assets.sprites.splash"})
   private PixelMatrixLoader matrixLoader;
 
   @Inject

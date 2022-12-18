@@ -6,33 +6,18 @@ import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.animation.Frame;
-import me.ilnicki.bg.core.pixelmatrix.animation.Player;
+import me.ilnicki.bg.core.pixelmatrix.animation.Animation;
 import me.ilnicki.bg.core.pixelmatrix.animation.Track;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.container.Inject;
 import me.ilnicki.container.PostConstructor;
 
 public class DemoManifest implements Manifest {
-  @Inject({"internal", "assets.sprites.demo"})
-  private PixelMatrixLoader matrixLoader;
+  @Inject({"assets.sprites.demo.logo"})
+  private PixelMatrix logo;
 
-  private Player previewPlayer;
-
-  @PostConstructor
-  private void init() {
-    previewPlayer =
-        new Player(
-            new Track(
-                new ArrayList<Frame>() {
-                  {
-                    add(new Frame(matrixLoader.get("preview0"), 8));
-                    add(new Frame(matrixLoader.get("preview1"), 8));
-                    add(new Frame(matrixLoader.get("preview2"), 8));
-                    add(new Frame(matrixLoader.get("preview3"), 8));
-                  }
-                },
-                true));
-  }
+  @Inject({"assets.sprites.demo.preview"})
+  private Animation preview;
 
   @Override
   public String getName() {
@@ -61,13 +46,12 @@ public class DemoManifest implements Manifest {
 
   @Override
   public PixelMatrix getLogo() {
-    return matrixLoader.get("logo");
+    return logo;
   }
 
   @Override
   public PixelMatrix getPreview() {
-    previewPlayer.next();
-    return previewPlayer;
+    return preview.next();
   }
 
   @Override

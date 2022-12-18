@@ -29,7 +29,7 @@ public class DemoGame extends AbstractGame {
   private final MutablePixelMatrix field;
   private final MutablePixelMatrix helper;
 
-  @Inject({"internal", "assets.sprites.characters"})
+  @Inject({"assets.sprites.characters"})
   private PixelMatrixLoader matrixLoader;
 
   @Inject

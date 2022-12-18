@@ -4,8 +4,10 @@ import me.ilnicki.bg.core.io.ButtonReader;
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.io.SoundPlayer;
 import me.ilnicki.bg.core.io.dummy.Dummy;
-import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
-import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoaderFactory;
+import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.animation.Animation;
+import me.ilnicki.bg.core.pixelmatrix.animation.Track;
+import me.ilnicki.bg.core.pixelmatrix.loaders.*;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.system.App;
 import me.ilnicki.bg.core.system.CoreModule;
@@ -39,10 +41,31 @@ public class PcApp implements App {
     container.link(ButtonReader.class, Lwjgl3.class);
     container.link(SoundPlayer.class, Dummy.class);
 
-    container.bind(PixelMatrixLoader.class, new PixelMatrixLoaderFactory());
+    container.bind(
+        PixelMatrixLoader.class,
+        container.get(PixelMatrixLoaderFactory.class)
+    );
+    container.bind(
+        PixelMatrix.class,
+        container.get(PixelMatrixFactory.class)
+    );
+
+    container.singleton(TrackFactory.class);
+    container.bind(
+        Track.class,
+        container.get(TrackFactory.class)
+    );
+
+    container.singleton(AnimationFactory.class);
+    container.bind(
+        Animation.class,
+        container.get(AnimationFactory.class)
+    );
 
     container.bind(
-        me.ilnicki.bg.core.game.GamesConfig.class, me.ilnicki.bg.pcapp.GamesConfig.class);
+        me.ilnicki.bg.core.game.GamesConfig.class,
+        me.ilnicki.bg.pcapp.GamesConfig.class
+    );
 
     modules = new ModuleSet();
 

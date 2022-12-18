@@ -26,7 +26,7 @@ public class TetrisGame extends AbstractGame {
   @Inject
   private ButtonsState<GameButton> buttons;
 
-  @Inject({"internal", "assets.sprites.tetris.pieces"})
+  @Inject({"assets.sprites.tetris.pieces"})
   private PixelMatrixLoader unitsLoader;
 
   private PieceFactory factory;

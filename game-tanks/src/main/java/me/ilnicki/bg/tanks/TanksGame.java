@@ -46,7 +46,7 @@ public class TanksGame extends AbstractGame {
   @Inject("score")
   private IntParameter score;
 
-  @Inject({"internal", "assets.sprites.tanks.units"})
+  @Inject({"assets.sprites.tanks.units"})
   private PixelMatrixLoader unitsLoader;
 
   private int blink = 0;

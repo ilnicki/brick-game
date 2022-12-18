@@ -4,11 +4,11 @@ import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 
-public class Player implements PixelMatrix {
+public class Animation implements PixelMatrix {
   private final TrackIterator trackIterator;
   private int currentDraw = 0;
 
-  public Player(Track track) {
+  public Animation(Track track) {
     this.trackIterator = track.trackIterator();
   }
 
@@ -27,7 +27,7 @@ public class Player implements PixelMatrix {
     return trackIterator.current().getData().getPixel(point);
   }
 
-  public void next() {
+  public Animation next() {
     if (trackIterator.current() != null && currentDraw + 1 < trackIterator.current().getLength()) {
       currentDraw++;
     } else {
@@ -36,5 +36,7 @@ public class Player implements PixelMatrix {
         currentDraw = 0;
       }
     }
+
+    return this;
   }
 }

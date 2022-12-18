@@ -31,7 +31,7 @@ public class DefaultGameLauncher implements Module {
   private final GameState gameState;
   private final SystemState systemState;
 
-  @Inject({"internal", "assets.sprites.characters"})
+  @Inject({"assets.sprites.characters"})
   private PixelMatrixLoader matrixLoader;
 
   @Inject
