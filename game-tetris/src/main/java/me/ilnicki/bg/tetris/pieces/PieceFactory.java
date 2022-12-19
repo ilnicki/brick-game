@@ -11,17 +11,19 @@ import java.util.Random;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
+import me.ilnicki.container.Inject;
+import me.ilnicki.container.PostConstructor;
 
 public class PieceFactory {
-  private final PixelMatrixLoader loader;
+  @Inject({"assets.sprites.tetris.pieces"})
+  private PixelMatrixLoader loader;
   private final List<Class<? extends Piece>> pieceTypes = new ArrayList<>();
   private final Map<Class<? extends Piece>, Map<Piece.Angle, PixelMatrix>> spriteMap =
       new HashMap<>();
   private final Random random = new Random();
 
-  public PieceFactory(PixelMatrixLoader loader) {
-    this.loader = loader;
-
+  @PostConstructor
+  private void init() {
     addPiece(IPiece.class);
     addPiece(JPiece.class);
     addPiece(LPiece.class);
@@ -41,7 +43,8 @@ public class PieceFactory {
       piece.setAngle(values[random.nextInt(values.length)]);
 
       return piece;
-    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+    } catch (InstantiationException | IllegalAccessException |
+             NoSuchMethodException | InvocationTargetException e) {
       return null;
     }
   }
