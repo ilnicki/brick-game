@@ -1,0 +1,33 @@
+{
+  "frames": [
+    {
+      "data": "preview/frame-0.png",
+      "length": 16
+    },
+    {
+      "data": "preview/frame-1.png",
+      "length": 16
+    },
+    {
+      "data": "preview/frame-2.png",
+      "length": 16
+    },
+    {
+      "data": "preview/frame-3.png",
+      "length": 16
+    },
+    {
+      "data": "preview/frame-4.png",
+      "length": 16
+    },
+    {
+      "data": "preview/frame-5.png",
+      "length": 16
+    },
+    {
+      "data": "preview/frame-6.png",
+      "length": 16
+    }
+  ],
+  "looped": true
+}

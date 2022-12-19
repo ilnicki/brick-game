@@ -3,12 +3,16 @@ package me.ilnicki.bg.snake;
 import me.ilnicki.bg.core.game.Game;
 import me.ilnicki.bg.core.game.Manifest;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.animation.Animation;
 import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.container.Inject;
 
 public class SnakeManifest implements Manifest {
-  @Inject({"assets.sprites.snake"})
-  private PixelMatrixLoader matrixLoader;
+  @Inject({"assets.sprites.snake.logo"})
+  private PixelMatrix logo;
+
+  @Inject({"assets.sprites.snake.preview"})
+  private Animation preview;
 
   @Override
   public String getAuthor() {
@@ -27,7 +31,7 @@ public class SnakeManifest implements Manifest {
 
   @Override
   public PixelMatrix getLogo() {
-    return matrixLoader.get("logo");
+    return logo;
   }
 
   @Override
@@ -37,7 +41,7 @@ public class SnakeManifest implements Manifest {
 
   @Override
   public PixelMatrix getPreview() {
-    return matrixLoader.get("preview");
+    return preview.next();
   }
 
   @Override
