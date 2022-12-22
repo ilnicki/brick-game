@@ -9,6 +9,7 @@ import me.ilnicki.container.provider.*;
 
 public class ComponentContainer implements Container {
   private final Map<Class, Provider> components = new ConcurrentHashMap<>();
+  private final Injector injector = new Injector(this);
 
   @Override
   public <T> void bind(Class<? super T> abstractClass, Provider<T> provider) {
@@ -17,7 +18,7 @@ public class ComponentContainer implements Container {
 
   @Override
   public <T> void bind(Class<? super T> abstractClass, Class<T> concreteClass) {
-    Provider<?> provider = new ComponentProvider<>(concreteClass, this);
+    Provider<?> provider = new ComponentProvider<>(concreteClass, this.injector);
 
     components.put(abstractClass, provider);
     components.put(concreteClass, provider);
@@ -31,7 +32,7 @@ public class ComponentContainer implements Container {
   @Override
   public <T> void singleton(Class<? super T> abstractClass, Class<T> concreteClass) {
     Provider<?> provider = new SingletonProvider<>(
-        new ComponentProvider<>(concreteClass, this)
+        new ComponentProvider<>(concreteClass, this.injector)
     );
 
     components.put(abstractClass, provider);
@@ -59,10 +60,22 @@ public class ComponentContainer implements Container {
   @SuppressWarnings("unchecked")
   public <T> T get(Class<? extends T> desiredClass, String... args) throws ProvisionException {
     Provider<T> provider = components.getOrDefault(desiredClass,
-        new ComponentProvider<>(desiredClass, this)
+        new ComponentProvider<>(desiredClass, this.injector)
     );
     return provider.provide(desiredClass, args);
   }
+
+  @Override
+  public <T> T injectTo(T target) {
+    return
+        injector.postConstruct(
+            injector.injectIntoMethods(
+                injector.injectIntoFields(target, NO_ARGS),
+                NO_ARGS
+            )
+        );
+  }
+
 
   @SuppressWarnings("unchecked")
   public <T> Set<T> getCompatible(Class<? extends T> baseClass) throws ProvisionException {

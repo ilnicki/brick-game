@@ -21,6 +21,7 @@ import me.ilnicki.bg.core.system.SystemConfig;
 import me.ilnicki.bg.core.util.Safe;
 import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
+import me.ilnicki.container.Type;
 import me.ilnicki.eventloop.EventLoop;
 
 public class GameManager implements CoreModule {
@@ -40,7 +41,8 @@ public class GameManager implements CoreModule {
   private GamesConfig gamesConfig;
 
   @Inject
-  private StateContainer stateContainer;
+  @Type(StateContainer.class)
+  private Container stateContainer;
 
   private final EventLoop loop = new EventLoop();
   private final Stack<GameProcess> gamesStack = new Stack<>();
@@ -60,7 +62,11 @@ public class GameManager implements CoreModule {
         () -> {
           try {
             return new LauncherWrapper(
-                container.get(Class.forName(gamesConfig.getLauncher()).asSubclass(Module.class)));
+                container.get(
+                    Class.forName(gamesConfig.getLauncher())
+                        .asSubclass(Module.class)
+                )
+            );
           } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
           }

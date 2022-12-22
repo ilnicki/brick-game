@@ -3,14 +3,13 @@ package me.ilnicki.bg.snake;
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
+import me.ilnicki.bg.core.pixelmatrix.animation.Animation;
+import me.ilnicki.container.Inject;
 
 public class SnakeHead extends SnakePart {
-  private static final PixelMatrix spriteBlink = Matrices.fromString(" ");
-
-  private static final int blinkOn = 7;
-  private static final int blinkTime = 3;
+  @Inject({"assets.sprites.snake.head"})
+  private Animation sprite;
   private Direction direction;
-  private int callCounter = 0;
 
   public SnakeHead(Vector pos, Direction direction) {
     super(pos);
@@ -27,11 +26,7 @@ public class SnakeHead extends SnakePart {
 
   @Override
   public PixelMatrix getSprite() {
-    if (++this.callCounter % blinkOn < blinkTime) {
-      return spriteBlink;
-    } else {
-      return super.getSprite();
-    }
+    return sprite.next();
   }
 
   public enum Direction {

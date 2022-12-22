@@ -26,10 +26,19 @@ import me.ilnicki.bg.core.state.buttons.GameButton;
 import me.ilnicki.bg.core.state.parameters.IntParameter;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameArgument;
 import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
+import me.ilnicki.bg.core.system.processors.gamemanager.StateContainer;
+import me.ilnicki.container.Container;
 import me.ilnicki.container.Inject;
+import me.ilnicki.container.Type;
 
 public class SnakeGame extends AbstractGame {
   private static final byte buttonHandleFreq = 4;
+
+  @Inject
+  private Random rnd;
+
+  @Inject
+  private Container container;
 
   @Inject({"assets.sprites.snake.levels"})
   private PixelMatrixLoader levelLoader;
@@ -67,8 +76,12 @@ public class SnakeGame extends AbstractGame {
 
   @Inject
   public SnakeGame(Field field, Helper helper) {
-    field.getLayers().add(new Layer<>(this.field = new ArrayPixelMatrix(10, 20)));
-    helper.getLayers().add(new Layer<>(this.helper = new ArrayPixelMatrix(4, 4)));
+    field.getLayers().add(new Layer<>(
+        this.field = new ArrayPixelMatrix(10, 20))
+    );
+    helper.getLayers().add(new Layer<>(
+        this.helper = new ArrayPixelMatrix(4, 4))
+    );
   }
 
   @Override
@@ -177,8 +190,8 @@ public class SnakeGame extends AbstractGame {
   }
 
   private boolean checkGameStarted() {
-    return isGameStarted =
-        Arrays.stream(GameButton.values()).anyMatch(key -> buttons.isPressed(key));
+    return isGameStarted = Arrays.stream(GameButton.values())
+        .anyMatch(key -> buttons.isPressed(key));
   }
 
   private void drawEntities() {
@@ -222,19 +235,24 @@ public class SnakeGame extends AbstractGame {
 
   private void generateFood() {
     boolean isEmptyPlace = true;
-    Random rnd = new Random();
 
     do {
-      Vector foodPos = new Vector(rnd.nextInt(field.getWidth()), rnd.nextInt(field.getHeight()));
+      Vector foodPos = new Vector(
+          rnd.nextInt(field.getWidth()),
+          rnd.nextInt(field.getHeight())
+      );
 
       for (Entity entity : entities) {
         if (foodPos.equals(entity.getPos())) {
           isEmptyPlace = false;
+          break;
         }
       }
 
       if (isEmptyPlace) {
-        entities.add(new Food(foodPos));
+        Food food = new Food(foodPos);
+        container.injectTo(food);
+        entities.add(food);
       }
     } while (!isEmptyPlace);
   }
@@ -271,6 +289,7 @@ public class SnakeGame extends AbstractGame {
     isGameStarted = false;
 
     snake = new SnakeHead(new Vector(3, 0), SnakeHead.Direction.DIR_UP);
+    container.injectTo(snake);
     entities.add(snake);
 
     SnakePart part1 = new SnakePart(new Vector(4, 0));

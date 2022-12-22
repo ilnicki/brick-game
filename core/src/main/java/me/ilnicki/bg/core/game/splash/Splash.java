@@ -4,12 +4,8 @@ import java.util.Arrays;
 
 import me.ilnicki.bg.core.game.AbstractGame;
 import me.ilnicki.bg.core.math.Vector;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Matrices;
-import me.ilnicki.bg.core.pixelmatrix.MutablePixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.Pixel;
+import me.ilnicki.bg.core.pixelmatrix.*;
 import me.ilnicki.bg.core.pixelmatrix.layering.Layer;
-import me.ilnicki.bg.core.pixelmatrix.loaders.PixelMatrixLoader;
 import me.ilnicki.bg.core.pixelmatrix.modifying.Invert;
 import me.ilnicki.bg.core.state.Field;
 import me.ilnicki.bg.core.state.buttons.ButtonsState;
@@ -18,8 +14,8 @@ import me.ilnicki.bg.core.system.processors.gamemanager.GameManager;
 import me.ilnicki.container.Inject;
 
 public class Splash extends AbstractGame {
-  @Inject({"assets.sprites.splash"})
-  private PixelMatrixLoader matrixLoader;
+  @Inject({"assets.sprites.splash.9999in1"})
+  private PixelMatrix splashText;
 
   @Inject
   private ButtonsState<GameButton> buttons;
@@ -31,11 +27,14 @@ public class Splash extends AbstractGame {
   private Field field;
 
   private final MutablePixelMatrix mask = new ArrayPixelMatrix(10, 20);
-  private SpiralGenerator spiral = new SpiralGenerator(mask.getWidth(), mask.getHeight());
+  private SpiralGenerator spiral = new SpiralGenerator(
+      mask.getWidth(),
+      mask.getHeight()
+  );
 
   @Override
   public void load() {
-    field.getLayers().add(new Layer<>(new Invert(matrixLoader.get("9999in1"), mask)));
+    field.getLayers().add(new Layer<>(new Invert(splashText, mask)));
 
     super.load();
   }

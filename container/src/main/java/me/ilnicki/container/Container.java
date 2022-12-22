@@ -85,6 +85,14 @@ public interface Container {
   <T> T get(Class<? extends T> desiredClass, String... args) throws ProvisionException;
 
   /**
+   * Equal to binding singleton with concrete object.
+   *
+   * @param target Instantiated object to inject into.
+   * @param <T>    Binding target type.
+   */
+  <T> T injectTo(T target) throws ProvisionException;
+
+  /**
    * @param baseClass
    * @param <T>       Target type.
    * @return

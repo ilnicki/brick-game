@@ -1,0 +1,13 @@
+{
+  "frames": [
+    {
+      "data": "blink/on.png",
+      "length": 6
+    },
+    {
+      "data": "blink/off.png",
+      "length": 4
+    }
+  ],
+  "looped": true
+}
