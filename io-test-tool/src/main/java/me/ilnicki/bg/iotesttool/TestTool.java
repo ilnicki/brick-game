@@ -3,6 +3,7 @@ package me.ilnicki.bg.iotesttool;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.*;
+
 import me.ilnicki.bg.core.io.Drawer;
 import me.ilnicki.bg.core.state.State;
 import me.ilnicki.bg.core.system.Kernel;
@@ -35,10 +36,13 @@ public class TestTool {
 
     container.singleton(
         Kernel.class,
-        new TestKernel() {
+        new Kernel() {
+          @Override
+          public void reset() {
+          }
+
           @Override
           public void stop() {
-            super.stop();
             ticker.stop();
             frame.dispose();
           }
@@ -50,11 +54,11 @@ public class TestTool {
             final Drawer drawer = container.get(Drawer.class);
 
             (new Thread(
-                    () -> {
-                      drawer.load();
-                      ticker.start(drawer::update);
-                      drawer.stop();
-                    }))
+                () -> {
+                  drawer.load();
+                  ticker.start(drawer::update);
+                  drawer.stop();
+                }))
                 .start();
           }
 
