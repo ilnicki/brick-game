@@ -33,12 +33,15 @@ public class Lwjgl3 implements Drawer, ButtonReader {
       new UpdateSpeedTester(UpdateSpeedTester.SYSTEM_TIME, (long) 1e9);
 
   private final SegmentSchematics segments = new SegmentSchematics();
-  private final float pixelSize = 24.0f;
+  private final float pixelSize = 24.0f * 3f;
   private final float pixelDecorSize = pixelSize - pixelSize / 6;
   private final float pixelInnerSize = pixelDecorSize - pixelSize / 6;
   private final float pixelDistance = pixelSize / 8;
-  private final float borderSize = pixelSize;
-  private final float borderLineWidth = borderSize / 5.0f;
+  private final float borderSize = pixelSize / 2;
+
+  private final float borderPadding = pixelSize / 6;
+
+  private final float borderLineWidth = pixelSize / 8.0f;
 
   private final float segmentSize = pixelSize;
   private final float segmentHeight = segmentSize / 2;
@@ -49,7 +52,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
   private final float volumeIconSize = pixelSize / 2;
 
   private final Color bgColor = new Color(0x6D, 0x77, 0x5C);
-  private final Color disColor = new Color(0x60, 0x6F, 0x5C);
+  private final Color disColor = new Color(0x65, 0x74, 0x5C);
   private final Color fgColor = new Color(0x0, 0x0, 0x0);
   // The window handle
   private long window;
@@ -220,7 +223,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     drawBorder();
     drawField();
-    drawScoreAndHiscore();
+    drawScoreAndHiScore();
     drawHelper();
     drawSpeedAndLevel();
     drawVolume();
@@ -229,15 +232,17 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
   private void drawBorder() {
     GL11.glLineWidth(borderLineWidth);
-    GL11.glColor3ub(fgColor.getR(), fgColor.getG(), fgColor.getB());
+    setColor(fgColor);
 
     PixelMatrix field = state.getGameState().field;
-    float borderX = borderSize / 2.0f;
-    float borderY = borderSize / 2.0f;
+    float borderX = borderSize - borderPadding;
+    float borderY = borderSize - borderPadding;
     float borderWidth =
-        pixelSize * field.getWidth() + pixelDistance * (field.getWidth() - 1) + borderSize;
+        pixelSize * field.getWidth() + pixelDistance * (field.getWidth() - 1)
+            + borderPadding * 2;
     float borderHeight =
-        pixelSize * field.getHeight() + pixelDistance * (field.getHeight() - 1) + borderSize;
+        pixelSize * field.getHeight() + pixelDistance * (field.getHeight() - 1)
+            + borderPadding * 2;
 
     // Top line
     GL11.glBegin(GL11.GL_LINES);
@@ -279,7 +284,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     }
   }
 
-  private void drawScoreAndHiscore() {
+  private void drawScoreAndHiScore() {
     PixelMatrix field = state.getGameState().field;
 
     float posX =
@@ -288,8 +293,8 @@ public class Lwjgl3 implements Drawer, ButtonReader {
             + borderSize
             - borderLineWidth
             + segmentWidth;
-    float posY =
-        borderSize * 2 + (pixelSize + pixelDistance) * field.getHeight() - (borderSize * 1.5f);
+    float posY = (pixelSize + pixelDistance) * field.getHeight() - pixelDistance
+        - borderSize - borderPadding - borderLineWidth;
 
     float factor = 1.25f;
 
@@ -306,11 +311,9 @@ public class Lwjgl3 implements Drawer, ButtonReader {
 
     float posX =
         borderSize + (pixelSize + pixelDistance) * field.getWidth() + borderSize - borderLineWidth;
-    float posY =
-        borderSize
-            + (pixelSize + pixelDistance) * field.getHeight()
-            + borderSize
-            - ((pixelSize + pixelDistance) * helper.getHeight() * 2 + borderSize);
+    float posY = (pixelSize + pixelDistance) * field.getHeight()
+        - ((pixelSize + pixelDistance) * helper.getHeight() * 2 + borderSize)
+        - borderPadding - borderLineWidth;
 
     for (int i = 0; i < helper.getHeight(); i++) {
       for (int j = 0; j < helper.getWidth(); j++) {
@@ -331,12 +334,8 @@ public class Lwjgl3 implements Drawer, ButtonReader {
             + borderSize
             - borderLineWidth
             + segmentWidth;
-    float posY =
-        borderSize
-            + (pixelSize + pixelDistance) * state.getGameState().field.getHeight()
-            + borderSize
-            - ((pixelSize + pixelDistance) * state.getGameState().helper.getHeight() * 2.3f
-            + borderSize);
+    float posY = (pixelSize + pixelDistance) * state.getGameState().field.getHeight()
+        - ((pixelSize + pixelDistance) * state.getGameState().helper.getHeight() * 2.5f);
 
     drawNumber(posX, posY, state.getGameState().speed.get(), 2);
     drawString(posX, posY - segmentSize * 1.5f, "SPEED");
@@ -346,7 +345,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
   }
 
   private void drawPixel(float x, float y, Pixel pixel) {
-    setColor(pixel);
+    setColor(getPixelColor(pixel));
     GL11.glBegin(GL11.GL_QUADS);
     GL11.glVertex2f(x, y);
     GL11.glVertex2f(x + pixelSize, y);
@@ -354,7 +353,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     GL11.glVertex2f(x, y + pixelSize);
     GL11.glEnd();
 
-    GL11.glColor3ub(bgColor.getR(), bgColor.getG(), bgColor.getB());
+    setColor(bgColor);
     GL11.glBegin(GL11.GL_QUADS);
     GL11.glVertex2f(x + pixelSize - pixelDecorSize, y + pixelSize - pixelDecorSize);
     GL11.glVertex2f(x + pixelDecorSize, y + pixelSize - pixelDecorSize);
@@ -362,7 +361,7 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     GL11.glVertex2f(x + pixelSize - pixelDecorSize, y + pixelDecorSize);
     GL11.glEnd();
 
-    setColor(pixel);
+    setColor(getPixelColor(pixel));
     GL11.glBegin(GL11.GL_QUADS);
     GL11.glVertex2f(x + pixelSize - pixelInnerSize, y + pixelSize - pixelInnerSize);
     GL11.glVertex2f(x + pixelInnerSize, y + pixelSize - pixelInnerSize);
@@ -522,15 +521,19 @@ public class Lwjgl3 implements Drawer, ButtonReader {
     }
   }
 
-  private void setColor(Pixel pixel) {
-    setColor(pixel == Pixel.BLACK);
+  private Color getPixelColor(Pixel pixel) {
+    return pixel == Pixel.BLACK ? fgColor : disColor;
   }
 
   private void setColor(boolean enabled) {
     if (enabled) {
-      GL11.glColor3ub(fgColor.getR(), fgColor.getG(), fgColor.getB());
+      setColor(fgColor);
     } else {
-      GL11.glColor3ub(disColor.getR(), disColor.getG(), disColor.getB());
+      setColor(disColor);
     }
+  }
+
+  private void setColor(Color color) {
+    GL11.glColor3ub(color.getR(), color.getG(), color.getB());
   }
 }
