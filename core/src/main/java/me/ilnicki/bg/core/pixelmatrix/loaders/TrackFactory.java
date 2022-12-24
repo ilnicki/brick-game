@@ -2,16 +2,12 @@ package me.ilnicki.bg.core.pixelmatrix.loaders;
 
 import me.ilnicki.bg.core.data.resource.ClassResourceProvider;
 import me.ilnicki.bg.core.data.resource.ResourceProvider;
-import me.ilnicki.bg.core.pixelmatrix.ArrayPixelMatrix;
-import me.ilnicki.bg.core.pixelmatrix.animation.Animation;
 import me.ilnicki.bg.core.pixelmatrix.animation.Frame;
 import me.ilnicki.bg.core.pixelmatrix.animation.Track;
 import me.ilnicki.container.ProvisionException;
 import me.ilnicki.container.provider.Factory;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
