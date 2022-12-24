@@ -2,11 +2,14 @@ package me.ilnicki.bg.core.pixelmatrix;
 
 import java.util.Arrays;
 import java.util.Comparator;
+
 import me.ilnicki.bg.core.math.Rectangle;
 import me.ilnicki.bg.core.math.Vector;
 
 public class Matrices {
-  public static final PixelMatrix EMPTY = (new ConstantPixelMatrix.Builder(0, 0)).build();
+  public static final PixelMatrix EMPTY = (
+      new ConstantPixelMatrix.Builder(0, 0)
+  ).build();
 
   private static Pixel charToPixel(char value) {
     switch (value) {
@@ -21,33 +24,48 @@ public class Matrices {
 
   public static PixelMatrix fromString(String... data) {
     final int width =
-        Arrays.stream(data).map(String::length).max(Comparator.naturalOrder()).orElse(0);
+        Arrays.stream(data)
+            .map(String::length)
+            .max(Comparator.naturalOrder())
+            .orElse(0);
+
     final int height = data.length;
 
     MutablePixelMatrix pm = new ArrayPixelMatrix(width, height);
 
     for (int y = 0; y < data.length; y++) {
       for (int x = 0; x < data[y].length(); x++) {
-        pm.setPixel(new Vector(x, pm.getHeight() - 1 - y), Matrices.charToPixel(data[y].charAt(x)));
+        pm.setPixel(
+            new Vector(x, pm.getHeight() - 1 - y),
+            Matrices.charToPixel(data[y].charAt(x))
+        );
       }
     }
 
     return pm;
   }
 
-  public static void clear(MutablePixelMatrix pm) {
-    fill(pm, null);
+  public static <M extends MutablePixelMatrix> M clear(M matrix) {
+    return fill(matrix, null);
   }
 
-  public static void fill(MutablePixelMatrix pm, Pixel fillWith) {
-    for (int y = 0; y < pm.getHeight(); y++) {
-      for (int x = 0; x < pm.getWidth(); x++) {
-        pm.setPixel(new Vector(x, y), fillWith);
+  public static <M extends MutablePixelMatrix> M fill(
+      M matrix,
+      Pixel fillWith
+  ) {
+    for (int y = 0; y < matrix.getHeight(); y++) {
+      for (int x = 0; x < matrix.getWidth(); x++) {
+        matrix.setPixel(new Vector(x, y), fillWith);
       }
     }
+
+    return matrix;
   }
 
-  public static <F extends PixelMatrix, T extends MutablePixelMatrix> T copy(F from, T to) {
+  public static <F extends PixelMatrix, T extends MutablePixelMatrix> T copy(
+      F from,
+      T to
+  ) {
     for (int y = 0; y < from.getHeight(); y++) {
       for (int x = 0; x < from.getWidth(); x++) {
         Vector point = new Vector(x, y);
@@ -61,8 +79,12 @@ public class Matrices {
   public static PixelMatrix reflect(PixelMatrix pm, ReflectType type) {
     MutablePixelMatrix newPm;
 
-    if ((type == ReflectType.ON_MAJOR_DIAGONAL || type == ReflectType.ON_MINOR_DIAGONAL)
-        && pm.getWidth() != pm.getHeight()) {
+    if (
+        (
+            type == ReflectType.ON_MAJOR_DIAGONAL
+                || type == ReflectType.ON_MINOR_DIAGONAL
+        ) && pm.getWidth() != pm.getHeight()
+    ) {
       newPm = new ArrayPixelMatrix(pm.getHeight(), pm.getWidth());
     } else {
       newPm = new ArrayPixelMatrix(pm.getWidth(), pm.getHeight());
@@ -72,10 +94,16 @@ public class Matrices {
       for (int x = 0; x < pm.getWidth(); x++) {
         switch (type) {
           case HORIZONTALLY:
-            newPm.setPixel(new Vector(x, y), pm.getPixel(new Vector(x, pm.getHeight() - 1 - y)));
+            newPm.setPixel(
+                new Vector(x, y),
+                pm.getPixel(new Vector(x, pm.getHeight() - 1 - y))
+            );
             break;
           case VERTICALLY:
-            newPm.setPixel(new Vector(x, y), pm.getPixel(new Vector(pm.getWidth() - 1 - x, y)));
+            newPm.setPixel(
+                new Vector(x, y),
+                pm.getPixel(new Vector(pm.getWidth() - 1 - x, y))
+            );
             break;
           case ON_MAJOR_DIAGONAL:
           case ON_MINOR_DIAGONAL:
@@ -100,7 +128,9 @@ public class Matrices {
       for (int i = 0; i < newMatrix.getWidth(); i++) {
         for (int j = 0; j < newMatrix.getHeight(); j++) {
           newMatrix.setPixel(
-              new Vector(i, j), pm.getPixel(new Vector(newMatrix.getHeight() - j - 1, i)));
+              new Vector(i, j),
+              pm.getPixel(new Vector(newMatrix.getHeight() - j - 1, i))
+          );
         }
       }
     } else if (angle > 135 && angle <= 195) {
@@ -110,7 +140,11 @@ public class Matrices {
         for (int x = 0; x < newMatrix.getWidth(); x++) {
           newMatrix.setPixel(
               new Vector(x, y),
-              pm.getPixel(new Vector(newMatrix.getWidth() - x - 1, newMatrix.getHeight() - y - 1)));
+              pm.getPixel(
+                  new Vector(newMatrix.getWidth() - x - 1,
+                      newMatrix.getHeight() - y - 1)
+              )
+          );
         }
       }
     } else if (angle > 195 && angle <= 315) {
@@ -119,7 +153,8 @@ public class Matrices {
       for (int i = 0; i < newMatrix.getWidth(); i++) {
         for (int j = 0; j < newMatrix.getHeight(); j++) {
           newMatrix.setPixel(
-              new Vector(i, j), pm.getPixel(new Vector(j, newMatrix.getWidth() - i - 1)));
+              new Vector(i, j),
+              pm.getPixel(new Vector(j, newMatrix.getWidth() - i - 1)));
         }
       }
     }
@@ -129,12 +164,16 @@ public class Matrices {
 
   public static PixelMatrix crop(PixelMatrix source, Rectangle boundaries) {
     ConstantPixelMatrix.Builder builder =
-        new ConstantPixelMatrix.Builder(boundaries.getWidth(), boundaries.getHeight());
+        new ConstantPixelMatrix.Builder(
+            boundaries.getWidth(),
+            boundaries.getHeight()
+        );
 
     for (int i = 0; i < boundaries.getWidth(); i++) {
       for (int j = 0; j < boundaries.getHeight(); j++) {
         builder.setPixel(
-            new Vector(j, i), source.getPixel(boundaries.getPos().add(new Vector(j, i))));
+            new Vector(j, i),
+            source.getPixel(boundaries.getPos().add(new Vector(j, i))));
       }
     }
 

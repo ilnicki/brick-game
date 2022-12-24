@@ -1,7 +1,6 @@
 package me.ilnicki.bg.snake;
 
 import me.ilnicki.bg.core.math.Vector;
-import me.ilnicki.bg.core.pixelmatrix.Matrices;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
 import me.ilnicki.bg.core.pixelmatrix.animation.Animation;
 import me.ilnicki.container.Inject;

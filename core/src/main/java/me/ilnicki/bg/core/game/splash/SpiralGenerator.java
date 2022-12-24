@@ -18,8 +18,12 @@ public class SpiralGenerator {
     boundaries = new Rectangle(width, height);
   }
 
+  public boolean hasNext() {
+    return boundaries.getArea() > 0;
+  }
+
   public Vector next() {
-    if (boundaries.getArea() == 0) {
+    if (!hasNext()) {
       return null;
     }
 
