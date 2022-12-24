@@ -2,6 +2,7 @@ package me.ilnicki.bg.core.pixelmatrix.layering;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import me.ilnicki.bg.core.math.Vector;
 import me.ilnicki.bg.core.pixelmatrix.Pixel;
 import me.ilnicki.bg.core.pixelmatrix.PixelMatrix;
@@ -37,7 +38,10 @@ public class LayerList implements PixelMatrix {
       return null;
     }
 
-    return layers.stream().map(layer -> layer.getPixel(point)).reduce(null, Pixel::merge);
+    return layers.stream().map(layer -> layer.getPixel(point)).reduce(
+        null,
+        Pixel::merge
+    );
   }
 
   public List<Layer<PixelMatrix>> getLayers() {

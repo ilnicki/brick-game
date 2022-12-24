@@ -10,6 +10,8 @@ public final class Layer<T extends PixelMatrix> implements PixelMatrix {
   private T data;
   private final TransformerList transformers = new TransformerList();
 
+  private boolean visible = true;
+
   public Layer(T pm) {
     this.data = pm;
   }
@@ -26,6 +28,10 @@ public final class Layer<T extends PixelMatrix> implements PixelMatrix {
 
   @Override
   public Pixel getPixel(Vector point) {
+    if (!visible) {
+      return null;
+    }
+
     final Vector realPos = transformers.apply(point);
 
     if (realPos.getX() >= 0
@@ -41,6 +47,18 @@ public final class Layer<T extends PixelMatrix> implements PixelMatrix {
   public Layer<T> transform(VectorTransformer transformer) {
     transformers.add(transformer);
     return this;
+  }
+
+  public void show() {
+    visible = true;
+  }
+
+  public void hide() {
+    visible = false;
+  }
+
+  public boolean isVisible() {
+    return visible;
   }
 
   @Override
